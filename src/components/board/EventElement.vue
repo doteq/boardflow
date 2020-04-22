@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-dialog
       v-model="dialog"
       scrollable
@@ -78,7 +78,7 @@
         </v-col>
       </v-row>
     </v-card>
-  </v-container>
+  </div>
 </template>
 
 <script>

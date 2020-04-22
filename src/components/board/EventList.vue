@@ -1,26 +1,45 @@
 <template>
   <v-container class="pa-0">
-    <event-element
-      v-for="event in events"
-      :key="event.id"
-      :event="event"
-    />
-    <h1 v-if="eventsUndone.length > 0">
-      Do zrobienia:
-    </h1>
-    <event-element
-      v-for="event in eventsUndone"
-      :key="event.id"
-      :event="event"
-    />
-    <h1 v-if="eventsDone.length > 0">
-      Zrobione:
-    </h1>
-    <event-element
-      v-for="event in eventsDone"
-      :key="event.id"
-      :event="event"
-    />
+    <template v-if="loading">
+      <v-skeleton-loader
+        type="heading"
+      />
+      <v-skeleton-loader
+        class="mt-4"
+        type="article"
+      />
+      <v-skeleton-loader
+        class="mt-4"
+        type="heading"
+      />
+      <v-skeleton-loader
+        class="mt-4"
+        type="article"
+      />
+    </template>
+    <template v-else>
+      <event-element
+        v-for="event in otherEvents"
+        :key="event.id"
+        :event="event"
+      />
+      <h1 v-if="eventsNotDone.length > 0">
+        Do zrobienia:
+      </h1>
+      <event-element
+        v-for="event in eventsNotDone"
+        :key="event.id"
+        :event="event"
+      />
+      <h1 v-if="eventsDone.length > 0">
+        Zrobione:
+      </h1>
+      <event-element
+        v-for="event in eventsDone"
+        :key="event.id"
+        :event="event"
+      />
+    </template>
   </v-container>
 </template>
 
@@ -33,7 +52,8 @@
       EventElement,
     },
     data: () => ({
-      EventList: [
+      loading: false,
+      events: [
         {
           id: '31231231235646',
           type: 'homework',
@@ -66,13 +86,13 @@
     }),
     computed: {
       eventsDone () {
-        return this.EventList.filter((event) => event.done);
+        return this.events.filter((event) => event.done);
       },
-      eventsUndone () {
-        return this.EventList.filter((event) => event.done === false);
+      eventsNotDone () {
+        return this.events.filter((event) => event.done === false);
       },
-      events () {
-        return this.EventList.filter((event) => event.done === undefined);
+      otherEvents () {
+        return this.events.filter((event) => event.done === undefined);
       },
     },
   };
