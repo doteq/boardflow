@@ -68,5 +68,12 @@ export default {
       }
     });
     Vue.prototype.$database = database;
+
+    store.dispatch('bindBoardsInfo', {
+      database,
+    });
+    store.dispatch('bindUserDataList', {
+      database,
+    });
   },
 };

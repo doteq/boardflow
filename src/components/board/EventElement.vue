@@ -5,7 +5,10 @@
       scrollable
       max-width="500px"
     >
-      <event-details-dialog @close="closeDialog()" />
+      <event-details-dialog
+        :event="event"
+        @close="closeDialog()"
+      />
     </v-dialog>
     <v-card
       class="overflow-hidden"
@@ -56,13 +59,19 @@
                 </v-row>
               </v-col>
               <v-col class="text-center mx-3 hidden-xs-only">
-                <span v-if="event.type === 'homework'">Zadanie domowe</span>
-                <span v-else-if="event.type === 'lesson'">Lekcja</span>
-                <span v-else-if="event.type === 'test'">Sprawdzian/kartkówka</span>
+                <span v-if="event.time">
+                  <span v-if="event.type === 'homework'">Zadanie domowe</span>
+                  <span v-else-if="event.type === 'lesson'">Lekcja</span>
+                  <span v-else-if="event.type === 'test'">Sprawdzian/kartkówka</span>
+                </span>
               </v-col>
               <v-col class="text-right">
-                <v-icon>mdi-clock-outline</v-icon>
-                12:00
+                <span v-if="event.time"><v-icon>mdi-clock-outline</v-icon>{{ event.time }}</span>
+                <span v-else>
+                  <span v-if="event.type === 'homework'">Zadanie domowe</span>
+                  <span v-else-if="event.type === 'lesson'">Lekcja</span>
+                  <span v-else-if="event.type === 'test'">Sprawdzian/kartkówka</span>
+                </span>
               </v-col>
             </v-row>
           </v-card-subtitle>

@@ -8,6 +8,8 @@ const store = new Vuex.Store({
   state: {
     userAuth: null,
     userData: null,
+    userDataList: null,
+    boardsInfo: null,
   },
   mutations: {
     updateUserAuth (state, { user }) {
@@ -30,6 +32,12 @@ const store = new Vuex.Store({
     ),
     unbindUserData: firestoreAction(
       (context) => context.unbindFirestoreRef('userData'),
+    ),
+    bindUserDataList: firestoreAction(
+      (context, { database }) => context.bindFirestoreRef('userDataList', database.collection('user-data')),
+    ),
+    bindBoardsInfo: firestoreAction(
+      (context, { database }) => context.bindFirestoreRef('boardsInfo', database.collection('boards-info')),
     ),
   },
 });

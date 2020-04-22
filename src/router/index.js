@@ -3,6 +3,8 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 
 const Board = () => import(/* webpackChunkName: "board" */ '../views/Board.vue');
+const BoardSettings = () => import(/* webpackChunkName: "board-settings" */ '../views/BoardSettings.vue');
+const Create = () => import(/* webpackChunkName: "create" */ '../views/Create.vue');
 
 Vue.use(VueRouter);
 
@@ -16,6 +18,16 @@ Vue.use(VueRouter);
     path: '/board/:boardId',
     name: 'Board',
     component: Board,
+  },
+  {
+    path: '/board/:boardId/settings',
+    name: 'BoardSettings',
+    component: BoardSettings,
+  },
+  {
+    path: '/create',
+    name: 'Create',
+    component: Create,
   },
 ];
 
