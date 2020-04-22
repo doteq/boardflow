@@ -11,11 +11,11 @@
       <v-form @submit.prevent="submit">
         <v-card-text class="mt-2">
           <v-text-field
-            v-model="displayName"
-            label="Imię i nazwisko"
+            v-model="name"
+            label="Nazwa użytkownika"
             outlined
             persistent-hint
-            hint="Twoja nazwa jest widoczna dla nauczycieli i innych użytkowników"
+            hint="Twoja nazwa jest widoczna dla innych użytkowników"
             color="secondary"
           />
         </v-card-text>
@@ -25,7 +25,7 @@
             type="submit"
             color="secondary"
             outlined
-            :disabled="!displayNameChanged"
+            :disabled="!nameChanged"
           >
             Zapisz
           </v-btn>
@@ -45,32 +45,32 @@
     },
     data () {
       return {
-        displayName: '',
+        name: '',
         innerValue: this.value,
       };
     },
     computed: {
-      displayNameChanged () {
+      nameChanged () {
         if (!this.$store.state.userData) return false;
-        if (!this.$store.state.userData.displayName) return true;
-        return this.displayName !== this.$store.state.userData.displayName;
+        if (!this.$store.state.userData.name) return true;
+        return this.name !== this.$store.state.userData.name;
       },
     },
     watch: {
       value (newValue, oldValue) {
         this.innerValue = newValue;
         if (newValue && !oldValue) {
-          this.displayName = this.$store.state.userData.displayName;
+          this.name = this.$store.state.userData.name;
         }
       },
     },
     methods: {
       async submit () {
-        if (!this.displayNameChanged) return;
-        if (!this.displayName || this.displayName === '') return;
+        if (!this.nameChanged) return;
+        if (!this.name || this.name === '') return;
         try {
-          await this.$database.collection('user-data').doc(this.$store.state.user.uid).update({
-            displayName: this.displayName,
+          await this.$database.collection('user-data').doc(this.$store.state.userAuth.uid).update({
+            name: this.name,
           });
           this.innerValue = false;
           this.$emit('input', false);

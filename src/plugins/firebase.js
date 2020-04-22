@@ -33,16 +33,16 @@ export default {
       },
       linkFacebook: async () => {
         await auth.currentUser.linkWithPopup(facebookProvider);
-        store.dispatch('updateUser', { user: auth.currentUser });
+        store.dispatch('updateUserAuth', { user: auth.currentUser });
       },
       unlinkFacebook: async () => {
         await auth.currentUser.unlink(facebookProvider.providerId);
-        store.dispatch('updateUser', { user: auth.currentUser });
+        store.dispatch('updateUserAuth', { user: auth.currentUser });
       },
       signOut: () => auth.signOut(),
     };
     auth.onAuthStateChanged(async (user) => {
-      store.dispatch('updateUser', { user });
+      store.dispatch('updateUserAuth', { user });
       if (user) {
         try {
           const userDataDocReference = database.collection('user-data').doc(user.uid);

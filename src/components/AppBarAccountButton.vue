@@ -19,8 +19,8 @@
         </template>
         <span>
           {{
-            ($store.state.userData && $store.state.userData.displayName)
-              ? $store.state.userData.displayName
+            ($store.state.userData && $store.state.userData.name)
+              ? $store.state.userData.name
               : $store.state.userAuth.displayName
           }}
         </span>
@@ -96,19 +96,6 @@
         </v-list-item-icon>
         <v-list-item-title>Wyloguj się</v-list-item-title>
       </v-list-item>
-      <v-list-item
-        v-long-press="1000"
-        :href="privacyPolicyConfig.link"
-        target="_blank"
-      >
-        <v-list-item-icon>
-          <v-icon>mdi-lock</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Polityka Prywatności</v-list-item-title>
-          <v-list-item-subtitle v-text="privacyPolicyConfig.dateFull" />
-        </v-list-item-content>
-      </v-list-item>
     </v-list>
     <change-display-name-dialog v-model="changeDisplayNameDialogVisible" />
     <facebook-unlink-dialog v-model="facebookUnlinkDialogVisible" />
@@ -161,8 +148,9 @@
 
         this.facebookLoading = false;
       },
-      signOut () {
-        this.$auth.signOut();
+      async signOut () {
+        await this.$auth.signOut();
+        this.$toast('Wylogowano');
       },
     },
   };
