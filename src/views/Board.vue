@@ -2,9 +2,10 @@
   <v-container class="board-container">
     <app-bar
       back-to="/"
-      title-loading
+      :title-loading="!boardInfo"
       :board-settings-to="`/board/${$route.params.boardId}/settings`"
     >
+      {{ boardInfo ? boardInfo.name : undefined }}
       <template
         v-if="$vuetify.breakpoint.xsOnly"
         v-slot:extension
@@ -133,6 +134,7 @@
     data: () => ({
       date: new Date().toISOString().split('T')[0],
       calendarDialogVisible: false,
+      boardInfo: null,
     }),
     computed: {
       dateString () {
@@ -142,6 +144,19 @@
           month: 'numeric',
           day: 'numeric',
         });
+      },
+    },
+    watch: {
+      '$route.params.boardId': {
+        async handler (value) {
+          try {
+            await this.$bind('boardInfo', this.$database.collection('boards-info').doc(value));
+          } catch (error) {
+            console.error(error);
+            this.$toast.error('Wystąpił nieoczekiwany błąd');
+          }
+        },
+        immediate: true,
       },
     },
     methods: {
