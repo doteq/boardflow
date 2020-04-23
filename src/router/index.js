@@ -19,6 +19,11 @@ Vue.use(VueRouter);
     name: 'Board',
     component: Board,
   },
+    {
+      path: '/board/:boardId/event/:eventId',
+      name: 'BoardEvent',
+      component: Board,
+    },
   {
     path: '/board/:boardId/settings',
     name: 'BoardSettings',

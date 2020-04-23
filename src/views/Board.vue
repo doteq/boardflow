@@ -198,6 +198,20 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </template>
+    <v-dialog
+      :value="$route.name === 'BoardEvent' && canViewBoard === true"
+      scrollable
+      max-width="500px"
+      persistent
+      no-click-animation
+      @click:outside="closeEventDetailsDialog()"
+    >
+      <event-details-dialog
+        :loading="!eventsAndSubjectsLoaded"
+        :event="dialogEvent"
+        @close="closeEventDetailsDialog()"
+      />
+    </v-dialog>
   </v-container>
 </template>
 
@@ -205,6 +219,7 @@
   import EventList from '../components/board/EventList.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
   import AppBar from '../components/AppBar.vue';
+  import EventDetailsDialog from '../components/board/EventDetailsDialog.vue';
 
   export default {
     name: 'Board',
@@ -212,6 +227,7 @@
       EventList,
       EventCreateDialog,
       AppBar,
+      EventDetailsDialog,
     },
     data: () => ({
       date: new Date().toISOString().split('T')[0],
@@ -240,6 +256,11 @@
         if (!this.boardInfo) return null;
         if (this.userIsMember) return true;
         return this.boardInfo.public;
+      },
+      dialogEvent () {
+        if (!this.events) return null;
+        if (this.$route.name !== 'BoardEvent') return null;
+        return this.events.find((event) => event.id === this.$route.params.eventId) || null;
       },
     },
     watch: {
@@ -298,6 +319,9 @@
         const newDate = new Date();
         newDate.setDate(new Date(this.date).getDate() - 1);
         [this.date] = newDate.toISOString().split('T');
+      },
+      closeEventDetailsDialog () {
+        this.$router.push(`/board/${this.$route.params.boardId}`);
       },
     },
   };

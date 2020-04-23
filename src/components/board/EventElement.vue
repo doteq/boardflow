@@ -1,18 +1,8 @@
 <template>
   <div>
-    <v-dialog
-      v-model="dialog"
-      scrollable
-      max-width="500px"
-    >
-      <event-details-dialog
-        :event="event"
-        @close="closeDialog()"
-      />
-    </v-dialog>
     <v-card
       class="overflow-hidden"
-      @click="dialog = true"
+      :to="`/board/${$route.params.boardId}/event/${event.id}`"
     >
       <v-row no-gutters>
         <v-col cols="auto">
@@ -82,13 +72,8 @@
 </template>
 
 <script>
-  import EventDetailsDialog from './EventDetailsDialog.vue';
-
   export default {
     name: 'EventElement',
-    components: {
-      EventDetailsDialog,
-    },
     props: {
       event: {
         type: Object,
@@ -96,7 +81,6 @@
       },
     },
     data: () => ({
-      dialog: false,
       done: false,
     }),
     computed: {
@@ -107,11 +91,6 @@
     watch: {
       done (value) {
         console.log(value);
-      },
-    },
-    methods: {
-      closeDialog () {
-        this.dialog = false;
       },
     },
   };
