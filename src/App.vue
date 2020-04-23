@@ -65,17 +65,6 @@
           </span>
         </v-tooltip>
       </template>
-      <v-spacer />
-      <v-btn
-        href="https://github.com/doteq/task-overflow/blob/master/LICENSE"
-        text
-        rounded
-      >
-        <v-icon left>
-          mdi-copyright
-        </v-icon>
-        2020
-      </v-btn>
     </v-footer>
   </v-app>
 </template>
