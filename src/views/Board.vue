@@ -208,7 +208,7 @@
     >
       <event-details-dialog
         :loading="!eventsAndSubjectsLoaded"
-        :event="dialogEvent"
+        :event="dialogEvent || lastDialogEvent"
         @close="closeEventDetailsDialog()"
       />
     </v-dialog>
@@ -237,6 +237,7 @@
       events: null,
       subjects: null,
       eventsAndSubjectsLoaded: false,
+      lastDialogEvent: null,
     }),
     computed: {
       dateString () {
@@ -321,7 +322,11 @@
         [this.date] = newDate.toISOString().split('T');
       },
       closeEventDetailsDialog () {
+        this.lastDialogEvent = this.dialogEvent;
         this.$router.push(`/board/${this.$route.params.boardId}`);
+        setTimeout(() => {
+          this.lastDialogEvent = null;
+        }, 750);
       },
     },
   };
