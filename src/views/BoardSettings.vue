@@ -55,6 +55,37 @@
       JoinRequestsTab,
       MembersTab,
     },
+    data: () => ({
+      boardInfo: null,
+      boardInfoLoaded: false,
+    }),
+    computed: {
+      userIsMember () {
+        if (!this.boardInfo) return null;
+        if (!this.$store.state.userAuth) return false;
+        return this.boardInfo.members.includes(this.$store.state.userAuth.uid);
+      },
+      userIsAdmin () {
+        if (!this.boardInfo) return null;
+        if (!this.$store.state.userAuth) return false;
+        return this.boardInfo.admins.includes(this.$store.state.userAuth.uid);
+      },
+    },
+    watch: {
+      '$route.params.boardId': {
+        async handler (value) {
+          this.boardInfoLoaded = false;
+          try {
+            await this.$bind('boardInfo', this.$database.collection('boards-info').doc(value));
+          } catch (error) {
+            console.error(error);
+            this.$toast.error('Wystąpił nieoczekiwany błąd');
+          }
+          this.boardInfoLoaded = true;
+        },
+        immediate: true,
+      },
+    },
   };
 </script>
 
