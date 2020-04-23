@@ -37,7 +37,7 @@
               >
                 <template v-slot:append-item>
                   <v-divider />
-                  <v-list-item link>
+                  <v-list-item @click="openSubjectCreator">
                     <v-list-item-icon>
                       <v-icon>mdi-plus</v-icon>
                     </v-list-item-icon>
@@ -336,15 +336,23 @@
         </v-col>
       </v-row>
     </v-card>
+    <subject-creator-dialog
+      ref="subjectCreatorDialog"
+      @created="subject = $event"
+    />
   </v-dialog>
 </template>
 
 <script>
   import humanizeDuration from 'humanize-duration';
   import isUrl from 'is-url';
+  import SubjectCreatorDialog from '../SubjectCreatorDialog.vue';
 
   export default {
     name: 'EventCreateDialog',
+    components: {
+      SubjectCreatorDialog,
+    },
     props: {
       subjects: {
         type: Array,
@@ -470,6 +478,9 @@
       },
       removeLink (index) {
         this.links.splice(index, 1);
+      },
+      openSubjectCreator () {
+        this.$refs.subjectCreatorDialog.show(this.$route.params.boardId);
       },
       close () {
         this.visible = false;
