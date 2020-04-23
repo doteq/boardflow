@@ -205,6 +205,7 @@
       persistent
       no-click-animation
       @click:outside="closeEventDetailsDialog()"
+      @keydown.esc="closeEventDetailsDialog()"
     >
       <event-details-dialog
         :loading="!eventsAndSubjectsLoaded"
