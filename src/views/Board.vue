@@ -197,9 +197,9 @@
       :value="$route.name === 'BoardCreateEvent' && userIsMember === false"
       persistent
       no-click-animation
+      max-width="550px"
       @click:outside="closeCreatorDialog()"
       @keydown.esc="closeCreatorDialog()"
-      max-width="550px"
     >
       <v-card>
         <v-card-title
