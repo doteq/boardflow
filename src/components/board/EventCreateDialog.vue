@@ -493,6 +493,29 @@
           this.$refs.form.resetValidation();
         });
       },
+      showEditDialog (event) {
+        this.date = event.date;
+        this.subject = event.subject;
+        this.title = event.title;
+        this.description = event.description || '';
+        this.optional = event.optional || false;
+        this.type = event.type;
+        this.dateMenuVisible = false;
+        this.time = event.time;
+        this.timeMenuVisible = false;
+        this.duration = event.duration || 0;
+        this.durationMenuVisible = false;
+        this.links = event.links;
+        this.addLinkMenuVisible = false;
+        this.addLinkMenuInput = '';
+
+        this.visible = true;
+        this.edit = true;
+
+        this.$nextTick(() => {
+          this.$refs.form.resetValidation();
+        });
+      },
       addLinkMenuSave () {
         if (!this.addLinkMenuValid) return;
         this.links.push(this.addLinkMenuInput);
