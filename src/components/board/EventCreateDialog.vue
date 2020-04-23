@@ -1,7 +1,11 @@
 <template>
   <v-dialog
-    v-model="visible"
+    :value="value"
     max-width="700px"
+    persistent
+    no-click-animation
+    @click:outside="close()"
+    @keydown.esc="close()"
   >
     <v-card>
       <v-row no-gutters>
@@ -365,6 +369,24 @@
       SubjectCreatorDialog,
     },
     props: {
+      value: {
+        required: true,
+        type: Boolean,
+      },
+      edit: {
+        required: true,
+        type: Boolean,
+      },
+      event: {
+        type: Object,
+        required: false,
+        default: null,
+      },
+      initialDate: {
+        type: String,
+        required: false,
+        default: null,
+      },
       subjects: {
         type: Array,
         required: false,
@@ -402,8 +424,6 @@
         links: false,
         addLinkMenuVisible: false,
         addLinkMenuInput: '',
-        edit: false,
-        visible: false,
         subjectRules: [
           (v) => !!v || 'To pole jest wymagane',
         ],
@@ -469,52 +489,53 @@
         return isUrl(this.addLinkMenuInput);
       },
     },
+    watch: {
+      value: {
+        handler (value) {
+          if (value) this.reset();
+        },
+        immediate: true,
+      },
+    },
     methods: {
-      showCreateDialog (date) {
+      reset () {
+        if (this.edit) {
+          this.resetEdit(this.event);
+        } else {
+          this.resetCreate(this.initialDate);
+        }
+
+        this.dateMenuVisible = false;
+        this.timeMenuVisible = false;
+        this.durationMenuVisible = false;
+        this.addLinkMenuVisible = false;
+        this.addLinkMenuInput = '';
+
+        this.$nextTick(() => {
+          this.$refs.form.resetValidation();
+        });
+      },
+      resetCreate (date) {
         this.date = date;
         this.subject = null;
         this.title = '';
         this.description = '';
         this.optional = false;
         this.type = 'homework';
-        this.dateMenuVisible = false;
         this.time = null;
-        this.timeMenuVisible = false;
         this.duration = 0;
-        this.durationMenuVisible = false;
         this.links = [];
-        this.addLinkMenuVisible = false;
-        this.addLinkMenuInput = '';
-
-        this.visible = true;
-        this.edit = false;
-
-        this.$nextTick(() => {
-          this.$refs.form.resetValidation();
-        });
       },
-      showEditDialog (event) {
+      resetEdit (event) {
         this.date = event.date;
         this.subject = event.subject;
         this.title = event.title;
         this.description = event.description || '';
         this.optional = event.optional || false;
         this.type = event.type;
-        this.dateMenuVisible = false;
         this.time = event.time;
-        this.timeMenuVisible = false;
         this.duration = event.duration || 0;
-        this.durationMenuVisible = false;
         this.links = event.links;
-        this.addLinkMenuVisible = false;
-        this.addLinkMenuInput = '';
-
-        this.visible = true;
-        this.edit = true;
-
-        this.$nextTick(() => {
-          this.$refs.form.resetValidation();
-        });
       },
       addLinkMenuSave () {
         if (!this.addLinkMenuValid) return;
@@ -579,7 +600,7 @@
         this.submitLoading = false;
       },
       close () {
-        this.visible = false;
+        this.$emit('close');
       },
     },
   };

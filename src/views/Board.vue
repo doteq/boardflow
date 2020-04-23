@@ -82,11 +82,6 @@
         </div>
       </template>
     </app-bar>
-
-    <event-create-dialog
-      ref="eventCreateDialog"
-      :subjects="subjects"
-    />
     <div
       v-if="boardInfoLoaded && !boardInfo"
       class="d-flex fill-height flex-column align-center justify-center grow"
@@ -133,7 +128,7 @@
               color="secondary"
               class="mb-4"
               large
-              @click="showCreateDialog()"
+              :to="`/board/${$route.params.boardId}/create-event`"
             >
               <v-icon left>
                 mdi-plus
@@ -193,11 +188,44 @@
         right
         fixed
         color="secondary"
-        @click="showCreateDialog"
+        :to="`/board/${$route.params.boardId}/create-event`"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </template>
+    <v-dialog
+      :value="$route.name === 'BoardCreateEvent' && userIsMember === false"
+      persistent
+      no-click-animation
+      @click:outside="closeCreatorDialog()"
+      @keydown.esc="closeCreatorDialog()"
+      max-width="550px"
+    >
+      <v-card>
+        <v-card-title
+          class="display-1 text-center pa-12 d-block"
+        >
+          Nie jesteś członkiem tablicy
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            text
+            @click="closeCreatorDialog()"
+          >
+            Zamknij
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <event-create-dialog
+      ref="eventCreateDialog"
+      :subjects="subjects"
+      :initial-date="date"
+      :value="$route.name === 'BoardCreateEvent' && userIsMember === true"
+      :edit="false"
+      @close="closeCreatorDialog()"
+    />
     <v-dialog
       :value="$route.name === 'BoardEvent' && canViewBoard === true"
       scrollable
@@ -309,9 +337,6 @@
       },
     },
     methods: {
-      showCreateDialog () {
-        this.$refs.eventCreateDialog.showCreateDialog(this.date);
-      },
       dateNext () {
         const newDate = new Date();
         newDate.setDate(new Date(this.date).getDate() + 1);
@@ -321,6 +346,9 @@
         const newDate = new Date();
         newDate.setDate(new Date(this.date).getDate() - 1);
         [this.date] = newDate.toISOString().split('T');
+      },
+      closeCreatorDialog () {
+        this.$router.push(`/board/${this.$route.params.boardId}`);
       },
       closeEventDetailsDialog () {
         this.lastDialogEvent = this.dialogEvent;

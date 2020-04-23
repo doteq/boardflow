@@ -8,7 +8,7 @@ const Create = () => import(/* webpackChunkName: "create" */ '../views/Create.vu
 
 Vue.use(VueRouter);
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -19,11 +19,16 @@ Vue.use(VueRouter);
     name: 'Board',
     component: Board,
   },
-    {
-      path: '/board/:boardId/event/:eventId',
-      name: 'BoardEvent',
-      component: Board,
-    },
+  {
+    path: '/board/:boardId/event/:eventId',
+    name: 'BoardEvent',
+    component: Board,
+  },
+  {
+    path: '/board/:boardId/create-event',
+    name: 'BoardCreateEvent',
+    component: Board,
+  },
   {
     path: '/board/:boardId/settings',
     name: 'BoardSettings',
