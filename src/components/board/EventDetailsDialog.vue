@@ -23,9 +23,36 @@
             v-if="event.description"
             class="pa-2 mt-2"
           />
-          <v-icon>mdi-calendar</v-icon> Należy oddać do: {{ event.date }}<span v-if="event.time">, {{ event.time }}</span><br>
-          <v-icon>mdi-account-outline</v-icon> Dodane przez: {{ event.addBy }}<br>
-          <span v-if="!event.optional"><v-icon>mdi-newspaper-variant</v-icon> Zadanie obowiązkowe<br></span>
+          <div>
+            <v-icon>mdi-calendar</v-icon>
+            Należy oddać do:
+            <span
+              class="font-weight-medium"
+            >
+              {{ dateString }}<span v-if="event.time">, {{ event.time }}</span>
+            </span>
+          </div>
+          <div>
+            <v-icon>mdi-account-outline</v-icon>
+            Dodane
+            <span
+              class="font-weight-medium"
+              v-text="creationDateString"
+            />
+            przez
+            <v-chip>
+              <v-avatar left>
+                <v-img :src="creationUser.photoURL" />
+              </v-avatar>
+              {{ creationUser.name }}
+            </v-chip>
+          </div>
+          <div v-if="event.optional">
+            <v-icon>mdi-newspaper-variant</v-icon> Zadanie nieobowiązkowe
+          </div>
+          <div v-else>
+            <v-icon>mdi-newspaper-variant</v-icon> Zadanie obowiązkowe
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -55,6 +82,24 @@
     computed: {
       colorString () {
         return this.event.type;
+      },
+      creationUser () {
+        if (!this.$store.state.userDataList) return null;
+        return this.$store.state.userDataList.find((user) => user.id === this.event.creation.user) || null;
+      },
+      dateString () {
+        return new Date(this.event.date).toLocaleDateString('pl', {
+          year: '2-digit',
+          month: 'numeric',
+          day: 'numeric',
+        });
+      },
+      creationDateString () {
+        return this.event.creation.date.toDate().toLocaleDateString('pl', {
+          year: '2-digit',
+          month: 'numeric',
+          day: 'numeric',
+        });
       },
     },
     methods: {

@@ -36,31 +36,7 @@
 
     <v-spacer />
 
-    <v-btn
-      v-if="$vuetify.breakpoint.smOnly && boardSettingsTo"
-      text
-      class="mr-2"
-      :to="boardSettingsTo"
-    >
-      <v-icon left>
-        mdi-cog
-      </v-icon>
-      Ustawienia tablicy
-    </v-btn>
-
-    <v-tooltip v-if="$vuetify.breakpoint.xsOnly && boardSettingsTo">
-      <template v-slot:activator="{ on }">
-        <v-btn
-          icon
-          class="mr-2"
-          :to="boardSettingsTo"
-          v-on="on"
-        >
-          <v-icon>mdi-cog</v-icon>
-        </v-btn>
-      </template>
-      <span>Ustawienia tablicy</span>
-    </v-tooltip>
+    <slot name="buttons" />
 
     <app-bar-account-button v-if="signedIn" />
     <v-btn
@@ -109,11 +85,6 @@
         type: Boolean,
         required: false,
         default: false,
-      },
-      boardSettingsTo: {
-        type: String,
-        required: false,
-        default: null,
       },
     },
     computed: {
