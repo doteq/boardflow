@@ -39,13 +39,15 @@
               class="font-weight-medium"
               v-text="creationDateString"
             />
-            przez
-            <v-chip>
-              <v-avatar left>
-                <v-img :src="creationUser.photoURL" />
-              </v-avatar>
-              {{ creationUser.name }}
-            </v-chip>
+            <span v-if="creationUser">
+              przez
+              <v-chip>
+                <v-avatar left>
+                  <v-img :src="creationUser.photoURL" />
+                </v-avatar>
+                {{ creationUser.name }}
+              </v-chip>
+            </span>
           </div>
           <div v-if="event.optional">
             <v-icon>mdi-newspaper-variant</v-icon> Zadanie nieobowiązkowe
