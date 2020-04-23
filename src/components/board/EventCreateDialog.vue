@@ -28,7 +28,9 @@
               <v-select
                 v-model="subject"
                 :color="colorString"
-                :items="subjects"
+                :items="subjectItems || []"
+                :loading="subjectItems === null"
+                :disabled="subjectItems === null"
                 label="Przedmiot"
                 required
                 outlined
@@ -270,6 +272,13 @@
 
   export default {
     name: 'EventCreateDialog',
+    props: {
+      subjects: {
+        type: Array,
+        required: false,
+        default: null,
+      },
+    },
     data: () => ({
       types: [
         {
@@ -283,20 +292,6 @@
         {
           text: 'Lekcja',
           value: 'lesson',
-        },
-      ],
-      subjects: [
-        {
-          text: 'Język Polski',
-          value: 'jn41259815915',
-        },
-        {
-          text: 'Język Angielski',
-          value: 'ab14212412517Hello World',
-        },
-        {
-          text: 'Matematyka',
-          value: '4151251fa2512',
         },
       ],
       subject: null,
@@ -314,6 +309,12 @@
       visible: false,
     }),
     computed: {
+      subjectItems () {
+        return this.subjects.map((subject) => ({
+          text: subject.name,
+          value: subject.id,
+        }));
+      },
       durationString () {
         if (this.duration === 0) return '';
 
@@ -354,7 +355,7 @@
       },
     },
     methods: {
-      showCreateDialog (date) { // TODO: Add subjects
+      showCreateDialog (date) {
         this.date = date;
         this.subject = null;
         this.title = '';

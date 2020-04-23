@@ -83,7 +83,10 @@
       </template>
     </app-bar>
 
-    <event-create-dialog ref="eventCreateDialog" />
+    <event-create-dialog
+      ref="eventCreateDialog"
+      :subjects="subjects"
+    />
     <div
       v-if="boardInfoLoaded && !boardInfo"
       class="d-flex fill-height flex-column align-center justify-center grow"
@@ -164,7 +167,7 @@
         </v-col>
         <v-col>
           <event-list
-            :events="eventsLoaded ? events : null"
+            :events="eventsAndSubjectsLoaded ? events : null"
           />
         </v-col>
       </v-row>
@@ -180,7 +183,7 @@
           class="mb-6"
         />
         <event-list
-          :events="eventsLoaded ? events : null"
+          :events="eventsAndSubjectsLoaded ? events : null"
         />
       </div>
       <v-btn
@@ -216,7 +219,8 @@
       boardInfo: null,
       boardInfoLoaded: false,
       events: null,
-      eventsLoaded: false,
+      subjects: null,
+      eventsAndSubjectsLoaded: false,
     }),
     computed: {
       dateString () {
@@ -255,20 +259,26 @@
       canViewBoard: {
         async handler (value) {
           if (value) {
-            this.eventsLoaded = false;
+            this.eventsAndSubjectsLoaded = false;
             try {
               const boardReference = this.$database
                 .collection('boards').doc(this.$route.params.boardId);
-              await this.$bind('events', boardReference.collection('events'));
+              await Promise.all([
+                this.$bind('events', boardReference.collection('events')),
+                this.$bind('subjects', boardReference.collection('subjects')),
+              ]);
             } catch (error) {
               console.error(error);
               this.$toast.error('Wystąpił nieoczekiwany błąd');
             }
-            this.eventsLoaded = true;
+            this.eventsAndSubjectsLoaded = true;
           } else {
-            this.eventsLoaded = false;
+            this.eventsAndSubjectsLoaded = false;
             if (this.$firestoreRefs.events) {
               this.$unbind('events');
+            }
+            if (this.$firestoreRefs.subjects) {
+              this.$unbind('subjects');
             }
           }
         },
