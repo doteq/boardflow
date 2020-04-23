@@ -32,12 +32,12 @@
           class="mr-3"
         >
           <v-select
+            :v-model="user.admin"
             outlined
             hide-details
             dense
             :items="permissionItems"
             :value="permissionValue"
-            @change="permissionChanged(permissionValue, user.uid)"
           />
         </v-col>
         <v-col
@@ -79,11 +79,5 @@
       ],
       permissionValue: '',
     }),
-    methods: {
-      permissionChanged (item, item2) {
-        console.log(item, item2);
-        return true;
-      },
-    },
   };
 </script>
