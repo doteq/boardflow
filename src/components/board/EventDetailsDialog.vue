@@ -97,7 +97,7 @@
         });
       },
       creationDateString () {
-        return this.event.creation.date.toDate().toLocaleDateString('pl', {
+        return this.event.creation.timestamp.toDate().toLocaleDateString('pl', {
           year: '2-digit',
           month: 'numeric',
           day: 'numeric',

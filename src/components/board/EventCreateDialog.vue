@@ -21,7 +21,6 @@
             @submit.prevent="submit"
           >
             <v-card-text class="pt-2">
-              {{ valid ? 'Valid 👍' : 'INVALID 👀' }}
               <v-select
                 v-model="type"
                 :color="colorString"
@@ -529,7 +528,7 @@
             description: this.description.trim() || null,
             links: this.links,
             creation: {
-              date: firebase.firestore.FieldValue.serverTimestamp(),
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               user: this.$store.state.userAuth.uid,
             },
             edits: [],
