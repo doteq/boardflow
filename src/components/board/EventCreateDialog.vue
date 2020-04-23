@@ -160,62 +160,79 @@
                   </v-menu>
                 </v-col>
                 <v-col
-                  v-if="type === 'lesson'"
+                  v-if="type === 'lesson' || type === 'test'"
                   class="my-0"
                   :cols="12"
                   :sm="6"
                 >
-                  <!-- TODO: Add duration picker -->
-                  <!-- <v-menu
-                    ref="endTimeMenu"
-                    v-model="endTimeMenuVisible"
+                  <v-menu
+                    ref="durationMenu"
+                    v-model="durationMenuVisible"
                     :close-on-content-click="false"
-                    :return-value.sync="endTime"
+                    :return-value.sync="duration"
                     transition="scale-transition"
                     offset-y
-                    min-width="290px"
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        label="Godzina zakończenia (opcjonalne)"
+                        label="Czas trwania (opcjonalne)"
                         :color="colorString"
                         readonly
                         outlined
-                        :value="endTime"
+                        :value="durationString"
                         append-icon="mdi-menu-down"
                         v-on="on"
                       />
                     </template>
-                    <v-time-picker
-                      v-if="endTimeMenuVisible"
-                      v-model="endTime"
-                      format="24hr"
-                      color="secondary"
-                    >
-                      <v-btn
-                        text
-                        color="red"
-                        @click="$refs.endTimeMenu.save(null)"
-                      >
-                        Usuń
-                      </v-btn>
-                      <v-spacer />
-                      <v-btn
-                        text
-                        color="primary"
-                        @click="endTimeMenuVisible = false"
-                      >
-                        Anuluj
-                      </v-btn>
-                      <v-btn
-                        text
-                        color="primary"
-                        @click="$refs.endTimeMenu.save(endTime)"
-                      >
-                        OK
-                      </v-btn>
-                    </v-time-picker> -->
-                  <!-- </v-menu> -->
+                    <v-card>
+                      <v-row class="mx-4 mt-4">
+                        <v-col :cols="6">
+                          <v-text-field
+                            v-model.number="durationHours"
+                            type="number"
+                            label="Godziny"
+                            outlined
+                            min="0"
+                            max="23"
+                          />
+                        </v-col>
+                        <v-col :cols="6">
+                          <v-text-field
+                            v-model.number="durationMinutes"
+                            type="number"
+                            label="Minuty"
+                            outlined
+                            min="0"
+                            max="59"
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-card-actions>
+                        <v-btn
+                          text
+                          color="red"
+                          @click="$refs.durationMenu.save(null)"
+                        >
+                          Usuń
+                        </v-btn>
+                        <v-spacer />
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="durationMenuVisible = false"
+                        >
+                          Anuluj
+                        </v-btn>
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="$refs.durationMenu.save(duration)"
+                        >
+                          OK
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-menu>
                 </v-col>
               </v-row>
               <v-checkbox
@@ -249,6 +266,8 @@
 </template>
 
 <script>
+  import humanizeDuration from 'humanize-duration';
+
   export default {
     name: 'EventCreateDialog',
     data: () => ({
@@ -288,11 +307,39 @@
       time: null,
       timeMenuVisible: false,
       description: '',
+      duration: 0,
+      durationMenuVisible: false,
       optional: false,
       edit: false,
       visible: false,
     }),
     computed: {
+      durationString () {
+        if (this.duration === 0) return '';
+
+        return humanizeDuration(this.duration * 60 * 1000, {
+          language: 'pl',
+          units: ['h', 'm'],
+        });
+      },
+      durationHours: {
+        get () {
+          if (this.duration === null) return 0;
+          return Math.floor(this.duration / 60);
+        },
+        set (value) {
+          this.duration = value * 60 + this.durationMinutes;
+        },
+      },
+      durationMinutes: {
+        get () {
+          if (this.duration === null) return 0;
+          return this.duration % 60;
+        },
+        set (value) {
+          this.duration = this.durationHours * 60 + value;
+        },
+      },
       colorString () {
         return this.type;
       },
