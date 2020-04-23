@@ -15,7 +15,7 @@
         v-slot:buttons
       >
         <v-btn
-          v-if="$vuetify.breakpoint.smOnly && boardSettingsTo"
+          v-if="$vuetify.breakpoint.smOnly"
           text
           class="mr-2"
           :to="`/board/${$route.params.boardId}/settings`"
@@ -26,7 +26,7 @@
           Ustawienia tablicy
         </v-btn>
 
-        <v-tooltip v-if="$vuetify.breakpoint.xsOnly && boardSettingsTo">
+        <v-tooltip v-if="$vuetify.breakpoint.xsOnly">
           <template v-slot:activator="{ on }">
             <v-btn
               icon
