@@ -237,11 +237,83 @@
                   </v-menu>
                 </v-col>
               </v-row>
+              <v-card outlined>
+                <v-subheader>Linki (opcjonalne)</v-subheader>
+                <v-list-item
+                  v-for="(link, index) in links"
+                  :key="link"
+                >
+                  <v-list-item-title v-text="link" />
+
+                  <v-list-item-action>
+                    <v-btn
+                      icon
+                      @click="removeLink(index)"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+                <v-divider />
+                <v-menu
+                  v-model="addLinkMenuVisible"
+                  :close-on-content-click="false"
+                  transition="scale-transition"
+                  offset-y
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-list-item
+                      link
+                      v-on="on"
+                    >
+                      <v-list-item-icon>
+                        <v-icon>mdi-plus</v-icon>
+                      </v-list-item-icon>
+
+                      <v-list-item-title>
+                        Dodaj nowy
+                      </v-list-item-title>
+                    </v-list-item>
+                  </template>
+                  <v-card>
+                    <v-form @submit.prevent="addLinkMenuSave">
+                      <v-card-text class="pb-0">
+                        <v-text-field
+                          v-model="addLinkMenuInput"
+                          label="Adres URL"
+                          outlined
+                          :rules="addLinkMenuInputRules"
+                          autofocus
+                          :color="colorString"
+                        />
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer />
+                        <v-btn
+                          text
+                          color="primary"
+                          @click="addLinkMenuVisible = false"
+                        >
+                          Anuluj
+                        </v-btn>
+                        <v-btn
+                          text
+                          color="primary"
+                          type="submit"
+                          :disabled="!addLinkMenuValid"
+                        >
+                          Dodaj
+                        </v-btn>
+                      </v-card-actions>
+                    </v-form>
+                  </v-card>
+                </v-menu>
+              </v-card>
               <v-checkbox
                 v-if="type === 'homework'"
                 v-model="optional"
                 label="Zadanie dla chętnych"
-                class="mt-0"
+                class="mt-8"
                 :color="colorString"
               />
             </v-form>
@@ -269,6 +341,7 @@
 
 <script>
   import humanizeDuration from 'humanize-duration';
+  import isUrl from 'is-url';
 
   export default {
     name: 'EventCreateDialog',
@@ -279,37 +352,47 @@
         default: null,
       },
     },
-    data: () => ({
-      types: [
-        {
-          text: 'Zadanie domowe',
-          value: 'homework',
-        },
-        {
-          text: 'Sprawdzian/kartkówka',
-          value: 'test',
-        },
-        {
-          text: 'Lekcja',
-          value: 'lesson',
-        },
-      ],
-      subject: null,
-      title: '',
-      type: 'homework',
-      date: null,
-      dateMenuVisible: false,
-      time: null,
-      timeMenuVisible: false,
-      description: '',
-      duration: 0,
-      durationMenuVisible: false,
-      optional: false,
-      edit: false,
-      visible: false,
-    }),
+    data () {
+      return {
+        types: [
+          {
+            text: 'Zadanie domowe',
+            value: 'homework',
+          },
+          {
+            text: 'Sprawdzian/kartkówka',
+            value: 'test',
+          },
+          {
+            text: 'Lekcja',
+            value: 'lesson',
+          },
+        ],
+        subject: null,
+        title: '',
+        type: 'homework',
+        date: null,
+        dateMenuVisible: false,
+        time: null,
+        timeMenuVisible: false,
+        description: '',
+        duration: 0,
+        durationMenuVisible: false,
+        optional: false,
+        links: false,
+        addLinkMenuVisible: false,
+        addLinkMenuInput: '',
+        edit: false,
+        visible: false,
+        addLinkMenuInputRules: [
+          (v) => !v || (isUrl(v) || 'Podaj poprawny adres URL'),
+          (v) => !this.links.includes(v) || 'Link jest już dodany',
+        ],
+      };
+    },
     computed: {
       subjectItems () {
+        if (!this.subjects) return null;
         return this.subjects.map((subject) => ({
           text: subject.name,
           value: subject.id,
@@ -353,6 +436,11 @@
           weekday: 'long',
         });
       },
+      addLinkMenuValid () {
+        if (this.addLinkMenuInput === '') return false;
+        if (this.links.includes(this.addLinkMenuInput)) return false;
+        return isUrl(this.addLinkMenuInput);
+      },
     },
     methods: {
       showCreateDialog (date) {
@@ -365,9 +453,23 @@
         this.dateMenuVisible = false;
         this.time = null;
         this.timeMenuVisible = false;
+        this.duration = null;
+        this.durationMenuVisible = false;
+        this.links = [];
+        this.addLinkMenuVisible = false;
+        this.addLinkMenuInput = '';
 
         this.visible = true;
         this.edit = false;
+      },
+      addLinkMenuSave () {
+        if (!this.addLinkMenuValid) return;
+        this.links.push(this.addLinkMenuInput);
+        this.addLinkMenuInput = '';
+        this.addLinkMenuVisible = false;
+      },
+      removeLink (index) {
+        this.links.splice(index, 1);
       },
       close () {
         this.visible = false;
