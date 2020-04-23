@@ -15,8 +15,13 @@
         </v-col>
         <v-col>
           <v-card-title>Dodaj nowe wydarzenie</v-card-title>
-          <v-card-text class="pt-2">
-            <v-form>
+          <v-form
+            ref="form"
+            v-model="valid"
+            @submit.prevent="submit"
+          >
+            <v-card-text class="pt-2">
+              {{ valid ? 'Valid 👍' : 'INVALID 👀' }}
               <v-select
                 v-model="type"
                 :color="colorString"
@@ -34,6 +39,7 @@
                 label="Przedmiot"
                 required
                 outlined
+                :rules="subjectRules"
               >
                 <template v-slot:append-item>
                   <v-divider />
@@ -53,6 +59,7 @@
                 label="Tytuł"
                 outlined
                 :color="colorString"
+                :rules="titleRules"
               />
               <v-textarea
                 v-model="description"
@@ -316,23 +323,26 @@
                 class="mt-8"
                 :color="colorString"
               />
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              text
-              @click="close()"
-            >
-              Anuluj
-            </v-btn>
-            <v-btn
-              :color="colorString"
-              outlined
-            >
-              Zapisz
-            </v-btn>
-          </v-card-actions>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                text
+                @click="close()"
+              >
+                Anuluj
+              </v-btn>
+              <v-btn
+                :color="colorString"
+                outlined
+                type="submit"
+                :disabled="!valid"
+                :loading="submitLoading"
+              >
+                Zapisz
+              </v-btn>
+            </v-card-actions>
+          </v-form>
         </v-col>
       </v-row>
     </v-card>
@@ -346,7 +356,9 @@
 <script>
   import humanizeDuration from 'humanize-duration';
   import isUrl from 'is-url';
+  import firebase from 'firebase/app';
   import SubjectCreatorDialog from '../SubjectCreatorDialog.vue';
+  import 'firebase/firestore';
 
   export default {
     name: 'EventCreateDialog',
@@ -362,6 +374,7 @@
     },
     data () {
       return {
+        valid: false,
         types: [
           {
             text: 'Zadanie domowe',
@@ -392,10 +405,17 @@
         addLinkMenuInput: '',
         edit: false,
         visible: false,
+        subjectRules: [
+          (v) => !!v || 'To pole jest wymagane',
+        ],
+        titleRules: [
+          (v) => v.trim().length > 0 || 'To pole jest wymagane',
+        ],
         addLinkMenuInputRules: [
           (v) => !v || (isUrl(v) || 'Podaj poprawny adres URL'),
           (v) => !this.links.includes(v) || 'Link jest już dodany',
         ],
+        submitLoading: false,
       };
     },
     computed: {
@@ -469,6 +489,10 @@
 
         this.visible = true;
         this.edit = false;
+
+        this.$nextTick(() => {
+          this.$refs.form.resetValidation();
+        });
       },
       addLinkMenuSave () {
         if (!this.addLinkMenuValid) return;
@@ -481,6 +505,56 @@
       },
       openSubjectCreator () {
         this.$refs.subjectCreatorDialog.show(this.$route.params.boardId);
+      },
+      async submit () {
+        if (!this.$refs.form.validate() || this.submitLoading) return;
+
+        if (this.edit) {
+          this.$toast.error('Edycja nie jest jeszcze wspierana');
+          return;
+        }
+
+        this.submitLoading = true;
+
+        try {
+          const subjectReference = this.$database
+            .collection('boards').doc(this.$route.params.boardId)
+            .collection('subjects').doc(this.subject);
+          const data = {
+            type: this.type,
+            date: this.date,
+            time: this.time || null,
+            subject: subjectReference,
+            title: this.title.trim(),
+            description: this.description.trim() || null,
+            links: this.links,
+            creation: {
+              date: firebase.firestore.FieldValue.serverTimestamp(),
+              user: this.$store.state.userAuth.uid,
+            },
+            edits: [],
+          };
+
+          if (this.type === 'homework') {
+            data.optional = this.optional;
+          }
+
+          if (this.type === 'lesson' || this.type === 'test') {
+            data.duration = this.duration || null;
+          }
+
+          await this.$database
+            .collection('boards').doc(this.$route.params.boardId)
+            .collection('events').add(data);
+
+          this.$toast('Dodano wpis');
+          this.visible = false;
+        } catch (error) {
+          console.error(error);
+          this.$toast.error('Wystąpił nieoczekiwany błąd');
+        }
+
+        this.submitLoading = false;
       },
       close () {
         this.visible = false;

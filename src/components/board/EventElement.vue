@@ -17,7 +17,7 @@
       <v-row no-gutters>
         <v-col cols="auto">
           <v-sheet
-            color="homework"
+            :color="colorString"
             class="fill-height"
             :width="6"
             tile
@@ -90,12 +90,20 @@
       EventDetailsDialog,
     },
     props: {
-      event: Object,
+      event: {
+        type: Object,
+        required: true,
+      },
     },
     data: () => ({
       dialog: false,
       done: false,
     }),
+    computed: {
+      colorString () {
+        return this.event.type;
+      },
+    },
     watch: {
       done (value) {
         console.log(value);
