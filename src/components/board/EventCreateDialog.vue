@@ -121,7 +121,7 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        :label="type === 'lesson' ? 'Godzina rozpoczęcia (opcjonalne)' : 'Godzina (opcjonalne)'"
+                        label="Godzina (opcjonalne)"
                         :color="colorString"
                         readonly
                         outlined
@@ -461,7 +461,7 @@
         this.dateMenuVisible = false;
         this.time = null;
         this.timeMenuVisible = false;
-        this.duration = null;
+        this.duration = 0;
         this.durationMenuVisible = false;
         this.links = [];
         this.addLinkMenuVisible = false;
