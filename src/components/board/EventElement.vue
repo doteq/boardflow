@@ -1,23 +1,13 @@
 <template>
   <div>
-    <v-dialog
-      v-model="dialog"
-      scrollable
-      max-width="500px"
-    >
-      <event-details-dialog
-        :event="event"
-        @close="closeDialog()"
-      />
-    </v-dialog>
     <v-card
       class="overflow-hidden"
-      @click="dialog = true"
+      :to="`/board/${$route.params.boardId}/event/${event.id}`"
     >
       <v-row no-gutters>
         <v-col cols="auto">
           <v-sheet
-            color="homework"
+            :color="colorString"
             class="fill-height"
             :width="6"
             tile
@@ -82,28 +72,25 @@
 </template>
 
 <script>
-  import EventDetailsDialog from './EventDetailsDialog.vue';
-
   export default {
     name: 'EventElement',
-    components: {
-      EventDetailsDialog,
-    },
     props: {
-      event: Object,
+      event: {
+        type: Object,
+        required: true,
+      },
     },
     data: () => ({
-      dialog: false,
       done: false,
     }),
+    computed: {
+      colorString () {
+        return this.event.type;
+      },
+    },
     watch: {
       done (value) {
         console.log(value);
-      },
-    },
-    methods: {
-      closeDialog () {
-        this.dialog = false;
       },
     },
   };
