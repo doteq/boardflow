@@ -19,9 +19,12 @@
     </template>
     <template v-else>
       <event-element
-        v-for="event in eventItemsOther"
+        v-for="(event, index) in eventItemsOther"
         :key="event.id"
         :event="event"
+        :class="{
+          'mt-3': index !== 0
+        }"
       />
       <h1 v-if="eventItemsNotDone.length > 0">
         Do zrobienia:
@@ -30,6 +33,7 @@
         v-for="event in eventItemsNotDone"
         :key="event.id"
         :event="event"
+        class="mt-3"
       />
       <h1 v-if="eventItemsListDone.length > 0">
         Zrobione:
@@ -38,6 +42,7 @@
         v-for="event in eventItemsListDone"
         :key="event.id"
         :event="event"
+        class="mt-3"
       />
     </template>
   </v-container>

@@ -82,8 +82,6 @@
         </div>
       </template>
     </app-bar>
-
-    <event-create-dialog ref="eventCreateDialog" />
     <div
       v-if="boardInfoLoaded && !boardInfo"
       class="d-flex fill-height flex-column align-center justify-center grow"
@@ -130,7 +128,7 @@
               color="secondary"
               class="mb-4"
               large
-              @click="showCreateDialog()"
+              :to="`/board/${$route.params.boardId}/create-event`"
             >
               <v-icon left>
                 mdi-plus
@@ -164,7 +162,7 @@
         </v-col>
         <v-col>
           <event-list
-            :events="eventsLoaded ? events : null"
+            :events="currentEvents"
           />
         </v-col>
       </v-row>
@@ -180,7 +178,7 @@
           class="mb-6"
         />
         <event-list
-          :events="eventsLoaded ? events : null"
+          :events="currentEvents"
         />
       </div>
       <v-btn
@@ -190,11 +188,61 @@
         right
         fixed
         color="secondary"
-        @click="showCreateDialog"
+        :to="`/board/${$route.params.boardId}/create-event`"
       >
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </template>
+    <v-dialog
+      :value="$route.name === 'BoardCreateEvent' && userIsMember === false"
+      persistent
+      no-click-animation
+      max-width="550px"
+      @click:outside="closeCreatorDialog()"
+      @keydown.esc="closeCreatorDialog()"
+    >
+      <v-card>
+        <v-card-title
+          class="display-1 text-center pa-12 d-block"
+        >
+          Nie jesteś członkiem tablicy
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            text
+            @click="closeCreatorDialog()"
+          >
+            Zamknij
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <event-create-dialog
+      ref="eventCreateDialog"
+      :subjects="subjects"
+      :initial-date="date"
+      :value="($route.name === 'BoardCreateEvent' || $route.name === 'BoardEditEvent') && userIsMember === true"
+      :edit="$route.name === 'BoardEditEvent' || lastDialogState.edit"
+      :loading="!eventsAndSubjectsLoaded"
+      :event="dialogEvent || lastDialogState.event"
+      @close="closeCreatorDialog()"
+    />
+    <v-dialog
+      :value="$route.name === 'BoardEvent' && canViewBoard === true"
+      scrollable
+      max-width="500px"
+      persistent
+      no-click-animation
+      @click:outside="closeEventDetailsDialog()"
+      @keydown.esc="closeEventDetailsDialog()"
+    >
+      <event-details-dialog
+        :loading="!eventsAndSubjectsLoaded"
+        :event="dialogEvent || lastDialogState.event"
+        @close="closeEventDetailsDialog()"
+      />
+    </v-dialog>
   </v-container>
 </template>
 
@@ -202,6 +250,7 @@
   import EventList from '../components/board/EventList.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
   import AppBar from '../components/AppBar.vue';
+  import EventDetailsDialog from '../components/board/EventDetailsDialog.vue';
 
   export default {
     name: 'Board',
@@ -209,6 +258,7 @@
       EventList,
       EventCreateDialog,
       AppBar,
+      EventDetailsDialog,
     },
     data: () => ({
       date: new Date().toISOString().split('T')[0],
@@ -216,7 +266,12 @@
       boardInfo: null,
       boardInfoLoaded: false,
       events: null,
-      eventsLoaded: false,
+      subjects: null,
+      eventsAndSubjectsLoaded: false,
+      lastDialogState: {
+        event: null,
+        edit: false,
+      },
     }),
     computed: {
       dateString () {
@@ -237,6 +292,16 @@
         if (this.userIsMember) return true;
         return this.boardInfo.public;
       },
+      dialogEvent () {
+        if (!this.events) return null;
+        if (!['BoardEvent', 'BoardEditEvent'].includes(this.$route.name)) return null;
+        return this.events.find((event) => event.id === this.$route.params.eventId) || null;
+      },
+      currentEvents () {
+        if (!this.eventsAndSubjectsLoaded || !this.events) return null;
+
+        return this.events.filter((event) => event.date === this.date);
+      },
     },
     watch: {
       '$route.params.boardId': {
@@ -255,20 +320,26 @@
       canViewBoard: {
         async handler (value) {
           if (value) {
-            this.eventsLoaded = false;
+            this.eventsAndSubjectsLoaded = false;
             try {
               const boardReference = this.$database
                 .collection('boards').doc(this.$route.params.boardId);
-              await this.$bind('events', boardReference.collection('events'));
+              await Promise.all([
+                this.$bind('events', boardReference.collection('events')),
+                this.$bind('subjects', boardReference.collection('subjects')),
+              ]);
             } catch (error) {
               console.error(error);
               this.$toast.error('Wystąpił nieoczekiwany błąd');
             }
-            this.eventsLoaded = true;
+            this.eventsAndSubjectsLoaded = true;
           } else {
-            this.eventsLoaded = false;
+            this.eventsAndSubjectsLoaded = false;
             if (this.$firestoreRefs.events) {
               this.$unbind('events');
+            }
+            if (this.$firestoreRefs.subjects) {
+              this.$unbind('subjects');
             }
           }
         },
@@ -276,9 +347,6 @@
       },
     },
     methods: {
-      showCreateDialog () {
-        this.$refs.eventCreateDialog.showCreateDialog(this.date);
-      },
       dateNext () {
         const newDate = new Date();
         newDate.setDate(new Date(this.date).getDate() + 1);
@@ -288,6 +356,27 @@
         const newDate = new Date();
         newDate.setDate(new Date(this.date).getDate() - 1);
         [this.date] = newDate.toISOString().split('T');
+      },
+      closeCreatorDialog () {
+        if (this.$route.name === 'BoardEditEvent') {
+          this.lastDialogState.edit = true;
+          this.lastDialogState.event = this.dialogEvent;
+
+          setTimeout(() => {
+            this.lastDialogState.edit = false;
+            this.lastDialogState.event = null;
+          }, 750);
+        }
+        this.$router.push(`/board/${this.$route.params.boardId}`);
+      },
+      closeEventDetailsDialog () {
+        this.lastDialogState.event = this.dialogEvent;
+
+        this.$router.push(`/board/${this.$route.params.boardId}`);
+
+        setTimeout(() => {
+          this.lastDialogState.event = null;
+        }, 750);
       },
     },
   };
