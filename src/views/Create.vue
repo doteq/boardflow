@@ -198,7 +198,7 @@
 
           const boardInfoReference = this.$database.collection('boards-info').doc();
           const boardReference = this.$database.collection('boards').doc(boardInfoReference.id);
-          const subjectsRefeernce = boardReference.collection('subjects');
+          const subjectsReference = boardReference.collection('subjects');
 
           batch.set(boardInfoReference, {
             admins: [
@@ -214,7 +214,7 @@
           batch.set(boardReference, {});
 
           this.subjectsOutput.forEach(({ name, color }) => {
-            batch.set(subjectsRefeernce.doc(), {
+            batch.set(subjectsReference.doc(), {
               name,
               color,
             });
