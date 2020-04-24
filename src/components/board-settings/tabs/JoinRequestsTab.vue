@@ -36,6 +36,12 @@
         <v-skeleton-loader type="list-item-avatar-two-line" />
       </v-card>
     </template>
+    <h1
+      v-else-if="joinRequestItems.length === 0"
+      class="headline px-4 py-12 text-center text--secondary"
+    >
+      Nie ma żadnych oczekujących próśb o dołączenie
+    </h1>
     <template v-else-if="$vuetify.breakpoint.smAndUp">
       <v-card
         v-for="request in joinRequestItems"
