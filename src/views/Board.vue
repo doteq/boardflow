@@ -162,7 +162,7 @@
         </v-col>
         <v-col>
           <event-list
-            :events="eventsAndSubjectsLoaded ? events : null"
+            :events="currentEvents"
           />
         </v-col>
       </v-row>
@@ -178,7 +178,7 @@
           class="mb-6"
         />
         <event-list
-          :events="eventsAndSubjectsLoaded ? events : null"
+          :events="currentEvents"
         />
       </div>
       <v-btn
@@ -296,6 +296,11 @@
         if (!this.events) return null;
         if (!['BoardEvent', 'BoardEditEvent'].includes(this.$route.name)) return null;
         return this.events.find((event) => event.id === this.$route.params.eventId) || null;
+      },
+      currentEvents () {
+        if (!this.eventsAndSubjectsLoaded || !this.events) return null;
+
+        return this.events.filter((event) => event.date === this.date);
       },
     },
     watch: {
