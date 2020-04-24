@@ -64,14 +64,18 @@
           <v-col
             cols="auto"
           >
-            <v-btn
-              color="error"
-              outlined
-              class="mr-3"
-              @click="rejectRequest(request.id)"
-            >
-              Odrzuć
-            </v-btn>
+            <join-request-reject-dialog @reject="rejectRequest(request.id)">
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  color="error"
+                  outlined
+                  class="mr-3"
+                  v-on="on"
+                >
+                  Odrzuć
+                </v-btn>
+              </template>
+            </join-request-reject-dialog>
           </v-col>
           <v-col cols="auto">
             <v-menu
@@ -166,11 +170,15 @@
                   </v-list-item-title>
                 </v-list-item>
                 <v-divider />
-                <v-list-item @click="rejectRequest(request.id)">
-                  <v-list-item-title>
-                    Odrzuć
-                  </v-list-item-title>
-                </v-list-item>
+                <join-request-reject-dialog @reject="rejectRequest(request.id)">
+                  <template v-slot:activator="{ on }">
+                    <v-list-item v-on="on">
+                      <v-list-item-title>
+                        Odrzuć
+                      </v-list-item-title>
+                    </v-list-item>
+                  </template>
+                </join-request-reject-dialog>
               </v-list>
             </v-menu>
           </v-col>
@@ -183,8 +191,12 @@
 <script>
   import firebase from 'firebase/app';
   import 'firebase/firestore';
+  import JoinRequestRejectDialog from '../JoinRequestRejectDialog.vue';
 
   export default {
+    components: {
+      JoinRequestRejectDialog,
+    },
     props: {
       joinRequests: {
         type: Array,
