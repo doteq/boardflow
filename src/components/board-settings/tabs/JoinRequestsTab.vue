@@ -38,8 +38,8 @@
     </template>
     <template v-else-if="$vuetify.breakpoint.smAndUp">
       <v-card
-        v-for="user in joinRequestItems"
-        :key="user.uid"
+        v-for="request in joinRequestItems"
+        :key="request.uid"
         class="mb-3"
         outlined
       >
@@ -53,13 +53,13 @@
               :size="48"
             >
               <v-img
-                :src="user.photoURL"
-                :alt="user.name"
+                :src="request.photoURL"
+                :alt="request.name"
               />
             </v-avatar>
           </v-col>
           <v-col>
-            <v-card-title v-text="user.name" />
+            <v-card-title v-text="request.name" />
           </v-col>
           <v-col
             cols="auto"
@@ -68,6 +68,7 @@
               color="error"
               outlined
               class="mr-3"
+              @click="rejectRequest(request.id)"
             >
               Odrzuć
             </v-btn>
@@ -90,12 +91,12 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item link>
+                <v-list-item @click="acceptRequest(request.id, false)">
                   <v-list-item-title>
                     Dodaj jako członka
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item link>
+                <v-list-item @click="acceptRequest(request.id, true)">
                   <v-list-item-title>
                     Dodaj jako administratora
                   </v-list-item-title>
@@ -108,8 +109,8 @@
     </template>
     <template v-else>
       <v-card
-        v-for="user in joinRequestItems"
-        :key="user.uid"
+        v-for="request in joinRequestItems"
+        :key="request.uid"
         class="mb-2"
         outlined
       >
@@ -123,15 +124,15 @@
               :size="36"
             >
               <v-img
-                :src="user.photoURL"
-                :alt="user.name"
+                :src="request.photoURL"
+                :alt="request.name"
               />
             </v-avatar>
           </v-col>
           <v-col>
             <v-card-title
               class="subtitle-1 px-3"
-              v-text="user.name"
+              v-text="request.name"
             />
           </v-col>
           <v-col
@@ -154,18 +155,18 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item link>
+                <v-list-item @click="acceptRequest(request.id, false)">
                   <v-list-item-title>
                     Dodaj jako członka
                   </v-list-item-title>
                 </v-list-item>
-                <v-list-item link>
+                <v-list-item @click="acceptRequest(request.id, true)">
                   <v-list-item-title>
                     Dodaj jako administratora
                   </v-list-item-title>
                 </v-list-item>
                 <v-divider />
-                <v-list-item link>
+                <v-list-item @click="rejectRequest(request.id)">
                   <v-list-item-title>
                     Odrzuć
                   </v-list-item-title>
@@ -180,6 +181,9 @@
 </template>
 
 <script>
+  import firebase from 'firebase/app';
+  import 'firebase/firestore';
+
   export default {
     props: {
       joinRequests: {
@@ -215,6 +219,43 @@
         input.select();
         document.execCommand('copy');
         this.$toast('Skopiowano link do schowka');
+      },
+      async acceptRequest (userId, admin) {
+        try {
+          const boardInfoReference = this.$database
+            .collection('boards-info').doc(this.$route.params.boardId);
+          const requestReference = boardInfoReference
+            .collection('join-requests').doc(userId);
+
+          const batch = this.$database.batch();
+          const boardInfoData = {};
+
+          boardInfoData.members = firebase.firestore.FieldValue.arrayUnion(userId);
+          if (admin) {
+            boardInfoData.admins = firebase.firestore.FieldValue.arrayUnion(userId);
+          }
+
+          batch.update(boardInfoReference, boardInfoData);
+          batch.delete(requestReference);
+
+          await batch.commit();
+        } catch (error) {
+          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          console.error(error);
+        }
+      },
+      async rejectRequest (userId) {
+        try {
+          const boardInfoReference = this.$database
+            .collection('boards-info').doc(this.$route.params.boardId);
+          const requestReference = boardInfoReference
+            .collection('join-requests').doc(userId);
+
+          await requestReference.delete();
+        } catch (error) {
+          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          console.error(error);
+        }
       },
     },
   };
