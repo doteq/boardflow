@@ -1,13 +1,49 @@
 <template>
   <v-dialog
     :value="value"
-    max-width="700px"
+    :max-width="loading || (!event && edit) ? '500px' : '700px'"
     persistent
     no-click-animation
     @click:outside="close()"
     @keydown.esc="close()"
   >
-    <v-card>
+    <v-card v-if="loading">
+      <div
+        class="pa-12 d-flex justify-center"
+      >
+        <v-progress-circular
+          indeterminate
+          :size="64"
+          color="primary"
+        />
+      </div>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          text
+          @click="close()"
+        >
+          Zamknij
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+    <v-card v-else-if="!event && edit">
+      <v-card-title
+        class="display-1 text-center pa-12 d-block"
+      >
+        Nie znaleziono wpisu
+      </v-card-title>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          text
+          @click="close()"
+        >
+          Zamknij
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+    <v-card v-else>
       <v-row no-gutters>
         <v-col cols="auto">
           <v-sheet
@@ -32,6 +68,9 @@
                 label="Typ"
                 required
                 outlined
+                :disabled="edit"
+                :hint="edit ? 'Nie możesz zmienić typu wydarzenia podczas edytowania' : null"
+                :persistent-hint="edit"
               />
               <v-select
                 v-model="subject"
@@ -387,6 +426,11 @@
         required: false,
         default: null,
       },
+      loading: {
+        type: Boolean,
+        required: false,
+        default: false,
+      },
       subjects: {
         type: Array,
         required: false,
@@ -488,9 +532,12 @@
         if (this.links.includes(this.addLinkMenuInput)) return false;
         return isUrl(this.addLinkMenuInput);
       },
+      readyForReset () {
+        return !this.loading && this.value && (!this.edit || this.event);
+      },
     },
     watch: {
-      value: {
+      readyForReset: {
         handler (value) {
           if (value) this.reset();
         },

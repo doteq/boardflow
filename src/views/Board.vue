@@ -222,8 +222,10 @@
       ref="eventCreateDialog"
       :subjects="subjects"
       :initial-date="date"
-      :value="$route.name === 'BoardCreateEvent' && userIsMember === true"
-      :edit="false"
+      :value="($route.name === 'BoardCreateEvent' || $route.name === 'BoardEditEvent') && userIsMember === true"
+      :edit="$route.name === 'BoardEditEvent' || lastDialogState.edit"
+      :loading="!eventsAndSubjectsLoaded"
+      :event="dialogEvent || lastDialogState.event"
       @close="closeCreatorDialog()"
     />
     <v-dialog
@@ -237,7 +239,7 @@
     >
       <event-details-dialog
         :loading="!eventsAndSubjectsLoaded"
-        :event="dialogEvent || lastDialogEvent"
+        :event="dialogEvent || lastDialogState.event"
         @close="closeEventDetailsDialog()"
       />
     </v-dialog>
@@ -266,7 +268,10 @@
       events: null,
       subjects: null,
       eventsAndSubjectsLoaded: false,
-      lastDialogEvent: null,
+      lastDialogState: {
+        event: null,
+        edit: false,
+      },
     }),
     computed: {
       dateString () {
@@ -289,7 +294,7 @@
       },
       dialogEvent () {
         if (!this.events) return null;
-        if (this.$route.name !== 'BoardEvent') return null;
+        if (!['BoardEvent', 'BoardEditEvent'].includes(this.$route.name)) return null;
         return this.events.find((event) => event.id === this.$route.params.eventId) || null;
       },
     },
@@ -348,13 +353,24 @@
         [this.date] = newDate.toISOString().split('T');
       },
       closeCreatorDialog () {
+        if (this.$route.name === 'BoardEditEvent') {
+          this.lastDialogState.edit = true;
+          this.lastDialogState.event = this.dialogEvent;
+
+          setTimeout(() => {
+            this.lastDialogState.edit = false;
+            this.lastDialogState.event = null;
+          }, 750);
+        }
         this.$router.push(`/board/${this.$route.params.boardId}`);
       },
       closeEventDetailsDialog () {
-        this.lastDialogEvent = this.dialogEvent;
+        this.lastDialogState.event = this.dialogEvent;
+
         this.$router.push(`/board/${this.$route.params.boardId}`);
+
         setTimeout(() => {
-          this.lastDialogEvent = null;
+          this.lastDialogState.event = null;
         }, 750);
       },
     },

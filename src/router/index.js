@@ -25,6 +25,11 @@ const routes = [
     component: Board,
   },
   {
+    path: '/board/:boardId/event/:eventId/edit',
+    name: 'BoardEditEvent',
+    component: Board,
+  },
+  {
     path: '/board/:boardId/create-event',
     name: 'BoardCreateEvent',
     component: Board,

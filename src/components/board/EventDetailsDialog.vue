@@ -96,6 +96,7 @@
           <v-spacer />
           <v-btn
             text
+            :to="`/board/${$route.params.boardId}/event/${event.id}/edit`"
           >
             Edytuj
           </v-btn>
