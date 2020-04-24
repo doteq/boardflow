@@ -55,6 +55,7 @@
   import JoinRequestsTab from '../components/board-settings/tabs/JoinRequestsTab.vue';
   import MembersTab from '../components/board-settings/tabs/MembersTab.vue';
   import SubjectsTab from '../components/board-settings/tabs/SubjectsTab.vue';
+
   export default {
     name: 'BoardSettings',
     components: {

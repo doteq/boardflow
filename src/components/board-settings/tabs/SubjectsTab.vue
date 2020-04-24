@@ -4,10 +4,10 @@
       Przedmioty
     </h1>
     <v-card
-      class="mb-3"
-      outlined
       v-for="subject in subjectsList"
       :key="subject.id"
+      class="mb-3"
+      outlined
     >
       <v-row
         class="align-center pl-4 pr-5 py-2"
@@ -21,7 +21,24 @@
           />
         </v-col>
         <v-col>
-          <v-card-title v-text="subject.name" />
+          <v-hover
+            v-slot:default="{ hover }"
+            open-delay="200"
+          >
+            <div>
+              <v-card-title
+                v-if="!hover"
+                v-text="subject.name"
+              />
+              <v-text-field
+                v-if="hover"
+                v-model="subject.name"
+                outlined
+                class="ml-1 mr-10 pa-1 nazwa"
+                hide-details
+              />
+            </div>
+          </v-hover>
         </v-col>
         <v-col
           cols="auto"
@@ -47,7 +64,7 @@
                 Zmień kolor
               </v-btn>
             </template>
-            <v-color-picker v-model="subject.color"></v-color-picker>
+            <v-color-picker v-model="subject.color" />
           </v-menu>
         </v-col>
       </v-row>
@@ -76,4 +93,8 @@
 </script>
 
 <style scoped>
+  .nazwa {
+    font-size: 20px;
+    font-weight: bold;
+  }
 </style>
