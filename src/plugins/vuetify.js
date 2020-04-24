@@ -17,7 +17,7 @@ Vue.use(Vuetify, {
 
 Vue.use(VuetifyToast, {
   queueable: true,
-  color: 'grey darken-4',
+  color: 'accent',
 });
 
 export default new Vuetify({
