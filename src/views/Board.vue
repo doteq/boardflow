@@ -76,6 +76,8 @@
               <v-date-picker
                 v-model="date"
                 full-width
+                :events="calendarEventColor"
+                color="secondary"
               />
             </v-dialog>
           </div>
@@ -158,6 +160,8 @@
           <v-date-picker
             v-model="date"
             no-title
+            :events="calendarEventColor"
+            color="secondary"
           />
         </v-col>
         <v-col>
@@ -176,6 +180,8 @@
           full-width
           landscape
           class="mb-6"
+          :events="calendarEventColor"
+          color="secondary"
         />
         <event-list
           :events="currentEvents"
@@ -377,6 +383,15 @@
         setTimeout(() => {
           this.lastDialogState.event = null;
         }, 750);
+      },
+      calendarEventColor (date) {
+        if (!this.eventsAndSubjectsLoaded || !this.events) return [];
+        const dateEvents = this.events.filter((event) => event.date === date);
+        const colors = [];
+        if (dateEvents.findIndex((event) => event.type === 'homework') !== -1) colors.push('homework');
+        if (dateEvents.findIndex((event) => event.type === 'lesson') !== -1) colors.push('lesson');
+        if (dateEvents.findIndex((event) => event.type === 'test') !== -1) colors.push('test');
+        return colors;
       },
     },
   };
