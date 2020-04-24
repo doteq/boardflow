@@ -14,6 +14,15 @@
     >
       <template v-slot:append>
         <v-btn
+          v-if="$vuetify.breakpoint.xsOnly"
+          icon
+          class="mr-0 ml-2 mb-2 p-0"
+          @click="copyJoinLink()"
+        >
+          <v-icon>mdi-content-copy</v-icon>
+        </v-btn>
+        <v-btn
+          v-else
           outlined
           class="mr-0 ml-2 mb-2 p-0"
           @click="copyJoinLink()"
@@ -22,47 +31,146 @@
         </v-btn>
       </template>
     </v-text-field>
-    <v-card
-      v-for="user in joinRequests"
-      :key="user.uid"
-      class="mb-3"
-      outlined
-    >
-      <v-row
-        class="align-center pl-4 pr-5 py-2"
-        no-gutters
+    <template v-if="$vuetify.breakpoint.smAndUp">
+      <v-card
+        v-for="user in joinRequests"
+        :key="user.uid"
+        class="mb-3"
+        outlined
       >
-        <v-col cols="auto">
-          <v-avatar
-            class="elevation-4"
-            :size="48"
-          >
-            <v-img
-              :src="user.photoURL"
-              :alt="user.name"
-            />
-          </v-avatar>
-        </v-col>
-        <v-col>
-          <v-card-title v-text="user.name" />
-        </v-col>
-        <v-col
-          cols="auto"
-          class="d-flex"
+        <v-row
+          class="align-center pl-4 pr-5 py-2"
+          no-gutters
         >
-          <v-btn
-            color="error"
-            outlined
-            class="mr-3"
+          <v-col cols="auto">
+            <v-avatar
+              class="elevation-4"
+              :size="48"
+            >
+              <v-img
+                :src="user.photoURL"
+                :alt="user.name"
+              />
+            </v-avatar>
+          </v-col>
+          <v-col>
+            <v-card-title v-text="user.name" />
+          </v-col>
+          <v-col
+            cols="auto"
           >
-            Odrzuć
-          </v-btn>
-          <v-btn color="primary black--text">
-            Akceptuj
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-card>
+            <v-btn
+              color="error"
+              outlined
+              class="mr-3"
+            >
+              Odrzuć
+            </v-btn>
+          </v-col>
+          <v-col cols="auto">
+            <v-menu
+              bottom
+              left
+              offset-y
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  color="primary black--text"
+                  v-on="on"
+                >
+                  Akceptuj
+                  <v-icon right>
+                    mdi-menu-down
+                  </v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item link>
+                  <v-list-item-title>
+                    Dodaj jako członka
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item link>
+                  <v-list-item-title>
+                    Dodaj jako administratora
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-col>
+        </v-row>
+      </v-card>
+    </template>
+    <template v-else>
+      <v-card
+        v-for="user in joinRequests"
+        :key="user.uid"
+        class="mb-2"
+        outlined
+      >
+        <v-row
+          class="align-center pl-3 pr-2"
+          no-gutters
+        >
+          <v-col cols="auto">
+            <v-avatar
+              class="elevation-4"
+              :size="36"
+            >
+              <v-img
+                :src="user.photoURL"
+                :alt="user.name"
+              />
+            </v-avatar>
+          </v-col>
+          <v-col>
+            <v-card-title
+              class="subtitle-1 px-3"
+              v-text="user.name"
+            />
+          </v-col>
+          <v-col
+            cols="auto"
+            class="d-flex"
+          >
+            <v-menu
+              bottom
+              left
+              offset-y
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>
+                    mdi-dots-vertical
+                  </v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item link>
+                  <v-list-item-title>
+                    Dodaj jako członka
+                  </v-list-item-title>
+                </v-list-item>
+                <v-list-item link>
+                  <v-list-item-title>
+                    Dodaj jako administratora
+                  </v-list-item-title>
+                </v-list-item>
+                <v-divider />
+                <v-list-item link>
+                  <v-list-item-title>
+                    Odrzuć
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-col>
+        </v-row>
+      </v-card>
+    </template>
   </div>
 </template>
 

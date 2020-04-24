@@ -107,6 +107,15 @@
           >
             <template v-slot:append>
               <v-btn
+                v-if="$vuetify.breakpoint.xsOnly"
+                icon
+                class="mr-0 ml-2 mb-2 p-0"
+                @click="copyText()"
+              >
+                <v-icon>mdi-content-copy</v-icon>
+              </v-btn>
+              <v-btn
+                v-else
                 outlined
                 class="mr-0 ml-2 mb-2 p-0"
                 @click="copyText()"
