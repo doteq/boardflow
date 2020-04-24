@@ -3,6 +3,25 @@
     <h1 class="headline mb-6 text-center">
       Prośby o dołączenie
     </h1>
+    <v-text-field
+      id="board-link-input"
+      :value="boardLink"
+      outlined
+      readonly
+      dense
+      class="mt-4"
+      label="Link do tablicy"
+    >
+      <template v-slot:append>
+        <v-btn
+          outlined
+          class="mr-0 ml-2 mb-2 p-0"
+          @click="copyJoinLink()"
+        >
+          Kopiuj
+        </v-btn>
+      </template>
+    </v-text-field>
     <v-card
       v-for="user in joinRequests"
       :key="user.uid"
@@ -63,5 +82,18 @@
         },
       ],
     }),
+    computed: {
+      boardLink () {
+        return new URL(`/board/${this.$route.params.boardId}`, window.location.origin);
+      },
+    },
+    methods: {
+      copyJoinLink () {
+        const input = document.getElementById('board-link-input');
+        input.select();
+        document.execCommand('copy');
+        this.$toast('Skopiowano link do schowka');
+      },
+    },
   };
 </script>
