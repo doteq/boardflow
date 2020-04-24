@@ -31,9 +31,14 @@
         </v-btn>
       </template>
     </v-text-field>
-    <template v-if="$vuetify.breakpoint.smAndUp">
+    <template v-if="loading">
+      <v-card outlined>
+        <v-skeleton-loader type="list-item-avatar-two-line" />
+      </v-card>
+    </template>
+    <template v-else-if="$vuetify.breakpoint.smAndUp">
       <v-card
-        v-for="user in joinRequests"
+        v-for="user in joinRequestItems"
         :key="user.uid"
         class="mb-3"
         outlined
@@ -103,7 +108,7 @@
     </template>
     <template v-else>
       <v-card
-        v-for="user in joinRequests"
+        v-for="user in joinRequestItems"
         :key="user.uid"
         class="mb-2"
         outlined
@@ -176,23 +181,32 @@
 
 <script>
   export default {
-    data: () => ({
-      joinRequests: [
-        {
-          name: 'doteq',
-          uid: 'Ru1TAsTc9oc02v6RKKtsgNNS6uk1',
-          photoURL: 'https://graph.facebook.com/893036034476358/picture',
-        },
-        {
-          name: 'Dominik Korsa',
-          uid: 'WfOGQoPKRYgly2C1DqUmMVoQMNU2',
-          photoURL: 'https://lh3.googleusercontent.com/a-/AOh14GjPdMunHwOePJKhlU2yQmERL81yjmImxW7QcPfxtQ',
-        },
-      ],
-    }),
+    props: {
+      joinRequests: {
+        type: Array,
+        required: false,
+        default: null,
+      },
+    },
     computed: {
+      loading () {
+        if (!this.$store.state.userDataList) return true;
+        return !this.joinRequests;
+      },
       boardLink () {
         return new URL(`/board/${this.$route.params.boardId}`, window.location.origin);
+      },
+      joinRequestItems () {
+        if (this.loading) return null;
+        return this.joinRequests.map((joinRequest) => {
+          const user = this.$store.state.userDataList.find((e) => e.id === joinRequest.id);
+          return {
+            photoURL: user.photoURL,
+            name: user.name,
+            id: joinRequest.id,
+            timestamp: joinRequest.timestamp,
+          };
+        });
       },
     },
     methods: {

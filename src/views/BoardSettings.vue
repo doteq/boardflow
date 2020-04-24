@@ -16,7 +16,8 @@
         </v-icon>
         <v-badge
           color="red"
-          content="3"
+          :value="joinRequests && joinRequests.length > 0"
+          :content="joinRequests !== null ? joinRequests.length : null"
         >
           Prośby o dołączenie
         </v-badge>
@@ -32,7 +33,7 @@
         <general-tab />
       </v-tab-item>
       <v-tab-item class="px-4 py-6">
-        <join-requests-tab />
+        <join-requests-tab :join-requests="joinRequests" />
       </v-tab-item>
       <v-tab-item class="px-4 py-6">
         <members-tab />
@@ -58,6 +59,7 @@
     data: () => ({
       boardInfo: null,
       boardInfoLoaded: false,
+      joinRequests: null,
     }),
     computed: {
       userIsMember () {
@@ -82,6 +84,24 @@
             this.$toast.error('Wystąpił nieoczekiwany błąd');
           }
           this.boardInfoLoaded = true;
+        },
+        immediate: true,
+      },
+      userIsAdmin: {
+        async handler (value) {
+          if (value) {
+            try {
+              const joinRequestsReference = this.$database
+                .collection('boards-info').doc(this.$route.params.boardId)
+                .collection('join-requests');
+              await this.$bind('joinRequests', joinRequestsReference);
+            } catch (error) {
+              console.error(error);
+              this.$toast.error('Wystąpił nieoczekiwany błąd');
+            }
+          } else if (this.$firestoreRefs.joinRequests) {
+            this.$unbind('joinRequests');
+          }
         },
         immediate: true,
       },
