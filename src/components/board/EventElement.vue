@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pa-2">
     <v-dialog
       v-model="dialog"
       scrollable

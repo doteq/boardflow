@@ -36,6 +36,7 @@
                 outlined
                 class="ml-1 mr-10 pa-1 nazwa"
                 hide-details
+                filled
               />
             </div>
           </v-hover>
@@ -64,7 +65,10 @@
                 Zmień kolor
               </v-btn>
             </template>
-            <v-color-picker v-model="subject.color" />
+            <v-color-picker
+              v-model="subject.color"
+              show-swatches
+            />
           </v-menu>
         </v-col>
       </v-row>
