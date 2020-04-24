@@ -73,12 +73,31 @@
         </v-col>
       </v-row>
     </v-card>
+    <div class="d-flex">
+      <v-spacer />
+      <v-btn
+        color="primary black--text"
+        outlined
+        @click="openSubjectCreator"
+      >
+        <v-icon>mdi-plus</v-icon> Dodaj nowy
+      </v-btn>
+    </div>
+    <subject-creator-dialog
+      ref="subjectCreatorDialog"
+      @created="subject = $event"
+    />
   </div>
 </template>
 
 <script>
+  import SubjectCreatorDialog from '../../SubjectCreatorDialog.vue';
+
   export default {
     name: 'SubjectsTab',
+    components: {
+      SubjectCreatorDialog,
+    },
     data: () => ({
       subjectsList: [
         {
@@ -93,6 +112,11 @@
         },
       ],
     }),
+    methods: {
+      openSubjectCreator () {
+        this.$refs.subjectCreatorDialog.show(this.$route.params.boardId);
+      },
+    },
   };
 </script>
 
