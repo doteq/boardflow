@@ -113,6 +113,15 @@
         Oczekiwanie na zaakceptowanie prośby o dołączenie
       </div>
       <v-btn
+        v-else-if="!this.$store.state.userAuth"
+        color="primary black--text"
+        class="mt-8"
+        large
+        @click="showSignInSheet"
+      >
+        Zaloguj się
+      </v-btn>
+      <v-btn
         v-else
         color="primary black--text"
         class="mt-8"
@@ -330,6 +339,7 @@
         @close="closeEventDetailsDialog()"
       />
     </v-dialog>
+    <sign-in-sheet ref="signInSheet" />
   </v-container>
 </template>
 
@@ -340,6 +350,7 @@
   import AppBar from '../components/AppBar.vue';
   import EventDetailsDialog from '../components/board/EventDetailsDialog.vue';
   import 'firebase/firestore';
+  import SignInSheet from '../components/SignInSheet.vue';
 
   export default {
     name: 'Board',
@@ -348,6 +359,7 @@
       EventCreateDialog,
       AppBar,
       EventDetailsDialog,
+      SignInSheet,
     },
     data: () => ({
       date: new Date().toISOString().split('T')[0],
@@ -494,6 +506,9 @@
         if (dateEvents.findIndex((event) => event.type === 'lesson') !== -1) colors.push('lesson');
         if (dateEvents.findIndex((event) => event.type === 'test') !== -1) colors.push('test');
         return colors;
+      },
+      showSignInSheet () {
+        this.$refs.signInSheet.show();
       },
       async requestPermission () {
         try {

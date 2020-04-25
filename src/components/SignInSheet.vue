@@ -4,16 +4,16 @@
     :max-width="400"
     :persistent="loading"
   >
-    <div
+    <v-card
       v-if="loading"
       class="pa-12 d-flex align-center flex-column"
     >
       <v-progress-circular
         indeterminate
         color="primary"
-        :size="32"
+        :size="64"
       />
-    </div>
+    </v-card>
     <v-list v-else>
       <v-subheader>
         Zaloguj się przez...
@@ -53,7 +53,7 @@
     },
     watch: {
       signedIn (value) {
-        if (!this.loginLoading && this.visible) {
+        if (!this.loginLoading && this.visible && value) {
           this.visible = false;
         }
       },
