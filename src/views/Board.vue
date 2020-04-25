@@ -23,7 +23,13 @@
           <v-icon left>
             mdi-cog
           </v-icon>
-          Ustawienia tablicy
+          <v-badge
+            :value="joinRequests !== null && joinRequests.length > 0"
+            color="red"
+            :content="joinRequests !== null ? joinRequests.length : ''"
+          >
+            Ustawienia tablicy
+          </v-badge>
         </v-btn>
 
         <v-tooltip v-if="$vuetify.breakpoint.xsOnly">
@@ -34,7 +40,14 @@
               :to="`/board/${$route.params.boardId}/settings`"
               v-on="on"
             >
-              <v-icon>mdi-cog</v-icon>
+              <v-badge
+                :value="joinRequests !== null && joinRequests.length > 0"
+                color="red"
+                :content="joinRequests !== null ? joinRequests.length : ''"
+                overlap
+              >
+                <v-icon>mdi-cog</v-icon>
+              </v-badge>
             </v-btn>
           </template>
           <span>Ustawienia tablicy</span>
