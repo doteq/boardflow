@@ -286,13 +286,12 @@
 
         try {
           await new Promise((resolve) => setTimeout(resolve, 1000));
-          const batch = this.$database.batch();
 
           const boardInfoReference = this.$database.collection('boards-info').doc();
           const boardReference = this.$database.collection('boards').doc(boardInfoReference.id);
           const subjectsReference = boardReference.collection('subjects');
 
-          batch.set(boardInfoReference, {
+          await boardInfoReference.set({
             admins: [
               this.$store.state.userAuth.uid,
             ],
@@ -303,7 +302,7 @@
             public: this.isPublic,
           });
 
-          batch.set(boardReference, {});
+          const batch = this.$database.batch();
 
           this.subjectsOutput.forEach(({ name, color }) => {
             batch.set(subjectsReference.doc(), {
