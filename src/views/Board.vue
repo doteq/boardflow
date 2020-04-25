@@ -450,7 +450,7 @@
       },
       userIsMember: {
         async handler (value) {
-          if (value === false) {
+          if (value === false && this.$store.state.userAuth !== null) {
             this.selfMemberRequestLoaded = false;
             await this.$bind('selfMemberRequest', this.$database
               .collection('boards-info').doc(this.$route.params.boardId)
