@@ -97,7 +97,7 @@
           <h1>Gotowe!</h1>
           <span>Wyślij link swoim znajomym i zacznij korzystać z Task Overflow!</span>
           <v-text-field
-            id="tocopy"
+            id="board-link-input"
             :value="link"
             outlined
             filled
@@ -107,6 +107,15 @@
           >
             <template v-slot:append>
               <v-btn
+                v-if="$vuetify.breakpoint.xsOnly"
+                icon
+                class="mr-0 ml-2 mb-2 p-0"
+                @click="copyText()"
+              >
+                <v-icon>mdi-content-copy</v-icon>
+              </v-btn>
+              <v-btn
+                v-else
                 outlined
                 class="mr-0 ml-2 mb-2 p-0"
                 @click="copyText()"
@@ -240,9 +249,10 @@
         return generatedColor;
       },
       copyText () {
-        const input = document.getElementById('tocopy');
+        const input = document.getElementById('board-link-input');
         input.select();
         document.execCommand('copy');
+        this.$toast('Skopiowano link do schowka');
       },
     },
   };

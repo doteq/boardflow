@@ -94,13 +94,26 @@
     </div>
     <div
       v-else-if="canViewBoard === false"
-      class="d-flex fill-height flex-column align-center justify-center grow"
+      class="d-flex fill-height fill-width flex-column align-center justify-center grow"
     >
-      <h1 class="display-1">
+      <h1 class="display-1 text-center">
         Ta tablica jest prywatna
       </h1>
+      <v-skeleton-loader
+        v-if="!selfMemberRequestLoaded"
+        type="image"
+        width="200px"
+        height="44px"
+        class="mt-8"
+      />
+      <div
+        v-else-if="selfMemberRequest"
+        class="mt-8 body-1 text-center text--secondary"
+      >
+        Oczekiwanie na zaakceptowanie prośby o dołączenie
+      </div>
       <v-btn
-        v-if="!this.$store.state.userAuth"
+        v-else-if="!this.$store.state.userAuth"
         color="primary black--text"
         class="mt-8"
         large
@@ -113,6 +126,7 @@
         color="primary black--text"
         class="mt-8"
         large
+        @click="requestPermission"
       >
         Poproś o dołączenie
       </v-btn>
@@ -167,6 +181,36 @@
               </v-btn>
             </v-badge>
           </template>
+          <v-card
+            v-else
+            outlined
+            class="pa-4 mb-4"
+          >
+            <h2 class="subtitle-1 text-center mb-4">
+              Nie jesteś członkiem tej tablicy
+            </h2>
+            <v-skeleton-loader
+              v-if="!selfMemberRequestLoaded"
+              type="image"
+              width="100%"
+              height="44px"
+            />
+            <div
+              v-else-if="selfMemberRequest"
+              class="body-2 text-center text--secondary"
+            >
+              Oczekiwanie na zaakceptowanie prośby o dołączenie
+            </div>
+            <v-btn
+              v-else
+              block
+              color="primary black--text"
+              large
+              @click="requestPermission"
+            >
+              Poproś o dołączenie
+            </v-btn>
+          </v-card>
           <v-date-picker
             v-model="date"
             no-title
@@ -184,6 +228,42 @@
         v-else
         class="d-flex flex-column"
       >
+        <v-card
+          v-if="boardInfoLoaded && !userIsMember"
+          outlined
+          class="pa-3 mb-3"
+          :class="{
+            'pa-3': $vuetify.breakpoint.xsOnly,
+            'pa-4': $vuetify.breakpoint.smAndUp
+          }"
+        >
+          <h2
+            class="text-center mb-4 subtitle-1"
+          >
+            Nie jesteś członkiem tej tablicy
+          </h2>
+          <v-skeleton-loader
+            v-if="!selfMemberRequestLoaded"
+            type="image"
+            width="100%"
+            height="44px"
+          />
+          <div
+            v-else-if="selfMemberRequest"
+            class="body-2 text-center text--secondary"
+          >
+            Oczekiwanie na zaakceptowanie prośby o dołączenie
+          </div>
+          <v-btn
+            v-else
+            block
+            color="primary black--text"
+            @click="requestPermission"
+          >
+            Poproś o dołączenie
+          </v-btn>
+        </v-card>
+
         <v-date-picker
           v-if="$vuetify.breakpoint.smOnly"
           v-model="date"
@@ -264,10 +344,12 @@
 </template>
 
 <script>
+  import firebase from 'firebase/app';
   import EventList from '../components/board/EventList.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
   import AppBar from '../components/AppBar.vue';
   import EventDetailsDialog from '../components/board/EventDetailsDialog.vue';
+  import 'firebase/firestore';
   import SignInSheet from '../components/SignInSheet.vue';
 
   export default {
@@ -291,6 +373,8 @@
         event: null,
         edit: false,
       },
+      selfMemberRequest: null,
+      selfMemberRequestLoaded: false,
     }),
     computed: {
       dateString () {
@@ -364,6 +448,23 @@
         },
         immediate: true,
       },
+      userIsMember: {
+        async handler (value) {
+          if (value === false) {
+            this.selfMemberRequestLoaded = false;
+            await this.$bind('selfMemberRequest', this.$database
+              .collection('boards-info').doc(this.$route.params.boardId)
+              .collection('join-requests').doc(this.$store.state.userAuth.uid));
+            this.selfMemberRequestLoaded = true;
+          } else {
+            this.selfMemberRequestLoaded = false;
+            if (this.$firestoreRefs.selfMemberRequest) {
+              this.$unbind('selfMemberRequest');
+            }
+          }
+        },
+        immediate: true,
+      },
     },
     methods: {
       dateNext () {
@@ -409,12 +510,29 @@
       showSignInSheet () {
         this.$refs.signInSheet.show();
       },
+      async requestPermission () {
+        try {
+          const joinRequestReference = this.$database
+            .collection('boards-info').doc(this.$route.params.boardId)
+            .collection('join-requests').doc(this.$store.state.userAuth.uid);
+          await joinRequestReference.set({
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        } catch (error) {
+          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          console.error(error);
+        }
+      },
     },
   };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .board-container {
     max-width: 1100px;
+
+    .fill-width {
+      width: 100%;
+    }
   }
 </style>
