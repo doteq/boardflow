@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     :value="value"
-    :max-width="loading || (!event && edit) ? '500px' : '700px'"
+    :max-width="ready ? '700px' : '500px'"
     persistent
     no-click-animation
     @click:outside="close()"
@@ -27,12 +27,44 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <v-card v-else-if="!$store.state.userAuth">
+      <div
+        class="display-1 text-center py-12 px-8"
+      >
+        Aby {{ edit ? 'edytować' : 'dodawać' }} wpisy, musisz się zalogować
+      </div>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          text
+          @click="close()"
+        >
+          Zamknij
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+    <v-card v-else-if="userIsMember === false">
+      <div
+        class="display-1 text-center py-12 px-8"
+      >
+        Aby {{ edit ? 'edytować' : 'dodawać' }} wpisy, musisz być członkiem tablicy
+      </div>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          text
+          @click="close()"
+        >
+          Zamknij
+        </v-btn>
+      </v-card-actions>
+    </v-card>
     <v-card v-else-if="!event && edit">
-      <v-card-title
-        class="display-1 text-center pa-12 d-block"
+      <div
+        class="display-1 text-center py-12 px-8"
       >
         Nie znaleziono wpisu
-      </v-card-title>
+      </div>
       <v-card-actions>
         <v-spacer />
         <v-btn
@@ -442,6 +474,11 @@
         required: false,
         default: null,
       },
+      userIsMember: {
+        type: Boolean,
+        required: false,
+        default: null,
+      },
     },
     data () {
       return {
@@ -538,9 +575,6 @@
         if (this.links.includes(this.addLinkMenuInput)) return false;
         return isUrl(this.addLinkMenuInput);
       },
-      readyForReset () {
-        return !this.loading && this.value && (!this.edit || this.event);
-      },
       changes () {
         if (!this.edit || !this.event) return null;
 
@@ -613,9 +647,16 @@
 
         return changes;
       },
+      ready () {
+        return !this.loading &&
+          (this.event || !this.edit) &&
+          this.$store.state.userAuth !== null &&
+          this.userIsMember &&
+          this.value;
+      },
     },
     watch: {
-      readyForReset: {
+      ready: {
         handler (value) {
           if (value) this.reset();
         },

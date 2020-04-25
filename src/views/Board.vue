@@ -328,10 +328,11 @@
       ref="eventCreateDialog"
       :subjects="subjects"
       :initial-date="date"
-      :value="($route.name === 'BoardCreateEvent' || $route.name === 'BoardEditEvent') && userIsMember === true"
+      :value="$route.name === 'BoardCreateEvent' || $route.name === 'BoardEditEvent'"
       :edit="$route.name === 'BoardEditEvent' || lastDialogState.edit"
-      :loading="!eventsAndSubjectsLoaded"
+      :loading="!eventsAndSubjectsLoaded || !boardInfoLoaded"
       :event="dialogEvent || lastDialogState.event"
+      :user-is-member="userIsMember"
       @close="closeCreatorDialog()"
     />
     <v-dialog
