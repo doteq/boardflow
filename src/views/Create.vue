@@ -1,7 +1,10 @@
 <template>
   <v-container class="creator-container">
     <app-bar back-to="/" />
-    <v-stepper v-model="step">
+    <v-stepper
+      v-model="step"
+      class="mb-9"
+    >
       <v-stepper-header>
         <v-stepper-step
           :complete="step1valid"
@@ -15,6 +18,7 @@
           :complete="subjects.length > 0"
           :editable="step < 3 && step1valid"
           step="2"
+          class="py-0"
         >
           Skonfiguruj przedmioty
           <small>Opcjonalne</small>
@@ -38,15 +42,92 @@
               autofocus
               :counter="50"
             />
-            <v-select
-              v-model="isPublic"
-              :items="items"
-              label="Prywatność tablicy"
-              required
-              outlined
-            />
 
-            <div class="d-flex">
+            <div class="px-1 subtitle-2">
+              Widoczność tablicy
+            </div>
+            <v-item-group
+              v-model="isPublic"
+              active-class="primary"
+              mandatory
+            >
+              <v-row>
+                <v-col
+                  :cols="12"
+                  :sm="6"
+                >
+                  <v-item
+                    v-slot:default="{ active, toggle }"
+                    :value="true"
+                  >
+                    <v-card
+                      :raised="active"
+                      :flat="!active"
+                      class="fill-height grow d-flex flex-column background-color-transition"
+                      :color="active ? 'accent' : undefined"
+                    >
+                      <v-card-title class="text-center d-block">
+                        <v-icon left>
+                          mdi-eye
+                        </v-icon>
+                        Publiczna
+                      </v-card-title>
+                      <v-card-text class="text-justify grow">
+                        Każda osoba, posiadająca link do tej tablicy, może zobaczyć dodane wpisy, listę członków oraz aktywność. Osoby nie dodane jako członek nie mogą dodawać ani edytować wpisów.
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn
+                          block
+                          text
+                          :disabled="active"
+                          @click="toggle"
+                        >
+                          {{ active ? 'Wybrana' : 'Wybierz' }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-item>
+                </v-col>
+                <v-col
+                  :cols="12"
+                  :sm="6"
+                >
+                  <v-item
+                    v-slot:default="{ active, toggle }"
+                    :value="false"
+                  >
+                    <v-card
+                      :raised="active"
+                      :flat="!active"
+                      class="fill-height grow d-flex flex-column background-color-transition"
+                      :color="active ? 'accent' : undefined"
+                    >
+                      <v-card-title class="text-center d-block">
+                        <v-icon left>
+                          mdi-lock
+                        </v-icon>
+                        Prywatna
+                      </v-card-title>
+                      <v-card-text class="text-justify grow">
+                        Wszystkie informacje o tablicy, poza jej nazwą, są niewidoczne dla osób, które nie zostały dodane jako członek.
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn
+                          block
+                          text
+                          :disabled="active"
+                          @click="toggle"
+                        >
+                          {{ active ? 'Wybrana' : 'Wybierz' }}
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-item>
+                </v-col>
+              </v-row>
+            </v-item-group>
+
+            <div class="d-flex mt-4">
               <v-spacer />
               <v-btn
                 color="primary black--text"
@@ -162,7 +243,7 @@
           value: false,
         },
       ],
-      isPublic: false,
+      isPublic: true,
       subjects: [],
       subjectsInput: '',
       subjectsOutput: [],
@@ -261,5 +342,9 @@
 <style scoped>
   .creator-container {
     max-width: 700px;
+  }
+
+  .background-color-transition {
+    transition: background-color 200ms;
   }
 </style>
