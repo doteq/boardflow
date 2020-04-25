@@ -1,9 +1,75 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
     match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2020, 5, 20);
+      allow read, write: if false;
+    }
+
+    match /user-data/{userId} {
+    	allow get, list;
+
+      allow create, update: if request.resource.id == request.auth.uid;
+    }
+
+    match /boards-info/{boardId} {
+    	allow get, list;
+
+    	allow create: if request.auth.uid != null &&
+      	request.auth.uid in request.resource.data.admins &&
+      	request.auth.uid in request.resource.data.members;
+
+      allow update: if ((
+      	request.resource.data.public == resource.data.public &&
+        request.resource.data.members == request.data.members &&
+        request.resource.data.admins == request.data.admins
+      ) || request.auth.uid in request.resource.data.admins) &&
+      	request.auth.uid in request.resource.data.members;
+
+      match /join-requests/{requestId} {
+        allow create: if request.auth.uid != null &&
+          requestId == request.auth.uid &&
+          !(request.auth.uid in get(/databases/$(database)/documents/boards-info/$(boardId)).data.members);
+
+        allow get: if request.auth.uid != null && (
+          request.auth.uid in get(/databases/$(database)/documents/boards-info/$(boardId)).data.admins ||
+          request.auth.uid == requestId
+        );
+
+        allow list, delete: if request.auth.uid != null &&
+          request.auth.uid in get(/databases/$(database)/documents/boards-info/$(boardId)).data.admins;
+      }
+    }
+
+    match /boards/{boardId} {
+    	function getBoardInfo () {
+      	return get(/databases/$(database)/documents/boards-info/$(boardId)).data;
+      }
+
+      function userIsMember () {
+        let boardInfo = getBoardInfo();
+        return (request.auth.uid != null && request.auth.uid in boardInfo.members);
+      }
+
+      function userCanViewBoard () {
+        return userIsMember() || getBoardInfo().public;
+      }
+
+      match /events/{eventId} {
+      	allow get, list: if userCanViewBoard();
+        allow create, update: if userIsMember();
+      }
+
+      match /subjects/{subjectId} {
+      	allow get, list: if userCanViewBoard();
+        allow create, update: if userIsMember();
+      }
+
+      match /activity/{activityId} {
+        allow get, list: if userCanViewBoard();
+        allow create: if userIsMember() &&
+          request.resource.data.type in ['event-create', 'event-edit'] &&
+          request.resource.data.user == request.auth.uid;
+      }
     }
   }
 }
