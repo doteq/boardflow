@@ -157,6 +157,8 @@
               <template v-slot:selection="data">
                 <v-chip
                   :color="chipColor(data.item)"
+                  close
+                  @click:close="removeSubject(data.index)"
                 >
                   <strong>{{ data.item }}</strong>&nbsp;
                 </v-chip>
@@ -322,7 +324,6 @@
       },
       chipColor (chip) {
         const subjectObj = this.subjectsOutput.find((obj) => obj.name === chip);
-        console.log(subjectObj);
         if (subjectObj) return subjectObj.color;
 
         const generatedColor = getRandomMaterialColor();
@@ -334,6 +335,9 @@
         input.select();
         document.execCommand('copy');
         this.$toast('Skopiowano link do schowka');
+      },
+      removeSubject (index) {
+        this.subjects.splice(index, 1);
       },
     },
   };
