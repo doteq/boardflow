@@ -74,3 +74,9 @@
     name: 'App',
   };
 </script>
+
+<style lang="scss">
+  .break-word {
+    word-break: break-word !important;
+  }
+</style>

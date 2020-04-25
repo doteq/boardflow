@@ -11,7 +11,7 @@
       />
     </template>
     <v-card>
-      <v-card-title>
+      <v-card-title class="break-word">
         Na pewno chcesz odrzucić prośbę o dołączenie?
       </v-card-title>
       <v-card-text>
