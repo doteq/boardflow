@@ -15,5 +15,9 @@ new Vue({
   vuetify,
   store,
   router,
+  created () {
+    const commitSHA = process.env.VUE_APP_GITHUB_SHA;
+    console.log(`GitHub commit: ${commitSHA || 'no commit info'}`);
+  },
   render: (h) => h(App),
 }).$mount('#app');
