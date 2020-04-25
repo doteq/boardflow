@@ -33,7 +33,7 @@
           value: true,
         },
         {
-          text: 'Niepubliczna',
+          text: 'Prywatna',
           value: false,
         },
       ],
