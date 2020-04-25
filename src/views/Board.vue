@@ -99,8 +99,17 @@
       <h1 class="display-1 text-center">
         Ta tablica jest prywatna
       </h1>
+      <v-btn
+        v-if="!$store.state.userAuth"
+        color="primary black--text"
+        class="mt-8"
+        large
+        @click="showSignInSheet"
+      >
+        Zaloguj się
+      </v-btn>
       <v-skeleton-loader
-        v-if="!selfMemberRequestLoaded"
+        v-else-if="!selfMemberRequestLoaded"
         type="image"
         width="200px"
         height="44px"
@@ -112,15 +121,6 @@
       >
         Oczekiwanie na zaakceptowanie prośby o dołączenie
       </div>
-      <v-btn
-        v-else-if="!this.$store.state.userAuth"
-        color="primary black--text"
-        class="mt-8"
-        large
-        @click="showSignInSheet"
-      >
-        Zaloguj się
-      </v-btn>
       <v-btn
         v-else
         color="primary black--text"
@@ -189,8 +189,17 @@
             <h2 class="subtitle-1 text-center mb-4">
               Nie jesteś członkiem tej tablicy
             </h2>
+            <v-btn
+              v-if="!$store.state.userAuth"
+              block
+              color="primary black--text"
+              large
+              @click="showSignInSheet"
+            >
+              Zaloguj się
+            </v-btn>
             <v-skeleton-loader
-              v-if="!selfMemberRequestLoaded"
+              v-else-if="!selfMemberRequestLoaded"
               type="image"
               width="100%"
               height="44px"
@@ -405,6 +414,9 @@
 
         return this.events.filter((event) => event.date === this.date);
       },
+      bindSelfMemberRequest () {
+        return this.userIsMember === false && this.$store.state.userAuth !== null;
+      },
     },
     watch: {
       '$route.params.boardId': {
@@ -448,9 +460,9 @@
         },
         immediate: true,
       },
-      userIsMember: {
+      bindSelfMemberRequest: {
         async handler (value) {
-          if (value === false && this.$store.state.userAuth !== null) {
+          if (value) {
             this.selfMemberRequestLoaded = false;
             await this.$bind('selfMemberRequest', this.$database
               .collection('boards-info').doc(this.$route.params.boardId)
