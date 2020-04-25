@@ -1,50 +1,59 @@
 <template>
   <v-container class="pa-0">
-    <template v-if="loading">
-      <v-skeleton-loader
-        type="heading"
-      />
-      <v-skeleton-loader
-        class="mt-4"
-        type="article"
-      />
-      <v-skeleton-loader
-        class="mt-4"
-        type="heading"
-      />
-      <v-skeleton-loader
-        class="mt-4"
-        type="article"
-      />
-    </template>
-    <template v-else>
-      <event-element
-        v-for="(event, index) in eventItemsOther"
-        :key="event.id"
-        :event="event"
-        :class="{
-          'mt-3': index !== 0
-        }"
-      />
-      <h1 v-if="eventItemsNotDone.length > 0">
-        Do zrobienia:
-      </h1>
-      <event-element
-        v-for="event in eventItemsNotDone"
-        :key="event.id"
-        :event="event"
-        class="mt-3"
-      />
-      <h1 v-if="eventItemsListDone.length > 0">
-        Zrobione:
-      </h1>
-      <event-element
-        v-for="event in eventItemsListDone"
-        :key="event.id"
-        :event="event"
-        class="mt-3"
-      />
-    </template>
+    <v-fade-transition
+      group
+      hide-on-leave
+    >
+      <template v-if="loading">
+        <v-skeleton-loader
+          key="loader-heading-1"
+          type="heading"
+        />
+        <v-skeleton-loader
+          key="loader-article-1"
+          class="mt-4"
+          type="article"
+        />
+        <v-skeleton-loader
+          key="loader-heading-2"
+          class="mt-4"
+          type="heading"
+        />
+        <v-skeleton-loader
+          key="loader-article-2"
+          class="mt-4"
+          type="article"
+        />
+      </template>
+      <template v-else>
+        <event-element
+          v-for="(event, index) in eventItemsOther"
+          :key="event.id"
+          :event="event"
+          :class="{
+            'mt-3': index !== 0
+          }"
+        />
+        <h1 v-if="eventItemsNotDone.length > 0">
+          Do zrobienia:
+        </h1>
+        <event-element
+          v-for="event in eventItemsNotDone"
+          :key="event.id"
+          :event="event"
+          class="mt-3"
+        />
+        <h1 v-if="eventItemsListDone.length > 0">
+          Zrobione:
+        </h1>
+        <event-element
+          v-for="event in eventItemsListDone"
+          :key="event.id"
+          :event="event"
+          class="mt-3"
+        />
+      </template>
+    </v-fade-transition>
   </v-container>
 </template>
 
