@@ -162,9 +162,10 @@
               Dodaj wpis
             </v-btn>
             <v-badge
+              :value="joinRequests !== null && joinRequests.length > 0"
               bordered
               color="red"
-              content="5"
+              :content="joinRequests !== null ? joinRequests.length : ''"
               overlap
               class="d-block"
             >
@@ -384,6 +385,7 @@
       },
       selfMemberRequest: null,
       selfMemberRequestLoaded: false,
+      joinRequests: null,
     }),
     computed: {
       dateString () {
@@ -398,6 +400,11 @@
         if (!this.boardInfo) return null;
         if (!this.$store.state.userAuth) return false;
         return this.boardInfo.members.includes(this.$store.state.userAuth.uid);
+      },
+      userIsAdmin () {
+        if (!this.boardInfo) return null;
+        if (!this.$store.state.userAuth) return false;
+        return this.boardInfo.admins.includes(this.$store.state.userAuth.uid);
       },
       canViewBoard () {
         if (!this.boardInfo) return null;
@@ -473,6 +480,24 @@
             if (this.$firestoreRefs.selfMemberRequest) {
               this.$unbind('selfMemberRequest');
             }
+          }
+        },
+        immediate: true,
+      },
+      userIsAdmin: {
+        async handler (value) {
+          if (value) {
+            try {
+              const joinRequestsReference = this.$database
+                .collection('boards-info').doc(this.$route.params.boardId)
+                .collection('join-requests');
+              await this.$bind('joinRequests', joinRequestsReference);
+            } catch (error) {
+              console.error(error);
+              this.$toast.error('Wystąpił nieoczekiwany błąd');
+            }
+          } else if (this.$firestoreRefs.joinRequests) {
+            this.$unbind('joinRequests');
           }
         },
         immediate: true,
