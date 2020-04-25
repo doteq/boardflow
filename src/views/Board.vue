@@ -252,8 +252,16 @@
           >
             Nie jesteś członkiem tej tablicy
           </h2>
+          <v-btn
+            v-if="!$store.state.userAuth"
+            block
+            color="primary black--text"
+            @click="showSignInSheet"
+          >
+            Zaloguj się
+          </v-btn>
           <v-skeleton-loader
-            v-if="!selfMemberRequestLoaded"
+            v-else-if="!selfMemberRequestLoaded"
             type="image"
             width="100%"
             height="44px"
