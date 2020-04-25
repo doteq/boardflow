@@ -25,6 +25,26 @@
           type="article"
         />
       </template>
+      <div
+        v-else-if="eventItems.length === 0"
+        :key="'no-events-info'"
+        class="mt-12 mx-6 d-flex flex-column align-center"
+      >
+        <h1 class="d-block text-center headline">
+          Nie ma żadnych wpisów w wybranym dniu
+        </h1>
+        <v-btn
+          class="mt-12"
+          color="secondary"
+          large
+          :to="`/board/${$route.params.boardId}/create-event`"
+        >
+          <v-icon left>
+            mdi-plus
+          </v-icon>
+          Dodaj nowy wpis
+        </v-btn>
+      </div>
       <template v-else>
         <event-element
           v-for="(event, index) in eventItemsOther"
@@ -106,7 +126,3 @@
     },
   };
 </script>
-
-<style scoped>
-
-</style>
