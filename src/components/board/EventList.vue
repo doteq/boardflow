@@ -63,38 +63,6 @@
         default: null,
       },
     },
-    data: () => ({
-      // events: [
-      //   {
-      //     id: '31231231235646',
-      //     type: 'homework',
-      //     title: 'To jest tytuł.',
-      //     description: 'To jest opis',
-      //     date: '2020-04-21',
-      //     time: '22:30',
-      //     subject: {
-      //       name: 'Polski',
-      //       color: '#ffffff',
-      //     },
-      //     optional: false,
-      //     done: false,
-      //     addBy: 'doteq',
-      //   },
-      //   {
-      //     id: '3123123124124',
-      //     type: 'homework',
-      //     title: 'To jest tytuł.',
-      //     date: '2020-04-21',
-      //     subject: {
-      //       name: 'Polski',
-      //       color: '#000000',
-      //     },
-      //     optional: true,
-      //     done: undefined,
-      //     addBy: 'doteq',
-      //   },
-      // ],
-    }),
     computed: {
       loading () {
         return !this.events;
