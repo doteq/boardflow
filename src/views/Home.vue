@@ -15,9 +15,8 @@
         color="primary black--text"
         large
         @click="showSignInSheet"
-      >
-        Zaloguj się
-      </v-btn>
+        v-text="$t('sign-in')"
+      />
     </div>
 
     <v-progress-linear
@@ -106,7 +105,7 @@
         <v-icon left>
           mdi-lock
         </v-icon>
-        Polityka Prywatności
+        {{ $t('privacy-policy') }}
       </v-btn>
       <v-btn
         class="mt-4"
@@ -117,7 +116,7 @@
         <v-icon left>
           mdi-github
         </v-icon>
-        GitHub
+        {{ $t('github') }}
       </v-btn>
       <div class="mt-12 text-center">
         Made with

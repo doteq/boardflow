@@ -118,9 +118,8 @@
         class="mt-8"
         large
         @click="showSignInSheet"
-      >
-        Zaloguj się
-      </v-btn>
+        v-text="$t('sign-in')"
+      />
       <v-skeleton-loader
         v-else-if="!selfMemberRequestLoaded"
         type="image"
@@ -209,9 +208,8 @@
               color="primary black--text"
               large
               @click="showSignInSheet"
-            >
-              Zaloguj się
-            </v-btn>
+              v-text="$t('sign-in')"
+            />
             <v-skeleton-loader
               v-else-if="!selfMemberRequestLoaded"
               type="image"
@@ -270,9 +268,8 @@
             block
             color="primary black--text"
             @click="showSignInSheet"
-          >
-            Zaloguj się
-          </v-btn>
+            v-text="$t('sign-in')"
+          />
           <v-skeleton-loader
             v-else-if="!selfMemberRequestLoaded"
             type="image"

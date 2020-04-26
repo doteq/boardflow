@@ -47,7 +47,7 @@
       <v-icon left>
         mdi-account
       </v-icon>
-      Zaloguj się
+      {{ $t('sign-in') }}
     </v-btn>
 
     <template

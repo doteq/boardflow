@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuetify, { VSnackbar, VBtn, VIcon } from 'vuetify/lib';
 import VuetifyToast from 'vuetify-toast-snackbar';
 import pl from 'vuetify/es5/locale/pl';
+import en from 'vuetify/es5/locale/en';
 import { Ripple } from 'vuetify/lib/directives';
 
 Vue.use(Vuetify, {
@@ -20,7 +21,7 @@ Vue.use(VuetifyToast, {
   color: 'accent',
 });
 
-export default new Vuetify({
+export default (i18n) => new Vuetify({
   theme: {
     dark: true,
     themes: {
@@ -46,7 +47,7 @@ export default new Vuetify({
     },
   },
   lang: {
-    locales: { pl },
-    current: 'pl',
+    locales: [en, pl],
+    current: i18n.locale,
   },
 });
