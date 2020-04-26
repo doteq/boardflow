@@ -92,6 +92,53 @@
         </v-btn>
       </div>
     </template>
+    <div
+      style="max-width: 512px"
+      class="mx-auto mt-12"
+    >
+      <v-divider class="mx-8" />
+      <v-btn
+        class="mt-12"
+        href="/privacy-policy.pdf"
+        block
+        outlined
+      >
+        <v-icon left>
+          mdi-lock
+        </v-icon>
+        Polityka Prywatności
+      </v-btn>
+      <v-btn
+        class="mt-4"
+        href="https://github.com/doteq/task-overflow"
+        block
+        outlined
+      >
+        <v-icon left>
+          mdi-github
+        </v-icon>
+        GitHub
+      </v-btn>
+      <div class="mt-12 text-center">
+        Made with
+        <v-icon title="Vue.js">
+          mdi-vuejs
+        </v-icon>,
+        <v-icon title="Vuetify">
+          mdi-vuetify
+        </v-icon>,
+        <v-icon title="Google Firebase">
+          mdi-firebase
+        </v-icon>
+        and
+        <v-icon title="Love">
+          mdi-heart
+        </v-icon> by
+        <a href="https://github.com/doteq">Doteq</a>
+        and
+        <a href="https://github.com/dominik-korsa">Dominik Korsa</a>
+      </div>
+    </div>
     <sign-in-sheet ref="signInSheet" />
   </v-container>
 </template>
