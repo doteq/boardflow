@@ -33,6 +33,11 @@
     "title": "Zmień wyświetlaną nazwę"
   },
   "close": "Zamknij",
+  "cookies-toast": {
+    "message": "Informacja: strona wykorzystuje pliki Cookies do poprawnego funkcjonowania",
+    "more-info": "Więcej informacji",
+    "understand": "Rozumiem"
+  },
   "copy": "Kopiuj",
   "create": {
     "basic-info": "Podstawowe informacje",

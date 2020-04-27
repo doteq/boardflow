@@ -3,12 +3,18 @@
     <v-content>
       <router-view />
     </v-content>
+    <cookies-toast />
   </v-app>
 </template>
 
 <script>
+  import CookiesToast from './components/CookiesToast.vue';
+
   export default {
     name: 'App',
+    components: {
+      CookiesToast,
+    },
   };
 </script>
 
