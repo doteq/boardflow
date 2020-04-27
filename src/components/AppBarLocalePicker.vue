@@ -1,5 +1,8 @@
 <template>
-  <v-menu>
+  <v-menu
+    left
+    offset-y
+  >
     <template v-slot:activator="{ on }">
       <v-btn
         icon
@@ -9,7 +12,7 @@
         <v-icon>mdi-translate</v-icon>
       </v-btn>
     </template>
-    <v-list dense>
+    <v-list :dense="$vuetify.breakpoint.smAndDown">
       <v-list-item-group
         v-model="$i18n.locale"
         color="primary"

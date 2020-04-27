@@ -1,6 +1,8 @@
 <template>
   <v-menu
     :close-on-content-click="false"
+    left
+    offset-y
   >
     <template v-slot:activator="{ on: menu }">
       <v-tooltip bottom>
@@ -24,7 +26,7 @@
         />
       </v-tooltip>
     </template>
-    <v-list>
+    <v-list :dense="$vuetify.breakpoint.smAndDown">
       <v-list-item
         @click="changeDisplayNameDialogVisible = true"
       >
