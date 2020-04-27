@@ -9,7 +9,7 @@
       back-to="/"
       :title-loading="!boardInfoLoaded"
     >
-      {{ boardInfo ? boardInfo.name : 'Nie znaleziono tablicy' }}
+      {{ boardInfo ? boardInfo.name : $t('board-not-found-message') }}
       <template
         v-if="userIsMember"
         v-slot:buttons
@@ -17,26 +17,24 @@
         <v-btn
           v-if="$vuetify.breakpoint.smOnly"
           text
-          class="mr-2"
           :to="`/board/${$route.params.boardId}/settings`"
         >
           <v-icon left>
             mdi-cog
           </v-icon>
           <v-badge
+            v-t="'board-settings.title'"
             :value="joinRequests !== null && joinRequests.length > 0"
             color="red"
             :content="joinRequests !== null ? joinRequests.length : ''"
-          >
-            Ustawienia tablicy
-          </v-badge>
+          />
         </v-btn>
 
         <v-tooltip v-if="$vuetify.breakpoint.xsOnly">
           <template v-slot:activator="{ on }">
             <v-btn
               icon
-              class="mr-2"
+              class="mr-1"
               :to="`/board/${$route.params.boardId}/settings`"
               v-on="on"
             >
@@ -50,7 +48,7 @@
               </v-badge>
             </v-btn>
           </template>
-          <span>Ustawienia tablicy</span>
+          <span v-t="'board-settings.title'" />
         </v-tooltip>
       </template>
       <template
@@ -101,26 +99,27 @@
       v-if="boardInfoLoaded && !boardInfo"
       class="d-flex fill-height flex-column align-center justify-center grow"
     >
-      <h1 class="display-1">
-        Nie znaleziono tablicy
-      </h1>
+      <h1
+        v-t="'board-not-found-message'"
+        class="display-1"
+      />
     </div>
     <div
       v-else-if="canViewBoard === false"
       class="d-flex fill-height fill-width flex-column align-center justify-center grow"
     >
-      <h1 class="display-1 text-center">
-        Ta tablica jest prywatna
-      </h1>
+      <h1
+        v-t="'board-is-private-message'"
+        class="display-1 text-center"
+      />
       <v-btn
         v-if="!$store.state.userAuth"
+        v-t="'sign-in'"
         color="primary black--text"
         class="mt-8"
         large
         @click="showSignInSheet"
-      >
-        Zaloguj się
-      </v-btn>
+      />
       <v-skeleton-loader
         v-else-if="!selfMemberRequestLoaded"
         type="image"
@@ -130,19 +129,17 @@
       />
       <div
         v-else-if="selfMemberRequest"
+        v-t="'join-request-pending-message'"
         class="mt-8 body-1 text-center text--secondary"
-      >
-        Oczekiwanie na zaakceptowanie prośby o dołączenie
-      </div>
+      />
       <v-btn
         v-else
+        v-t="'ask-to-join'"
         color="primary black--text"
         class="mt-8"
         large
         @click="requestPermission"
-      >
-        Poproś o dołączenie
-      </v-btn>
+      />
     </div>
     <template v-else>
       <v-row v-if="$vuetify.breakpoint.mdAndUp">
@@ -172,7 +169,7 @@
               <v-icon left>
                 mdi-plus
               </v-icon>
-              Dodaj wpis
+              {{ $t('add-new-event') }}
             </v-btn>
             <v-badge
               :value="joinRequests !== null && joinRequests.length > 0"
@@ -191,7 +188,7 @@
                 <v-icon left>
                   mdi-cog
                 </v-icon>
-                Ustawienia tablicy
+                {{ $t('board-settings.title') }}
               </v-btn>
             </v-badge>
           </template>
@@ -200,18 +197,18 @@
             outlined
             class="pa-4 mb-4"
           >
-            <h2 class="subtitle-1 text-center mb-4">
-              Nie jesteś członkiem tej tablicy
-            </h2>
+            <h2
+              v-t="'not-a-board-member-message'"
+              class="subtitle-1 text-center mb-4"
+            />
             <v-btn
               v-if="!$store.state.userAuth"
+              v-t="'sign-in'"
               block
               color="primary black--text"
               large
               @click="showSignInSheet"
-            >
-              Zaloguj się
-            </v-btn>
+            />
             <v-skeleton-loader
               v-else-if="!selfMemberRequestLoaded"
               type="image"
@@ -220,19 +217,17 @@
             />
             <div
               v-else-if="selfMemberRequest"
+              v-t="'join-request-pending-message'"
               class="body-2 text-center text--secondary"
-            >
-              Oczekiwanie na zaakceptowanie prośby o dołączenie
-            </div>
+            />
             <v-btn
               v-else
+              v-t="'ask-to-join'"
               block
               color="primary black--text"
               large
               @click="requestPermission"
-            >
-              Poproś o dołączenie
-            </v-btn>
+            />
           </v-card>
           <v-date-picker
             v-model="date"
@@ -261,18 +256,16 @@
           }"
         >
           <h2
+            v-t="'not-a-board-member-message'"
             class="text-center mb-4 subtitle-1"
-          >
-            Nie jesteś członkiem tej tablicy
-          </h2>
+          />
           <v-btn
             v-if="!$store.state.userAuth"
+            v-t="'sign-in'"
             block
             color="primary black--text"
             @click="showSignInSheet"
-          >
-            Zaloguj się
-          </v-btn>
+          />
           <v-skeleton-loader
             v-else-if="!selfMemberRequestLoaded"
             type="image"
@@ -281,18 +274,16 @@
           />
           <div
             v-else-if="selfMemberRequest"
+            v-t="'join-request-pending-message'"
             class="body-2 text-center text--secondary"
-          >
-            Oczekiwanie na zaakceptowanie prośby o dołączenie
-          </div>
+          />
           <v-btn
             v-else
+            v-t="'ask-to-join'"
             block
             color="primary black--text"
             @click="requestPermission"
-          >
-            Poproś o dołączenie
-          </v-btn>
+          />
         </v-card>
 
         <v-date-picker
@@ -330,18 +321,16 @@
     >
       <v-card>
         <v-card-title
+          v-t="'not-a-board-member-message'"
           class="display-1 text-center pa-12 d-block"
-        >
-          Nie jesteś członkiem tablicy
-        </v-card-title>
+        />
         <v-card-actions>
           <v-spacer />
           <v-btn
+            v-t="'close'"
             text
             @click="closeCreatorDialog()"
-          >
-            Zamknij
-          </v-btn>
+          />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -411,7 +400,7 @@
     }),
     computed: {
       dateString () {
-        return new Date(this.date).toLocaleDateString('pl', {
+        return new Date(this.date).toLocaleDateString(this.$i18n.locale, {
           weekday: 'short',
           year: '2-digit',
           month: 'numeric',
@@ -455,7 +444,7 @@
             await this.$bind('boardInfo', this.$database.collection('boards-info').doc(value));
           } catch (error) {
             console.error(error);
-            this.$toast.error('Wystąpił nieoczekiwany błąd');
+            this.$toast.error(this.$t('toasts.unexpected-error'));
           }
           this.boardInfoLoaded = true;
         },
@@ -474,7 +463,7 @@
               ]);
             } catch (error) {
               console.error(error);
-              this.$toast.error('Wystąpił nieoczekiwany błąd');
+              this.$toast.error(this.$t('toasts.unexpected-error'));
             }
             this.eventsAndSubjectsLoaded = true;
           } else {
@@ -516,7 +505,7 @@
               await this.$bind('joinRequests', joinRequestsReference);
             } catch (error) {
               console.error(error);
-              this.$toast.error('Wystąpił nieoczekiwany błąd');
+              this.$toast.error(this.$t('toasts.unexpected-error'));
             }
           } else if (this.$firestoreRefs.joinRequests) {
             this.$unbind('joinRequests');
@@ -578,7 +567,7 @@
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           });
         } catch (error) {
-          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          this.$toast.error(this.$t('toasts.unexpected-error'));
           console.error(error);
         }
       },

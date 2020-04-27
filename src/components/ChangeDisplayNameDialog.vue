@@ -5,30 +5,30 @@
     @input="$emit('input', $event)"
   >
     <v-card>
-      <v-card-title class="headline">
-        Zmień wyświetlaną nazwę
-      </v-card-title>
+      <v-card-title
+        v-t="'change-display-name-dialog.title'"
+        class="headline"
+      />
       <v-form @submit.prevent="submit">
         <v-card-text class="mt-2">
           <v-text-field
             v-model="name"
-            label="Nazwa użytkownika"
+            :label="$t('change-display-name-dialog.display-name')"
             outlined
             persistent-hint
-            hint="Twoja nazwa jest widoczna dla innych użytkowników"
+            :hint="$t('change-display-name-dialog.hint')"
             color="secondary"
           />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn
+            v-t="'save'"
             type="submit"
             color="secondary"
             outlined
             :disabled="!nameChanged"
-          >
-            Zapisz
-          </v-btn>
+          />
         </v-card-actions>
       </v-form>
     </v-card>
@@ -75,7 +75,7 @@
           this.innerValue = false;
           this.$emit('input', false);
         } catch (error) {
-          this.$toast.error('Podczas zmiany nazwy wystąpił nieoczekiwany błąd');
+          this.$toast.error(this.$t('toasts.unexpected-error'));
           console.error(error);
         }
       },

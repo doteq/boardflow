@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h1 class="headline mb-6 text-center">
-      Lista członków
-    </h1>
+    <h1
+      v-t="'board-settings.members.title'"
+      class="headline mb-6 text-center"
+    />
     <v-card
       v-for="user in memberList"
       :key="user.uid"
@@ -44,11 +45,10 @@
           cols="auto"
         >
           <v-btn
+            v-t="'board-settings.members.remove'"
             color="error"
             outlined
-          >
-            Wyrzuć
-          </v-btn>
+          />
         </v-col>
       </v-row>
     </v-card>

@@ -1,0 +1,165 @@
+{
+  "accept": "Accept",
+  "add": "Add",
+  "add-as-admin": "Add as admin",
+  "add-as-member": "Add as member",
+  "add-new-event": "Add new event",
+  "add-new-event-short": "Add new",
+  "app-name": "Task Overflow",
+  "ask-to-join": "Ask to join",
+  "board-is-private-message": "Board is private",
+  "board-not-found-message": "Board not found",
+  "board-settings": {
+    "title": "Board settings",
+    "general": {
+      "board-name": "Board name",
+      "title": "General"
+    },
+    "join-requests": {
+      "board-link": "Board link",
+      "no-pending-join-requests": "No pending join requests",
+      "title": "Join requests"
+    },
+    "members": {
+      "remove": "Remove",
+      "title": "Members list"
+    }
+  },
+  "cancel": "Cancel",
+  "change-display-name": "Change display name",
+  "change-display-name-dialog": {
+    "display-name": "Username",
+    "hint": "Your name will be visible to other users",
+    "title": "Change display name"
+  },
+  "close": "Close",
+  "copy": "Copy",
+  "create": {
+    "basic-info": "Basic info",
+    "board-name": "Board name",
+    "configure-subjects": "Configure subjects",
+    "create": "Create",
+    "go-to-board": "Go to board",
+    "optional": "Optional",
+    "ready": "Ready!",
+    "start-using-message": "Send the link to your friends and start using @:app-name!",
+    "subjects": "Subjects",
+    "subjects-hint": "You will also be able to add subjects in board settings or while adding a new event. In the settings you can also change subject colors.",
+    "select": "Select",
+    "selected": "Selected"
+  },
+  "create-new-board": "Create new board",
+  "create-new-board-short": "Create new",
+  "edit": "Edit",
+  "event-create-dialog": {
+    "add-new-link-short": "Add new",
+    "add-new-subject-short": "Add new",
+    "date": "Date",
+    "description": "Description",
+    "duration": "Duration",
+    "event-type": "Event type",
+    "event-type-edit-hint": "You can't change the event type while editing",
+    "hours": "Hours",
+    "links": "Links",
+    "minutes": "Minutes",
+    "no-changes-message": "You haven't made any changes",
+    "not-a-board-member-message": {
+      "create": "In order to add events you have to be a board member",
+      "edit": "In order to edit events you have to be a board member"
+    },
+    "not-signed-in-message": {
+      "create": "In order to add events you have to sign in",
+      "edit": "In order to edit events you have to sign in"
+    },
+    "optional": "(optional)",
+    "optional-homework": "Optional homework",
+    "optional-label": "{0} @:event-create-dialog.optional",
+    "rules": {
+      "field-required": "This field is required",
+      "invalid-url": "Entered URL is invalid",
+      "link-already-added": "This link has already been added"
+    },
+    "subject": "Subject",
+    "time": "Time",
+    "title": "Title",
+    "url-address": "URL address"
+  },
+  "event-not-found": "Event not found",
+  "event-states": {
+    "done": "Done",
+    "not-done": "Not done"
+  },
+  "event-types": {
+    "homework": "Homework",
+    "lesson": "Lesson",
+    "test": "Test"
+  },
+  "facebook": "Facebook",
+  "github": "GitHub",
+  "google": "Google",
+  "join-request-pending-message": "Awaiting acceptance of join request",
+  "join-request-reject-dialog": {
+    "description": "The user will still be able to ask to join again",
+    "title": "Are you sure you want to reject this join request?"
+  },
+  "link-facebook": "Link Facebook account",
+  "link-google": "Link Google account",
+  "made-with": {
+    "dominik-korsa": "Dominik Korsa",
+    "doteq": "Doteq",
+    "message": "Made with {icon-vuejs}, {icon-vuetify}, {icon-firebase} and {icon-love} by {doteq} and {dominik-korsa}",
+    "title-firebase": "Google Firebase",
+    "title-love": "Love",
+    "title-vuejs": "Vue.js",
+    "title-vuetify": "Vuetify"
+  },
+  "next": "Next",
+  "no-events-on-selected-day-message": "There are no events on selected day",
+  "not-a-board-member-message": "You aren't a member of this board",
+  "not-any-board-member-message": "You aren't a member of any board",
+  "not-signed-in-message": "You aren't signed in",
+  "ok": "OK",
+  "overflow-number": "+{0}",
+  "privacy-policy": "Privacy Policy",
+  "reject": "Reject",
+  "remove": "Remove",
+  "save": "Save",
+  "sign-in": "Sign in",
+  "sign-in-with": "Sign in with...",
+  "sign-out": "Sign out",
+  "subject-creator-dialog": {
+    "subject-name": "Subject name",
+    "title": "Add a subject"
+  },
+  "toasts": {
+    "event-added": "Event added",
+    "event-edited": "Event edited",
+    "link-copied": "Link has been copied to clipboard",
+    "link-failed": "Account link failed",
+    "sign-in": {
+      "account-exists-with-different-credential": "An account with the same email, but different provider already exists",
+      "other": "Login failed",
+      "popup-closed-by-user": "Login has been aborted"
+    },
+    "signed-out": "Signed out",
+    "unexpected-error": "An unexpected error occurred",
+    "unlink-failed": "Account unlink failed"
+  },
+  "unlink-dialog": {
+    "description": "After unlinking an account you won't be able to sign in using that provider",
+    "facebook-title": "Unlink Facebook account?",
+    "unlink": "Unlink"
+  },
+  "unlink-facebook": "Unlink Facebook account",
+  "visibility": {
+    "private": {
+      "description": "All information about the board, except for its name, is hidden from people, who haven't been added as board members.",
+      "title": "Private"
+    },
+    "public": {
+      "description": "Everyone, who has the link to the board, can see added events, members list and activity. People, who haven't been added as board members cannot add and edit events.",
+      "title": "Public"
+    },
+    "title": "Board visibility"
+  }
+}

@@ -38,6 +38,8 @@
 
     <slot name="buttons" />
 
+    <app-bar-locale-picker />
+
     <app-bar-account-button v-if="signedIn" />
     <v-btn
       v-else
@@ -47,7 +49,7 @@
       <v-icon left>
         mdi-account
       </v-icon>
-      Zaloguj się
+      {{ $t('sign-in') }}
     </v-btn>
 
     <template
@@ -63,11 +65,13 @@
 
 <script>
   import AppBarAccountButton from './AppBarAccountButton.vue';
+  import AppBarLocalePicker from './AppBarLocalePicker.vue';
   import SignInSheet from './SignInSheet.vue';
 
   export default {
     components: {
       AppBarAccountButton,
+      AppBarLocalePicker,
       SignInSheet,
     },
     props: {

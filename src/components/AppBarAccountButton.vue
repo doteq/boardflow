@@ -1,6 +1,8 @@
 <template>
   <v-menu
     :close-on-content-click="false"
+    left
+    offset-y
   >
     <template v-slot:activator="{ on: menu }">
       <v-tooltip bottom>
@@ -17,23 +19,21 @@
             </v-avatar>
           </v-btn>
         </template>
-        <span>
-          {{
-            ($store.state.userData && $store.state.userData.name)
-              ? $store.state.userData.name
-              : $store.state.userAuth.displayName
-          }}
-        </span>
+        <span
+          v-text="($store.state.userData && $store.state.userData.name)
+            ? $store.state.userData.name
+            : $store.state.userAuth.displayName"
+        />
       </v-tooltip>
     </template>
-    <v-list>
+    <v-list :dense="$vuetify.breakpoint.smAndDown">
       <v-list-item
         @click="changeDisplayNameDialogVisible = true"
       >
         <v-list-item-icon>
           <v-icon>mdi-account-edit</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Zmień wyświetlaną nazwę</v-list-item-title>
+        <v-list-item-title v-t="'change-display-name'" />
       </v-list-item>
       <v-list-item
         v-if="!addedProviders.includes('google.com')"
@@ -51,9 +51,7 @@
           </v-icon>
         </v-list-item-icon>
 
-        <v-list-item-title>
-          Połącz konto Google
-        </v-list-item-title>
+        <v-list-item-title v-t="'link-google'" />
       </v-list-item>
       <v-list-item
         v-if="!addedProviders.includes('facebook.com')"
@@ -71,9 +69,7 @@
           </v-icon>
         </v-list-item-icon>
 
-        <v-list-item-title>
-          Połącz konto Facebook
-        </v-list-item-title>
+        <v-list-item-title v-t="'link-facebook'" />
       </v-list-item>
       <v-list-item
         v-if="addedProviders.includes('facebook.com')"
@@ -86,15 +82,13 @@
           </v-icon>
         </v-list-item-icon>
 
-        <v-list-item-title>
-          Odłącz konto Facebook
-        </v-list-item-title>
+        <v-list-item-title v-t="'unlink-facebook'" />
       </v-list-item>
       <v-list-item @click="signOut">
         <v-list-item-icon>
           <v-icon>mdi-logout-variant</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Wyloguj się</v-list-item-title>
+        <v-list-item-title v-t="'sign-out'" />
       </v-list-item>
     </v-list>
     <change-display-name-dialog v-model="changeDisplayNameDialogVisible" />
@@ -130,7 +124,7 @@
         try {
           await this.$auth.linkGoogle();
         } catch (error) {
-          this.$toast.error('Nie udało się połączyć konta');
+          this.$toast.error(this.$t('toasts.link-failed'));
           console.error(error);
         }
 
@@ -142,7 +136,7 @@
         try {
           await this.$auth.linkFacebook();
         } catch (error) {
-          this.$toast.error('Nie udało się połączyć konta');
+          this.$toast.error(this.$t('toasts.link-failed'));
           console.error(error);
         }
 
@@ -150,7 +144,7 @@
       },
       async signOut () {
         await this.$auth.signOut();
-        this.$toast('Wylogowano');
+        this.$toast(this.$t('toasts.signed-out'));
       },
     },
   };

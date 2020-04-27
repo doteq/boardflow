@@ -5,24 +5,22 @@
     @input="$emit('input', $event)"
   >
     <v-card>
-      <v-card-title>Odłączyć konto Facebook?</v-card-title>
-      <v-card-text>Po odłączeniu konta nie będziesz mógł się zalogować za pomocą tego dostawcy</v-card-text>
+      <v-card-title v-t="'unlink-dialog.facebook-title'" />
+      <v-card-text v-t="'unlink-dialog.description'" />
       <v-card-actions>
         <v-spacer />
         <v-btn
+          v-t="'cancel'"
           text
           @click="cancel"
-        >
-          Anuluj
-        </v-btn>
+        />
         <v-btn
+          v-t="'unlink-dialog.unlink'"
           color="secondary"
           outlined
           :loading="loading"
           @click="unlink"
-        >
-          Odłącz
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -59,7 +57,7 @@
           this.innerValue = false;
           this.$emit('input', false);
         } catch (error) {
-          this.$toast.error('Nie udało się odłączyć konta');
+          this.$toast.error(this.$t('toasts.unlink-failed'));
           console.error(error);
         }
         this.loading = false;

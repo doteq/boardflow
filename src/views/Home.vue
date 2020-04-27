@@ -1,23 +1,25 @@
 <template>
   <v-container class="home-container">
-    <app-bar show-logo>
-      Task Overflow
+    <app-bar
+      show-logo
+    >
+      {{ $t('app-name') }}
     </app-bar>
 
     <div
       v-if="!signedIn"
       class="d-flex flex-column align-center my-12"
     >
-      <h1 class="display-1 text-center mb-12">
-        Nie jesteś zalogowany
-      </h1>
+      <h1
+        v-t="'not-signed-in-message'"
+        class="display-1 text-center mb-12"
+      />
       <v-btn
+        v-t="'sign-in'"
         color="primary black--text"
         large
         @click="showSignInSheet"
-      >
-        Zaloguj się
-      </v-btn>
+      />
     </div>
 
     <v-progress-linear
@@ -29,16 +31,16 @@
       v-else-if="boardItems.length === 0"
       class="d-flex flex-column align-center my-12"
     >
-      <h1 class="display-1 text-center mb-12">
-        Nie jesteś członkiem żadnej tablicy
-      </h1>
+      <h1
+        v-t="'not-any-board-member-message'"
+        class="display-1 text-center mb-12"
+      />
       <v-btn
+        v-t="'create-new-board-short'"
         color="primary black--text"
         large
         to="/create"
-      >
-        Utwórz nową
-      </v-btn>
+      />
     </div>
 
     <template v-else>
@@ -74,9 +76,8 @@
                 v-if="board.memberOverflow > 0"
                 color="accent"
                 class="overlap-left"
-              >
-                +{{ board.memberOverflow }}
-              </v-avatar>
+                v-text="$t('overflow-number', [board.memberOverflow])"
+              />
             </v-card-text>
           </v-card>
         </v-col>
@@ -85,11 +86,10 @@
         class="d-flex flex-column align-center my-12"
       >
         <v-btn
+          v-t="'create-new-board'"
           color="primary black--text"
           to="/create"
-        >
-          Utwórz nową tablicę
-        </v-btn>
+        />
       </div>
     </template>
     <div
@@ -106,7 +106,7 @@
         <v-icon left>
           mdi-lock
         </v-icon>
-        Polityka Prywatności
+        {{ $t('privacy-policy') }}
       </v-btn>
       <v-btn
         class="mt-4"
@@ -117,29 +117,48 @@
         <v-icon left>
           mdi-github
         </v-icon>
-        GitHub
+        {{ $t('github') }}
       </v-btn>
-      <div class="mt-12 text-center">
-        Made with
-        <v-icon title="Vue.js">
-          mdi-vuejs
-        </v-icon>,
-        <v-icon title="Vuetify">
-          mdi-vuetify
-        </v-icon>,
-        <v-icon title="Google Firebase">
-          mdi-firebase
-        </v-icon>
-        and
-        <v-icon title="Love">
-          mdi-heart
-        </v-icon> by
-        <a href="https://github.com/doteq">Doteq</a>
-        and
-        <a href="https://github.com/dominik-korsa">Dominik Korsa</a>
-      </div>
+      <i18n
+        tag="div"
+        path="made-with.message"
+        class="mt-12 text-center"
+      >
+        <template v-slot:icon-vuejs>
+          <v-icon :title="$t('made-with.title-vuejs')">
+            mdi-vuejs
+          </v-icon>
+        </template>
+        <template v-slot:icon-vuetify>
+          <v-icon :title="$t('made-with.title-vuetify')">
+            mdi-vuetify
+          </v-icon>
+        </template>
+        <template v-slot:icon-firebase>
+          <v-icon :title="$t('made-with.title-firebase')">
+            mdi-firebase
+          </v-icon>
+        </template>
+        <template v-slot:icon-love>
+          <v-icon :title="$t('made-with.title-love')">
+            mdi-heart
+          </v-icon>
+        </template>
+        <template v-slot:doteq>
+          <a
+            v-t="'made-with.doteq'"
+            href="https://github.com/doteq"
+          />
+        </template>
+        <template v-slot:dominik-korsa>
+          <a
+            v-t="'made-with.dominik-korsa'"
+            href="https://github.com/dominik-korsa"
+          />
+        </template>
+      </i18n>
+      <sign-in-sheet ref="signInSheet" />
     </div>
-    <sign-in-sheet ref="signInSheet" />
   </v-container>
 </template>
 

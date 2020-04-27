@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h1 class="headline mb-6 text-center">
-      Ogólne
-    </h1>
+    <h1
+      v-t="'board-settings.general.title'"
+      class="headline mb-6 text-center"
+    />
     <v-form>
       <v-text-field
         v-model="name"
-        label="Nazwa tablicy"
+        :label="$t('board-settings.general.board-name')"
         outlined
         required
         autofocus
@@ -14,7 +15,9 @@
       <v-select
         v-model="isPublic"
         :items="privacyItems"
-        label="Prywatność tablicy"
+        :label="$t('visibility.title')"
+        :hint="privacyHint"
+        persistent-hint
         required
         outlined
       />
@@ -27,16 +30,23 @@
     data: () => ({
       name: 'Example Name',
       isPublic: false,
-      privacyItems: [
-        {
-          text: 'Publiczna',
-          value: true,
-        },
-        {
-          text: 'Prywatna',
-          value: false,
-        },
-      ],
     }),
+    computed: {
+      privacyItems () {
+        return ([
+          {
+            text: this.$t('visibility.public.title'),
+            value: true,
+          },
+          {
+            text: this.$t('visibility.private.title'),
+            value: false,
+          },
+        ]);
+      },
+      privacyHint () {
+        return this.$t(`visibility.${this.isPublic ? 'public' : 'private'}.description`);
+      },
+    },
   };
 </script>

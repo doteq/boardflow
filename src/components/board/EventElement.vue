@@ -50,17 +50,35 @@
               </v-col>
               <v-col class="text-center mx-3 hidden-xs-only">
                 <span v-if="event.time">
-                  <span v-if="event.type === 'homework'">Zadanie domowe</span>
-                  <span v-else-if="event.type === 'lesson'">Lekcja</span>
-                  <span v-else-if="event.type === 'test'">Sprawdzian/kartkówka</span>
+                  <span
+                    v-if="event.type === 'homework'"
+                    v-text="$t('event-types.homework')"
+                  />
+                  <span
+                    v-else-if="event.type === 'lesson'"
+                    v-text="$t('event-types.lesson')"
+                  />
+                  <span
+                    v-else-if="event.type === 'test'"
+                    v-text="$t('event-types.test')"
+                  />
                 </span>
               </v-col>
               <v-col class="text-right">
                 <span v-if="event.time"><v-icon>mdi-clock-outline</v-icon>{{ event.time }}</span>
                 <span v-else>
-                  <span v-if="event.type === 'homework'">Zadanie domowe</span>
-                  <span v-else-if="event.type === 'lesson'">Lekcja</span>
-                  <span v-else-if="event.type === 'test'">Sprawdzian/kartkówka</span>
+                  <span
+                    v-if="event.type === 'homework'"
+                    v-text="$t('event-types.homework')"
+                  />
+                  <span
+                    v-else-if="event.type === 'lesson'"
+                    v-text="$t('event-types.lesson')"
+                  />
+                  <span
+                    v-else-if="event.type === 'test'"
+                    v-text="$t('event-types.test')"
+                  />
                 </span>
               </v-col>
             </v-row>

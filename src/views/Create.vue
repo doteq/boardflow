@@ -11,7 +11,7 @@
           :editable="step < 3"
           step="1"
         >
-          Podstawowe informacje
+          {{ $t('create.basic-info') }}
         </v-stepper-step>
         <v-divider />
         <v-stepper-step
@@ -20,12 +20,14 @@
           step="2"
           class="py-0"
         >
-          Skonfiguruj przedmioty
-          <small>Opcjonalne</small>
+          {{ $t('create.configure-subjects') }}
+          <small v-t="'create.optional'" />
         </v-stepper-step>
         <v-divider />
-        <v-stepper-step step="3">
-          Gotowe!
+        <v-stepper-step
+          step="3"
+        >
+          {{ $t('create.ready') }}
         </v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
@@ -36,16 +38,17 @@
           >
             <v-text-field
               v-model="name"
-              label="Nazwa tablicy"
+              :label="$t('create.board-name')"
               outlined
               required
               autofocus
               :counter="50"
             />
 
-            <div class="px-1 subtitle-2">
-              Widoczność tablicy
-            </div>
+            <div
+              v-t="'visibility.title'"
+              class="px-1 subtitle-2"
+            />
             <v-item-group
               v-model="isPublic"
               active-class="primary"
@@ -70,11 +73,12 @@
                         <v-icon left>
                           mdi-eye
                         </v-icon>
-                        Publiczna
+                        {{ $t('visibility.public.title') }}
                       </v-card-title>
-                      <v-card-text class="text-justify grow">
-                        Każda osoba, posiadająca link do tej tablicy, może zobaczyć dodane wpisy, listę członków oraz aktywność. Osoby nie dodane jako członek nie mogą dodawać ani edytować wpisów.
-                      </v-card-text>
+                      <v-card-text
+                        v-t="'visibility.public.description'"
+                        class="text-justify grow"
+                      />
                       <v-card-actions>
                         <v-btn
                           block
@@ -82,7 +86,7 @@
                           :disabled="active"
                           @click="toggle"
                         >
-                          {{ active ? 'Wybrana' : 'Wybierz' }}
+                          {{ active ? $t('create.selected') : $t('create.select') }}
                         </v-btn>
                       </v-card-actions>
                     </v-card>
@@ -106,11 +110,12 @@
                         <v-icon left>
                           mdi-lock
                         </v-icon>
-                        Prywatna
+                        {{ $t('visibility.private.title') }}
                       </v-card-title>
-                      <v-card-text class="text-justify grow">
-                        Wszystkie informacje o tablicy, poza jej nazwą, są niewidoczne dla osób, które nie zostały dodane jako członek.
-                      </v-card-text>
+                      <v-card-text
+                        v-t="'visibility.private.description'"
+                        class="text-justify grow"
+                      />
                       <v-card-actions>
                         <v-btn
                           block
@@ -118,7 +123,7 @@
                           :disabled="active"
                           @click="toggle"
                         >
-                          {{ active ? 'Wybrana' : 'Wybierz' }}
+                          {{ active ? $t('create.selected') : $t('create.select') }}
                         </v-btn>
                       </v-card-actions>
                     </v-card>
@@ -130,12 +135,11 @@
             <div class="d-flex mt-4">
               <v-spacer />
               <v-btn
+                v-t="'next'"
                 color="primary black--text"
                 :disabled="!step1valid"
                 type="submit"
-              >
-                Dalej
-              </v-btn>
+              />
             </div>
           </v-form>
         </v-stepper-content>
@@ -147,12 +151,12 @@
               class="pa-2 md-2"
               chips
               multiple
-              label="Przedmioty"
+              :label="$t('create.subjects')"
               :items="defaultSubjects"
               persistent-hint
               outlined
               autofocus
-              hint="W ustawieniach możesz dodać w przyszłości więcej przedmiotów oraz zmienić ich kolory. Użytkownicy przy dodawaniu wpisów także mogą dodać przedmiot."
+              :hint="$t('create.subjects-hint')"
             >
               <template v-slot:selection="data">
                 <v-chip
@@ -167,18 +171,17 @@
             <div class="d-flex">
               <v-spacer />
               <v-btn
+                v-t="'create.create'"
                 color="primary black--text"
                 :loading="submitLoading"
                 type="submit"
-              >
-                Utwórz
-              </v-btn>
+              />
             </div>
           </v-form>
         </v-stepper-content>
         <v-stepper-content step="3">
-          <h1>Gotowe!</h1>
-          <span>Wyślij link swoim znajomym i zacznij korzystać z Task Overflow!</span>
+          <h1 v-t="'create.ready'" />
+          <span v-t="'create.start-using-message'" />
           <v-text-field
             id="board-link-input"
             :value="link"
@@ -199,23 +202,21 @@
               </v-btn>
               <v-btn
                 v-else
+                v-t="'copy'"
                 outlined
                 class="mr-0 ml-2 mb-2 p-0"
                 @click="copyText()"
-              >
-                Kopiuj
-              </v-btn>
+              />
             </template>
           </v-text-field>
           <div class="d-flex">
             <v-spacer />
             <v-btn
+              v-t="'create.go-to-board'"
               color="primary black--text"
               :to="`/board/${generatedBoardId}`"
               @click="step = 3"
-            >
-              Przejdź do tablicy!
-            </v-btn>
+            />
           </div>
         </v-stepper-content>
       </v-stepper-items>
@@ -256,7 +257,7 @@
     computed: {
       link () {
         if (!this.generatedBoardId) return null;
-        return new URL(`/board/${this.generatedBoardId}`, window.location.origin);
+        return new URL(`/board/${this.generatedBoardId}`, window.location.origin).toString();
       },
       step1valid () {
         return !!this.name.trim() && this.name.length <= 50;
@@ -278,6 +279,7 @@
         if (this.submitLoading) return;
 
         if (!this.$store.state.userAuth) {
+          // TODO: Replace with fullscreen info
           this.$toast.error('Użytkownik nie jest zalogowany');
           return;
         }
@@ -317,7 +319,7 @@
           this.step = 3;
         } catch (error) {
           console.error(error);
-          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          this.$toast.error(this.$t('toasts.unexpected-error'));
         }
         this.submitLoading = false;
       },
@@ -333,7 +335,7 @@
         const input = document.getElementById('board-link-input');
         input.select();
         document.execCommand('copy');
-        this.$toast('Skopiowano link do schowka');
+        this.$toast('toasts.link-copied');
       },
       removeSubject (index) {
         this.subjects.splice(index, 1);

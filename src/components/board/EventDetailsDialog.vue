@@ -12,27 +12,24 @@
     <v-card-actions>
       <v-spacer />
       <v-btn
+        v-t="'close'"
         text
         @click="closeDialog()"
-      >
-        Zamknij
-      </v-btn>
+      />
     </v-card-actions>
   </v-card>
   <v-card v-else-if="!event">
     <v-card-title
+      v-t="'event-not-found'"
       class="display-1 text-center pa-12 d-block"
-    >
-      Nie znaleziono wpisu
-    </v-card-title>
+    />
     <v-card-actions>
       <v-spacer />
       <v-btn
+        v-t="'close'"
         text
         @click="closeDialog()"
-      >
-        Zamknij
-      </v-btn>
+      />
     </v-card-actions>
   </v-card>
   <v-card v-else>
@@ -95,17 +92,15 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
+            v-t="'edit'"
             text
             :to="`/board/${$route.params.boardId}/event/${event.id}/edit`"
-          >
-            Edytuj
-          </v-btn>
+          />
           <v-btn
+            v-t="'close'"
             text
             @click="closeDialog()"
-          >
-            Zamknij
-          </v-btn>
+          />
         </v-card-actions>
       </v-col>
     </v-row>
@@ -139,14 +134,14 @@
       },
       dateString () {
         if (!this.event) return null;
-        return new Date(this.event.date).toLocaleDateString('pl', {
+        return new Date(this.event.date).toLocaleDateString(this.$i18n.locale, {
           year: '2-digit',
           month: 'numeric',
           day: 'numeric',
         });
       },
       creationDateString () {
-        return this.event.creation.timestamp.toDate().toLocaleDateString('pl', {
+        return this.event.creation.timestamp.toDate().toLocaleDateString(this.$i18n.locale, {
           year: '2-digit',
           month: 'numeric',
           day: 'numeric',

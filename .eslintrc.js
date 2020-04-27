@@ -7,6 +7,7 @@ module.exports = {
     'plugin:vue/essential',
     '@vue/airbnb',
     'vuetify',
+    'plugin:vue-i18n/recommended',
   ],
   plugins: [
     'vuetify',
@@ -24,5 +25,13 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-console': 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'vue-i18n/no-raw-text': ['warn', {
+      ignoreNodes: ['v-icon'],
+    }],
+  },
+  settings: {
+    'vue-i18n': {
+      localeDir: './src/locales/*.json',
+    },
   },
 };
