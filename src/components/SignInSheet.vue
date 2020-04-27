@@ -15,26 +15,20 @@
       />
     </v-card>
     <v-list v-else>
-      <v-subheader>
-        Zaloguj się przez...
-      </v-subheader>
+      <v-subheader v-t="'sign-in-with'" />
       <v-list-item @click="signInWithGoogle">
         <v-list-item-icon>
           <v-icon>mdi-google</v-icon>
         </v-list-item-icon>
 
-        <v-list-item-title>
-          Google
-        </v-list-item-title>
+        <v-list-item-title v-t="'google'" />
       </v-list-item>
       <v-list-item @click="signInWithFacebook">
         <v-list-item-icon>
           <v-icon>mdi-facebook</v-icon>
         </v-list-item-icon>
 
-        <v-list-item-title>
-          Facebook
-        </v-list-item-title>
+        <v-list-item-title v-t="'facebook'" />
       </v-list-item>
     </v-list>
   </v-bottom-sheet>
@@ -86,9 +80,9 @@
         this.visible = false;
       },
       showError (error) {
-        if (error.code === 'auth/popup-closed-by-user') this.$toast.error('Logowanie zostało przerwane');
-        else if (error.code === 'auth/account-exists-with-different-credential') this.$toast.error('Istnieje już konto z tym samym adresem email, ale innym dostawcą');
-        else this.$toast.error('Nie udało się zalogować');
+        if (error.code === 'auth/popup-closed-by-user') this.$toast.error(this.$t('toasts.sign-in.popup-closed-by-user'));
+        else if (error.code === 'auth/account-exists-with-different-credential') this.$toast.error(this.$t('toasts.sign-in.account-exists-with-different-credential'));
+        else this.$toast.error(this.$t('toasts.sign-in.other'));
       },
     },
   };

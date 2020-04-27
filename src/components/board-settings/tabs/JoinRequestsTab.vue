@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h1 class="headline mb-6 text-center">
-      Prośby o dołączenie
-    </h1>
+    <h1
+      v-t="'board-settings.join-requests.title'"
+      class="headline mb-6 text-center"
+    />
     <v-text-field
       id="board-link-input"
       :value="boardLink"
@@ -10,7 +11,7 @@
       readonly
       dense
       class="mt-4"
-      label="Link do tablicy"
+      :label="$t('board-settings.join-requests.board-link')"
     >
       <template v-slot:append>
         <v-btn
@@ -23,12 +24,11 @@
         </v-btn>
         <v-btn
           v-else
+          v-t="'copy'"
           outlined
           class="mr-0 ml-2 mb-2 p-0"
           @click="copyJoinLink()"
-        >
-          Kopiuj
-        </v-btn>
+        />
       </template>
     </v-text-field>
     <template v-if="loading">
@@ -38,10 +38,9 @@
     </template>
     <h1
       v-else-if="joinRequestItems.length === 0"
+      v-t="'board-settings.join-requests.no-pending-join-requests'"
       class="headline px-4 py-12 text-center text--secondary"
-    >
-      Nie ma żadnych oczekujących próśb o dołączenie
-    </h1>
+    />
     <template v-else-if="$vuetify.breakpoint.smAndUp">
       <v-card
         v-for="request in joinRequestItems"
@@ -73,13 +72,12 @@
             <join-request-reject-dialog @reject="rejectRequest(request.id)">
               <template v-slot:activator="{ on }">
                 <v-btn
+                  v-t="'reject'"
                   color="error"
                   outlined
                   class="mr-3"
                   v-on="on"
-                >
-                  Odrzuć
-                </v-btn>
+                />
               </template>
             </join-request-reject-dialog>
           </v-col>
@@ -94,7 +92,7 @@
                   color="primary black--text"
                   v-on="on"
                 >
-                  Akceptuj
+                  {{ $t('accept') }}
                   <v-icon right>
                     mdi-menu-down
                   </v-icon>
@@ -102,14 +100,10 @@
               </template>
               <v-list>
                 <v-list-item @click="acceptRequest(request.id, false)">
-                  <v-list-item-title>
-                    Dodaj jako członka
-                  </v-list-item-title>
+                  <v-list-item-title v-t="'add-as-member'" />
                 </v-list-item>
                 <v-list-item @click="acceptRequest(request.id, true)">
-                  <v-list-item-title>
-                    Dodaj jako administratora
-                  </v-list-item-title>
+                  <v-list-item-title v-t="'add-as-admin'" />
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -166,22 +160,16 @@
               </template>
               <v-list>
                 <v-list-item @click="acceptRequest(request.id, false)">
-                  <v-list-item-title>
-                    Dodaj jako członka
-                  </v-list-item-title>
+                  <v-list-item-title v-t="'add-as-member'" />
                 </v-list-item>
                 <v-list-item @click="acceptRequest(request.id, true)">
-                  <v-list-item-title>
-                    Dodaj jako administratora
-                  </v-list-item-title>
+                  <v-list-item-title v-t="'add-as-admin'" />
                 </v-list-item>
                 <v-divider />
                 <join-request-reject-dialog @reject="rejectRequest(request.id)">
                   <template v-slot:activator="{ on }">
                     <v-list-item v-on="on">
-                      <v-list-item-title>
-                        Odrzuć
-                      </v-list-item-title>
+                      <v-list-item-title v-t="'reject'" />
                     </v-list-item>
                   </template>
                 </join-request-reject-dialog>
@@ -236,7 +224,7 @@
         const input = document.getElementById('board-link-input');
         input.select();
         document.execCommand('copy');
-        this.$toast('Skopiowano link do schowka');
+        this.$toast(this.$t('toasts.link-copied'));
       },
       async acceptRequest (userId, admin) {
         try {
@@ -258,7 +246,7 @@
 
           await batch.commit();
         } catch (error) {
-          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          this.$toast.error(this.$t('toasts.unexpected-error'));
           console.error(error);
         }
       },
@@ -271,7 +259,7 @@
 
           await requestReference.delete();
         } catch (error) {
-          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          this.$toast.error(this.$t('toasts.unexpected-error'));
           console.error(error);
         }
       },

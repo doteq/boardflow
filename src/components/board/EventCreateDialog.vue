@@ -20,59 +20,52 @@
       <v-card-actions>
         <v-spacer />
         <v-btn
+          v-t="'close'"
           text
           @click="close()"
-        >
-          Zamknij
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
     <v-card v-else-if="!$store.state.userAuth">
       <div
         class="display-1 text-center py-12 px-8"
-      >
-        Aby {{ edit ? 'edytować' : 'dodawać' }} wpisy, musisz się zalogować
-      </div>
+        v-text="$t(`event-create-dialog.not-signed-in-message.${edit ? 'edit' : 'create'}`)"
+      />
       <v-card-actions>
         <v-spacer />
         <v-btn
+          v-t="'close'"
           text
           @click="close()"
-        >
-          Zamknij
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
     <v-card v-else-if="userIsMember === false">
       <div
         class="display-1 text-center py-12 px-8"
-      >
-        Aby {{ edit ? 'edytować' : 'dodawać' }} wpisy, musisz być członkiem tablicy
-      </div>
+        v-text="$t(`event-create-dialog.not-a-board-member-message.${edit ? 'edit' : 'create'}`)"
+      />
       <v-card-actions>
         <v-spacer />
         <v-btn
+          v-t="'close'"
           text
           @click="close()"
-        >
-          Zamknij
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
     <v-card v-else-if="!event && edit">
       <div
+        v-t="'event-not-found'"
         class="display-1 text-center py-12 px-8"
-      >
-        Nie znaleziono wpisu
-      </div>
+      />
       <v-card-actions>
         <v-spacer />
         <v-btn
+          v-t="'close'"
           text
           @click="close()"
-        >
-          Zamknij
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
     <v-card v-else>
@@ -86,7 +79,7 @@
           />
         </v-col>
         <v-col>
-          <v-card-title>Dodaj nowe wydarzenie</v-card-title>
+          <v-card-title v-t="'add-new-event'" />
           <v-form
             ref="form"
             v-model="valid"
@@ -97,11 +90,11 @@
                 v-model="type"
                 :color="colorString"
                 :items="types"
-                label="Typ"
+                :label="$t('event-create-dialog.event-type')"
                 required
                 outlined
                 :disabled="edit"
-                :hint="edit ? 'Nie możesz zmienić typu wydarzenia podczas edytowania' : null"
+                :hint="edit ? $t('event-create-dialog.event-type-edit-hint') : null"
                 :persistent-hint="edit"
               />
               <v-select
@@ -110,7 +103,7 @@
                 :items="subjectItems || []"
                 :loading="subjectItems === null"
                 :disabled="subjectItems === null"
-                label="Przedmiot"
+                :label="$t('event-create-dialog.subject')"
                 required
                 outlined
                 :rules="subjectRules"
@@ -122,15 +115,13 @@
                       <v-icon>mdi-plus</v-icon>
                     </v-list-item-icon>
 
-                    <v-list-item-title>
-                      Dodaj nowy
-                    </v-list-item-title>
+                    <v-list-item-title v-t="'event-create-dialog.add-new-subject-short'" />
                   </v-list-item>
                 </template>
               </v-select>
               <v-text-field
                 v-model="title"
-                label="Tytuł"
+                :label="$t('event-create-dialog.title')"
                 outlined
                 :color="colorString"
                 :rules="titleRules"
@@ -138,7 +129,7 @@
               <v-textarea
                 v-model="description"
                 :color="colorString"
-                label="Opis (opcjonalne)"
+                :label="$t('event-create-dialog.optional-label', [$t('event-create-dialog.description')])"
                 outlined
                 auto-grow
               />
@@ -153,7 +144,7 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    label="Data"
+                    :label="$t('event-create-dialog.date')"
                     :color="colorString"
                     readonly
                     outlined
@@ -170,19 +161,17 @@
                 >
                   <v-spacer />
                   <v-btn
+                    v-t="'cancel'"
                     text
                     color="primary"
                     @click="dateMenuVisible = false"
-                  >
-                    Anuluj
-                  </v-btn>
+                  />
                   <v-btn
+                    v-t="'ok'"
                     text
                     color="primary"
                     @click="$refs.dateMenu.save(date)"
-                  >
-                    OK
-                  </v-btn>
+                  />
                 </v-date-picker>
               </v-menu>
               <v-row>
@@ -202,7 +191,7 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        label="Godzina (opcjonalne)"
+                        :label="$t('event-create-dialog.optional-label', [$t('event-create-dialog.time')])"
                         :color="colorString"
                         readonly
                         outlined
@@ -218,27 +207,24 @@
                       color="secondary"
                     >
                       <v-btn
+                        v-t="'remove'"
                         text
                         color="red"
                         @click="$refs.timeMenu.save(null)"
-                      >
-                        Usuń
-                      </v-btn>
+                      />
                       <v-spacer />
                       <v-btn
+                        v-t="'cancel'"
                         text
                         color="primary"
                         @click="timeMenuVisible = false"
-                      >
-                        Anuluj
-                      </v-btn>
+                      />
                       <v-btn
+                        v-t="'ok'"
                         text
                         color="primary"
                         @click="$refs.timeMenu.save(time)"
-                      >
-                        OK
-                      </v-btn>
+                      />
                     </v-time-picker>
                   </v-menu>
                 </v-col>
@@ -258,7 +244,7 @@
                   >
                     <template v-slot:activator="{ on }">
                       <v-text-field
-                        label="Czas trwania (opcjonalne)"
+                        :label="$t('event-create-dialog.optional-label', [$t('event-create-dialog.duration')])"
                         :color="colorString"
                         readonly
                         outlined
@@ -273,7 +259,7 @@
                           <v-text-field
                             v-model.number="durationHours"
                             type="number"
-                            label="Godziny"
+                            :label="$t('event-create-dialog.hours')"
                             outlined
                             min="0"
                             max="23"
@@ -283,7 +269,7 @@
                           <v-text-field
                             v-model.number="durationMinutes"
                             type="number"
-                            label="Minuty"
+                            :label="$t('event-create-dialog.minutes')"
                             outlined
                             min="0"
                             max="59"
@@ -292,34 +278,31 @@
                       </v-row>
                       <v-card-actions>
                         <v-btn
+                          v-t="'remove'"
                           text
                           color="red"
                           @click="$refs.durationMenu.save(null)"
-                        >
-                          Usuń
-                        </v-btn>
+                        />
                         <v-spacer />
                         <v-btn
+                          v-t="'cancel'"
                           text
                           color="primary"
                           @click="durationMenuVisible = false"
-                        >
-                          Anuluj
-                        </v-btn>
+                        />
                         <v-btn
+                          v-t="'ok'"
                           text
                           color="primary"
                           @click="$refs.durationMenu.save(duration)"
-                        >
-                          OK
-                        </v-btn>
+                        />
                       </v-card-actions>
                     </v-card>
                   </v-menu>
                 </v-col>
               </v-row>
               <v-card outlined>
-                <v-subheader>Linki (opcjonalne)</v-subheader>
+                <v-subheader v-text="$t('event-create-dialog.optional-label', [$t('event-create-dialog.links')])" />
                 <v-list-item
                   v-for="(link, index) in links"
                   :key="link"
@@ -351,9 +334,7 @@
                         <v-icon>mdi-plus</v-icon>
                       </v-list-item-icon>
 
-                      <v-list-item-title>
-                        Dodaj nowy
-                      </v-list-item-title>
+                      <v-list-item-title v-t="'event-create-dialog.add-new-link-short'" />
                     </v-list-item>
                   </template>
                   <v-card>
@@ -361,7 +342,7 @@
                       <v-card-text class="pb-0">
                         <v-text-field
                           v-model="addLinkMenuInput"
-                          label="Adres URL"
+                          :label="$t('event-create-dialog.url-address')"
                           outlined
                           :rules="addLinkMenuInputRules"
                           autofocus
@@ -371,20 +352,18 @@
                       <v-card-actions>
                         <v-spacer />
                         <v-btn
+                          v-t="'cancel'"
                           text
                           color="primary"
                           @click="addLinkMenuVisible = false"
-                        >
-                          Anuluj
-                        </v-btn>
+                        />
                         <v-btn
+                          v-t="'add'"
                           text
                           color="primary"
                           type="submit"
                           :disabled="!addLinkMenuValid"
-                        >
-                          Dodaj
-                        </v-btn>
+                        />
                       </v-card-actions>
                     </v-form>
                   </v-card>
@@ -393,34 +372,33 @@
               <v-checkbox
                 v-if="type === 'homework'"
                 v-model="optional"
-                label="Zadanie dla chętnych"
+                :label="$t('event-create-dialog.optional-homework')"
                 class="mt-8"
                 :color="colorString"
               />
             </v-card-text>
             <v-card-actions>
-              <div
-                v-if="changes !== null && changes.length === 0"
-                class="caption ml-2 mr-2 warning--text"
-              >
-                Nie dokonałeś żadnych zmian
-              </div>
+              <v-fade-transition>
+                <div
+                  v-if="changes !== null && changes.length === 0"
+                  class="caption ml-2 mr-2 warning--text"
+                  v-text="$t('event-create-dialog.no-changes-message')"
+                />
+              </v-fade-transition>
               <v-spacer />
               <v-btn
+                v-t="'cancel'"
                 text
                 @click="close()"
-              >
-                Anuluj
-              </v-btn>
+              />
               <v-btn
+                v-t="'save'"
                 :color="colorString"
                 outlined
                 type="submit"
                 :disabled="!valid || (changes !== null && changes.length === 0)"
                 :loading="submitLoading"
-              >
-                Zapisz
-              </v-btn>
+              />
             </v-card-actions>
           </v-form>
         </v-col>
@@ -483,20 +461,6 @@
     data () {
       return {
         valid: false,
-        types: [
-          {
-            text: 'Zadanie domowe',
-            value: 'homework',
-          },
-          {
-            text: 'Sprawdzian/kartkówka',
-            value: 'test',
-          },
-          {
-            text: 'Lekcja',
-            value: 'lesson',
-          },
-        ],
         subject: null,
         title: '',
         type: 'homework',
@@ -512,19 +476,35 @@
         addLinkMenuVisible: false,
         addLinkMenuInput: '',
         subjectRules: [
-          (v) => !!v || 'To pole jest wymagane',
+          (v) => !!v || this.$t('event-create-dialog.rules.field-required'),
         ],
         titleRules: [
-          (v) => v.trim().length > 0 || 'To pole jest wymagane',
+          (v) => v.trim().length > 0 || this.$t('event-create-dialog.rules.field-required'),
         ],
         addLinkMenuInputRules: [
-          (v) => !v || (isUrl(v) || 'Podaj poprawny adres URL'),
-          (v) => !this.links.includes(v) || 'Link jest już dodany',
+          (v) => !v || (isUrl(v) || this.$t('event-create-dialog.rules.invalid-url')),
+          (v) => !this.links.includes(v) || this.$t('event-create-dialog.rules.link-already-added'),
         ],
         submitLoading: false,
       };
     },
     computed: {
+      types () {
+        return [
+          {
+            text: this.$t('event-types.homework'),
+            value: 'homework',
+          },
+          {
+            text: this.$t('event-types.test'),
+            value: 'test',
+          },
+          {
+            text: this.$t('event-types.lesson'),
+            value: 'lesson',
+          },
+        ];
+      },
       subjectItems () {
         if (!this.subjects) return null;
         return this.subjects.map((subject) => ({
@@ -536,7 +516,7 @@
         if (this.duration === 0) return '';
 
         return humanizeDuration(this.duration * 60 * 1000, {
-          language: 'pl',
+          language: this.$i18n.locale,
           units: ['h', 'm'],
         });
       },
@@ -563,7 +543,7 @@
       },
       dateString () {
         if (!this.date) return '';
-        return new Date(this.date).toLocaleDateString('pl', {
+        return new Date(this.date).toLocaleDateString(this.$i18n.locale, {
           year: 'numeric',
           month: 'long',
           day: 'numeric',
@@ -768,11 +748,11 @@
 
           await batch.commit();
 
-          this.$toast('Dodano wpis');
+          this.$toast(this.$t('toasts.event-added'));
           this.close();
         } catch (error) {
           console.error(error);
-          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          this.$toast.error(this.$t('toasts.unexpected-error'));
         }
       },
       async submitEdit () {
@@ -812,11 +792,11 @@
 
           await batch.commit();
 
-          this.$toast('Edytowano wpis');
+          this.$toast(this.$t('toasts.event-edited'));
           this.close();
         } catch (error) {
           console.error(error);
-          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          this.$toast.error(this.$t('toasts.unexpected-error'));
         }
       },
       close () {

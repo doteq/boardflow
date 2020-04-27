@@ -4,9 +4,7 @@
     max-width="500px"
   >
     <v-card>
-      <v-card-title>
-        Dodaj przedmiot
-      </v-card-title>
+      <v-card-title v-t="'subject-creator-dialog.title'" />
       <v-form @submit.prevent="submit">
         <v-card-text class="mt-2 pb-0 d-flex">
           <v-menu
@@ -39,47 +37,43 @@
               <v-card-actions>
                 <v-spacer />
                 <v-btn
+                  v-t="'cancel'"
                   text
                   color="primary"
                   @click="colorMenuVisible = false"
-                >
-                  Anuluj
-                </v-btn>
+                />
                 <v-btn
+                  v-t="'ok'"
                   text
                   color="primary"
                   @click="$refs.colorMenu.save(color)"
-                >
-                  OK
-                </v-btn>
+                />
               </v-card-actions>
             </v-card>
           </v-menu>
           <v-text-field
             v-model="name"
             outlined
-            label="Nazwa przedmiotu"
+            :label="$t('subject-creator-dialog.subject-name')"
             autofocus
           />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn
+            v-t="'cancel'"
             color="primary"
             text
             @click="visible = false"
-          >
-            Anuluj
-          </v-btn>
+          />
           <v-btn
+            v-t="'add'"
             color="primary"
             outlined
             type="submit"
             :disabled="!valid"
             :loading="submitLoading"
-          >
-            Dodaj
-          </v-btn>
+          />
         </v-card-actions>
       </v-form>
     </v-card>
@@ -128,7 +122,7 @@
           this.visible = false;
         } catch (error) {
           console.error(error);
-          this.$toast.error('Wystąpił nieoczekiwany błąd');
+          this.$toast.error(this.$t('toasts.unexpected-error'));
         }
 
         this.submitLoading = false;

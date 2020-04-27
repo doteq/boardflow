@@ -30,9 +30,10 @@
         :key="'no-events-info'"
         class="mt-12 mx-6 d-flex flex-column align-center"
       >
-        <h1 class="d-block text-center headline">
-          Nie ma żadnych wpisów w wybranym dniu
-        </h1>
+        <h1
+          class="d-block text-center headline"
+          v-text="$t('no-events-on-selected-day-message')"
+        />
         <v-btn
           class="mt-12"
           color="secondary"
@@ -42,7 +43,7 @@
           <v-icon left>
             mdi-plus
           </v-icon>
-          Dodaj nowy wpis
+          {{ $t('add-new-event') }}
         </v-btn>
       </div>
       <template v-else>
@@ -54,18 +55,20 @@
             'mt-3': index !== 0
           }"
         />
-        <h1 v-if="eventItemsNotDone.length > 0">
-          Do zrobienia:
-        </h1>
+        <h1
+          v-if="eventItemsNotDone.length > 0"
+          v-text="$t('event-states.not-done')"
+        />
         <event-element
           v-for="event in eventItemsNotDone"
           :key="event.id"
           :event="event"
           class="mt-3"
         />
-        <h1 v-if="eventItemsListDone.length > 0">
-          Zrobione:
-        </h1>
+        <h1
+          v-if="eventItemsListDone.length > 0"
+          v-text="$t('event-states.done')"
+        />
         <event-element
           v-for="event in eventItemsListDone"
           :key="event.id"

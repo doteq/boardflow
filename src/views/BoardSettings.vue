@@ -1,14 +1,16 @@
 <template>
   <v-container class="board-settings-container">
-    <app-bar :back-to="`/board/${$route.params.boardId}`">
-      Ustawienia tablicy
+    <app-bar
+      :back-to="`/board/${$route.params.boardId}`"
+    >
+      {{ $t('board-settings.title') }}
     </app-bar>
     <v-tabs :vertical="$vuetify.breakpoint.mdAndUp">
       <v-tab>
         <v-icon left>
           mdi-information
         </v-icon>
-        Ogólne
+        {{ $t('board-settings.general.title') }}
       </v-tab>
       <v-tab>
         <v-icon left>
@@ -19,14 +21,14 @@
           :value="joinRequests && joinRequests.length > 0"
           :content="joinRequests !== null ? joinRequests.length : null"
         >
-          Prośby o dołączenie
+          {{ $t('board-settings.join-requests.title') }}
         </v-badge>
       </v-tab>
       <v-tab>
         <v-icon left>
           mdi-account-multiple
         </v-icon>
-        Członkowie
+        {{ $t('board-settings.members.title') }}
       </v-tab>
 
       <v-tab-item class="px-4 py-6">
@@ -81,7 +83,7 @@
             await this.$bind('boardInfo', this.$database.collection('boards-info').doc(value));
           } catch (error) {
             console.error(error);
-            this.$toast.error('Wystąpił nieoczekiwany błąd');
+            this.$toast.error(this.$t('toasts.unexpected-error'));
           }
           this.boardInfoLoaded = true;
         },
@@ -97,7 +99,7 @@
               await this.$bind('joinRequests', joinRequestsReference);
             } catch (error) {
               console.error(error);
-              this.$toast.error('Wystąpił nieoczekiwany błąd');
+              this.$toast.error(this.$t('toasts.unexpected-error'));
             }
           } else if (this.$firestoreRefs.joinRequests) {
             this.$unbind('joinRequests');

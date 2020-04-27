@@ -11,27 +11,24 @@
       />
     </template>
     <v-card>
-      <v-card-title class="break-word">
-        Na pewno chcesz odrzucić prośbę o dołączenie?
-      </v-card-title>
-      <v-card-text>
-        Użytkownik nadal będzie mógł ponownie poprosić o dołączenie.
-      </v-card-text>
+      <v-card-title
+        v-t="'join-request-reject-dialog.title'"
+        class="break-word"
+      />
+      <v-card-text v-t="'join-request-reject-dialog.description'" />
       <v-card-actions>
         <v-spacer />
         <v-btn
+          v-t="'cancel'"
           text
           @click="visible = false"
-        >
-          Anuluj
-        </v-btn>
+        />
         <v-btn
+          v-t="'reject'"
           color="red"
           text
           @click="reject"
-        >
-          Odrzuć
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>

@@ -1,6 +1,166 @@
 {
+  "accept": "Akceptuj",
+  "add": "Dodaj",
+  "add-as-admin": "Dodaj jako administratora",
+  "add-as-member": "Dodaj jako członka",
+  "add-new-event": "Dodaj nowe wydarzenie",
+  "add-new-event-short": "Dodaj nowe",
+  "app-name": "Task Overflow",
+  "ask-to-join": "Poproś o dołączenie",
+  "board-is-private-message": "Tablica jest prywatna",
+  "board-not-found-message": "Nie znaleziono tablicy",
+  "board-settings": {
+    "general": {
+      "board-name": "Nazwa tablicy",
+      "title": "Ogólne"
+    },
+    "join-requests": {
+      "board-link": "Link do tablicy",
+      "no-pending-join-requests": "Brak oczekujących próśb o dołączenie",
+      "title": "Prośby o dołączenie"
+    },
+    "members": {
+      "remove": "Usuń",
+      "title": "Lista członków"
+    },
+    "title": "Ustawienia tablicy"
+  },
+  "cancel": "Anuluj",
+  "change-display-name": "Zmień wyświetlaną nazwę",
+  "change-display-name-dialog": {
+    "display-name": "Nazwa użytkownika",
+    "hint": "Twoja nazwa jest widoczna dla innych użytkowników",
+    "title": "Zmień wyświetlaną nazwę"
+  },
+  "close": "Zamknij",
+  "copy": "Kopiuj",
+  "create": {
+    "basic-info": "Podstawowe informacje",
+    "board-name": "Nazwa tablicy",
+    "configure-subjects": "Skonfiguruj przedmioty",
+    "create": "Utwórz",
+    "go-to-board": "Przejdź do tablicy",
+    "optional": "Opcjonalne",
+    "ready": "Gotowe!",
+    "select": "Wybierz",
+    "selected": "Wybrana",
+    "start-using-message": "Wyślij link swoim znajomym i zacznij korzystać z @:app-name!",
+    "subjects": "Przedmioty",
+    "subjects-hint": "Będziesz też mógł dodawać przedmioty w ustawieniach tablicy oraz podczas dodawania nowego wydarzenia. W ustawieniach będziesz mógł również zmienić ich kolory,"
+  },
+  "create-new-board": "Utwórz nową tablicę",
+  "create-new-board-short": "Utwórz nową",
+  "edit": "Edytuj",
+  "event-create-dialog": {
+    "add-new-link-short": "Dodaj nowy",
+    "add-new-subject-short": "Dodaj nowy",
+    "date": "Data",
+    "description": "Opis",
+    "duration": "Czas trwania",
+    "event-type": "Typ wydarzenia",
+    "event-type-edit-hint": "Nie możesz zmienić typu wydarzenia podczas edytowania",
+    "hours": "Godziny",
+    "links": "Linki",
+    "minutes": "Minuty",
+    "no-changes-message": "Nie dokonałeś żadnych zmian",
+    "not-a-board-member-message": {
+      "create": "Aby dodawać wydarzenia, musisz być członkiem tablicy",
+      "edit": "Aby edytować wydarzenia, musisz być członkiem tablicy"
+    },
+    "not-signed-in-message": {
+      "create": "Aby dodawać wydarzenia, musisz się zalgować",
+      "edit": "Aby edytować wydarzenia, musisz się zalgować"
+    },
+    "optional": "(opcjonalne)",
+    "optional-homework": "Zadanie dla chętnych",
+    "optional-label": "{0} @:event-create-dialog.optional",
+    "rules": {
+      "field-required": "To pole jest wymagane",
+      "invalid-url": "Podany adres URL jest niepoprawny",
+      "link-already-added": "Ten link jest już dodany"
+    },
+    "subject": "Przedmiot",
+    "time": "Godzina",
+    "title": "Tytuł",
+    "url-address": "Adres URL"
+  },
+  "event-not-found": "Nie znaleziono wydarzenia",
+  "event-states": {
+    "done": "Zrobione",
+    "not-done": "Nie zrobione"
+  },
+  "event-types": {
+    "homework": "Zadanie domowe",
+    "lesson": "Lekcja",
+    "test": "Sprawdzian, kartkówka"
+  },
+  "facebook": "Facebook",
   "github": "GitHub",
+  "google": "Google",
+  "join-request-pending-message": "Oczekiwanie na zaakceptowanie prośby o dołączenie",
+  "join-request-reject-dialog": {
+    "description": "Użytkownik nadal będzie mógł ponownie poprosić o dołączenie",
+    "title": "Na pewno chcesz odrzucić prośbę o dołączenie?"
+  },
+  "link-facebook": "Połącz konto Facebook",
+  "link-google": "Połącz konto Google",
+  "made-with": {
+    "dominik-korsa": "Dominik Korsa",
+    "doteq": "Doteq",
+    "message": "Zrobione dzięki {icon-vuejs}, {icon-vuetify}, {icon-firebase} i {icon-love} przez {doteq} i {dominik-korsa}",
+    "title-firebase": "Google Firebase",
+    "title-love": "Miłości",
+    "title-vuejs": "Vue.js",
+    "title-vuetify": "Vuetify"
+  },
+  "next": "Dalej",
+  "no-events-on-selected-day-message": "Nie ma żadnych wydarzeń w wybranym dniu",
+  "not-a-board-member-message": "Nie jesteś członkiem tej tablicy",
+  "not-any-board-member-message": "Nie jesteś członkiem żadnej tablicy",
+  "not-signed-in-message": "Nie jesteś zalogowany",
+  "ok": "OK",
+  "overflow-number": "+{0}",
   "privacy-policy": "Polityka Prywatności",
+  "reject": "Odrzuć",
+  "remove": "Usuń",
+  "request-join": "Poproś o dołączenie",
+  "save": "Zapisz",
   "sign-in": "Zaloguj się",
-  "sign-out": "Wyloguj się"
+  "sign-in-with": "Zaloguj się przez...",
+  "sign-out": "Wyloguj się",
+  "subject-creator-dialog": {
+    "subject-name": "Nazwa przedmiotu",
+    "title": "Dodaj przedmiot"
+  },
+  "toasts": {
+    "event-added": "Dodano wydarzenie",
+    "event-edited": "Edytowano wydarzenie",
+    "link-copied": "Skopiowano link do schowka",
+    "link-failed": "Nie udało się połączyć konta",
+    "sign-in": {
+      "account-exists-with-different-credential": "Istnieje już konto z tym samym adresem email, ale innym dostawcą",
+      "other": "Nie udało się zalogować",
+      "popup-closed-by-user": "Logowanie zostało przerwane"
+    },
+    "signed-out": "Wylogowano",
+    "unexpected-error": "Wystąpił nieoczekiwany błąd",
+    "unlink-failed": "Nie udało się odłączyć konta"
+  },
+  "unlink-dialog": {
+    "description": "Po odłączeniu konta nie będziesz mógł się zalogować za pomocą tego dostawcy",
+    "facebook-title": "Odłączyć konto Facebook?",
+    "unlink": "Odłącz"
+  },
+  "unlink-facebook": "Odłącz konto Facebook",
+  "visibility": {
+    "private": {
+      "description": "Wszystkie informacje o tablicy, poza jej nazwą, są niewidoczne dla osób, które nie zostały dodane jako członek tablicy.",
+      "title": "Prywatna"
+    },
+    "public": {
+      "description": "Każda osoba, posiadająca link do tej tablicy, może zobaczyć dodane wydarzenia, listę członków oraz aktywność. Osoby nie dodane jako członek nie mogą dodawać ani edytować wydarzeń.",
+      "title": "Publiczna"
+    },
+    "title": "Widoczność tablicy"
+  }
 }
