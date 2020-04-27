@@ -5,7 +5,10 @@
     >
       {{ $t('board-settings.title') }}
     </app-bar>
-    <v-tabs :vertical="$vuetify.breakpoint.mdAndUp">
+    <v-tabs
+      v-model="tabIndex"
+      :vertical="$vuetify.breakpoint.mdAndUp"
+    >
       <v-tab>
         <v-icon left>
           mdi-information
@@ -72,8 +75,35 @@
       boardInfo: null,
       boardInfoLoaded: false,
       joinRequests: null,
+      tabs: [
+        {
+          path: 'general',
+          routeName: 'BoardSettingsGeneral',
+        },
+        {
+          path: 'join-requests',
+          routeName: 'BoardSettingsJoinRequests',
+        },
+        {
+          path: 'members',
+          routeName: 'BoardSettingsMembers',
+        },
+        {
+          path: 'subjects',
+          routeName: 'BoardSettingsSubjects',
+        },
+      ],
     }),
     computed: {
+      tabIndex: {
+        get () {
+          return this.tabs.findIndex((tab) => tab.routeName === this.$route.name);
+        },
+        set (value) {
+          const tab = this.tabs[value];
+          this.$router.replace(`/board/${this.$route.params.boardId}/settings/${tab.path}`);
+        },
+      },
       userIsMember () {
         if (!this.boardInfo) return null;
         if (!this.$store.state.userAuth) return false;

@@ -38,6 +38,32 @@ const routes = [
     path: '/board/:boardId/settings',
     name: 'BoardSettings',
     component: BoardSettings,
+    children: [
+      {
+        path: 'general',
+        name: 'BoardSettingsGeneral',
+      },
+      {
+        path: 'join-requests',
+        name: 'BoardSettingsJoinRequests',
+      },
+      {
+        path: 'members',
+        name: 'BoardSettingsMembers',
+      },
+      {
+        path: 'subjects',
+        name: 'BoardSettingsSubjects',
+      },
+      {
+        path: '',
+        redirect: 'general',
+      },
+      {
+        path: '*',
+        redirect: 'general',
+      },
+    ],
   },
   {
     path: '/create',
