@@ -30,6 +30,12 @@
         </v-icon>
         {{ $t('board-settings.members.title') }}
       </v-tab>
+      <v-tab>
+        <v-icon left>
+          mdi-book
+        </v-icon>
+        Przedmioty
+      </v-tab>
 
       <v-tab-item class="px-4 py-6">
         <general-tab />
@@ -40,15 +46,18 @@
       <v-tab-item class="px-4 py-6">
         <members-tab />
       </v-tab-item>
+      <v-tab-item class="px-4 py-6">
+        <subjects-tab />
+      </v-tab-item>
     </v-tabs>
   </v-container>
 </template>
-
 <script>
   import AppBar from '../components/AppBar.vue';
   import GeneralTab from '../components/board-settings/tabs/GeneralTab.vue';
   import JoinRequestsTab from '../components/board-settings/tabs/JoinRequestsTab.vue';
   import MembersTab from '../components/board-settings/tabs/MembersTab.vue';
+  import SubjectsTab from '../components/board-settings/tabs/SubjectsTab.vue';
 
   export default {
     name: 'BoardSettings',
@@ -57,6 +66,7 @@
       GeneralTab,
       JoinRequestsTab,
       MembersTab,
+      SubjectsTab,
     },
     data: () => ({
       boardInfo: null,
@@ -110,7 +120,6 @@
     },
   };
 </script>
-
 <style scoped>
   .board-settings-container {
     max-width: 1100px
