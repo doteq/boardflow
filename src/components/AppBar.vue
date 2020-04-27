@@ -40,17 +40,19 @@
 
     <app-bar-locale-picker />
 
-    <app-bar-account-button v-if="signedIn" />
-    <v-btn
-      v-else
-      outlined
-      @click="showSignInSheet()"
-    >
-      <v-icon left>
-        mdi-account
-      </v-icon>
-      {{ $t('sign-in') }}
-    </v-btn>
+    <div>
+      <app-bar-account-button v-if="signedIn" />
+      <v-btn
+        v-else
+        outlined
+        @click="showSignInSheet()"
+      >
+        <v-icon left>
+          mdi-account
+        </v-icon>
+        {{ $t('sign-in') }}
+      </v-btn>
+    </div>
 
     <template
       v-if="$slots.extension !== undefined"
