@@ -18,6 +18,14 @@ new Vue({
   vuetify,
   store,
   router,
+  watch: {
+    '$i18n.locale': {
+      handler (value) {
+        this.$vuetify.lang.current = value;
+      },
+      immediate: false,
+    },
+  },
   created () {
     const commitSHA = process.env.VUE_APP_GITHUB_SHA;
     console.log(`GitHub commit: ${commitSHA || 'no commit info'}`);
