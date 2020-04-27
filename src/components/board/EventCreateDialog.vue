@@ -3,8 +3,6 @@
     :value="value"
     :max-width="ready ? '700px' : '500px'"
     persistent
-    no-click-animation
-    @click:outside="close()"
     @keydown.esc="close()"
   >
     <v-card v-if="loading">
