@@ -17,7 +17,6 @@
         <v-btn
           v-if="$vuetify.breakpoint.smOnly"
           text
-          class="mr-2"
           :to="`/board/${$route.params.boardId}/settings`"
         >
           <v-icon left>
@@ -35,7 +34,7 @@
           <template v-slot:activator="{ on }">
             <v-btn
               icon
-              class="mr-2"
+              class="mr-1"
               :to="`/board/${$route.params.boardId}/settings`"
               v-on="on"
             >
