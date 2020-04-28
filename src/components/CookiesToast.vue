@@ -16,13 +16,6 @@
     </v-icon>
     {{ $t('cookies-toast.message') }}
     <v-btn
-      v-t="'cookies-toast.more-info'"
-      dark
-      text
-      href="https://skrypt-cookies.pl/czym-sa-ciasteczka"
-      target="_blank"
-    />
-    <v-btn
       v-t="'cookies-toast.understand'"
       dark
       text
