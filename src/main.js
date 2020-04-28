@@ -22,6 +22,7 @@ new Vue({
     '$i18n.locale': {
       handler (value) {
         this.$vuetify.lang.current = value;
+        window.localStorage.locale = value;
       },
       immediate: false,
     },

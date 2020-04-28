@@ -16,8 +16,24 @@ function loadLocaleMessages () {
   return messages;
 }
 
+const localeMessages = loadLocaleMessages();
+
+let locale;
+if (window.localStorage.locale) {
+  locale = window.localStorage.locale;
+} else {
+  const userLocale = window.navigator.language.split('-')[0];
+  if (localeMessages[userLocale] !== undefined) {
+    locale = userLocale;
+  } else {
+    locale = 'en';
+  }
+
+  window.localStorage.locale = locale;
+}
+
 export default new VueI18n({
-  locale: 'en',
+  locale,
   fallbackLocale: 'en',
-  messages: loadLocaleMessages(),
+  messages: localeMessages,
 });
