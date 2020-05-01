@@ -17,6 +17,7 @@
         <board-menu
           v-if="$vuetify.breakpoint.smAndDown"
           dense
+          :join-requests="joinRequests"
         >
           <template v-slot:activator="{ on: menuOn, badgeCount, value }">
             <div>
@@ -180,7 +181,7 @@
               {{ $t('add-new-event') }}
               <v-spacer />
             </v-btn>
-            <board-menu>
+            <board-menu :join-requests="joinRequests">
               <template v-slot:activator="{ on, badgeCount, value }">
                 <v-badge
                   :value="badgeCount > 0 && !value"

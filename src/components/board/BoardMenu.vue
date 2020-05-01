@@ -15,7 +15,8 @@
       <v-list-item :to="`/board/${$route.params.boardId}/settings`">
         <v-list-item-icon>
           <v-badge
-            content="5"
+            :value="settingsBadgeCount > 0"
+            :content="settingsBadgeCount"
             color="red"
             :overlap="dense"
           >
@@ -70,12 +71,19 @@
         default: false,
         required: false,
       },
+      joinRequests: {
+        type: Array,
+        required: true,
+      },
     },
     data: () => ({
       visible: false,
-      settingsBadgeCount: 5,
     }),
     computed: {
+      settingsBadgeCount () {
+        if (!this.joinRequests) return 0;
+        return this.joinRequests.length;
+      },
       badgeCount () {
         return this.settingsBadgeCount;
       },
