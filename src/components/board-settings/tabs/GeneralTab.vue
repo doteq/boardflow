@@ -22,6 +22,7 @@
         required
         autofocus
         :counter="50"
+        :counter-value="(value) => value.trim().length"
         :error-messages="nameErrors"
       >
         <template v-slot:append>
@@ -155,7 +156,7 @@
         const errors = [];
 
         if (this.name.trim() === '') errors.push(this.$t('board-settings.general.field-required'));
-        if (this.name.length > 50) errors.push(this.$t('board-settings.general.max-length-50'));
+        if (this.name.trim().length > 50) errors.push(this.$t('board-settings.general.max-length-50'));
 
         return errors;
       },

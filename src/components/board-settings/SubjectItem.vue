@@ -63,6 +63,8 @@
                   outlined
                   autofocus
                   :error-messages="nameErrors"
+                  :counter="30"
+                  :counter-value="(value) => value.trim().length"
                 />
               </v-form>
             </v-card-text>
@@ -157,6 +159,10 @@
 
         if (this.nameChangeMenuInput === null || this.nameChangeMenuInput.trim().length === 0) {
           errors.push(this.$t('board-settings.subjects.field-required'));
+        }
+
+        if (this.nameChangeMenuInput !== null && this.nameChangeMenuInput.trim().length > 30) {
+          errors.push(this.$t('board-settings.subjects.max-length-30'));
         }
 
         return errors;
