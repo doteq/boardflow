@@ -109,7 +109,10 @@
                 </change-owner-dialog>
                 <member-remove-dialog @remove="removeUser(user.uid)">
                   <template v-slot:activator="{ on }">
-                    <v-list-item v-on="on">
+                    <v-list-item
+                      :disabled="user.self"
+                      v-on="on"
+                    >
                       <v-list-item-title v-t="'board-settings.members.remove'" />
                     </v-list-item>
                   </template>
