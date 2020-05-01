@@ -167,10 +167,3 @@
     },
   };
 </script>
-
-<style scoped>
-  .nazwa {
-    font-size: 20px;
-    font-weight: bold;
-  }
-</style>
