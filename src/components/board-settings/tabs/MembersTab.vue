@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="board-settings-members-tab">
     <h1
       class="headline mb-6 text-center"
       v-text="$t('board-settings.members.title')"
@@ -11,101 +11,101 @@
     >
       <v-skeleton-loader type="list-item-avatar-two-line" />
     </v-card>
-    <v-card
-      v-for="user in memberList"
-      :key="user.uid"
-      class="mb-3"
-      outlined
-    >
-      <v-row
-        class="align-center pl-4 pr-5"
-        no-gutters
+    <transition-group name="flip-list">
+      <v-card
+        v-for="user in memberList"
+        :key="user.uid"
+        class="mb-3"
+        outlined
       >
-        <v-col cols="auto">
-          <v-avatar
-            class="elevation-4"
-            :size="48"
-          >
-            <v-img
-              :src="user.photoURL"
-              :alt="user.name"
-            />
-          </v-avatar>
-        </v-col>
-        <v-col>
-          <v-card-title v-text="user.name" />
-          <v-card-subtitle
-            v-if="user.owner"
-            v-t="'roles.owner'"
-            class="amber--text"
-          />
-          <v-card-subtitle
-            v-else-if="user.admin"
-            v-t="'roles.admin'"
-            class="secondary--text"
-          />
-          <v-card-subtitle
-            v-else
-            v-t="'roles.member'"
-          />
-        </v-col>
-        <v-col
-          v-if="!user.owner"
-          cols="auto"
+        <v-row
+          class="align-center pl-4 pr-5"
+          no-gutters
         >
-          <v-menu
-            left
-            offset-y
+          <v-col cols="auto">
+            <v-avatar
+              class="elevation-4"
+              :size="48"
+            >
+              <v-img
+                :src="user.photoURL"
+                :alt="user.name"
+              />
+            </v-avatar>
+          </v-col>
+          <v-col>
+            <v-card-title v-text="user.name" />
+            <v-card-subtitle
+              v-if="user.owner"
+              v-t="'roles.owner'"
+              class="amber--text"
+            />
+            <v-card-subtitle
+              v-else-if="user.admin"
+              v-t="'roles.admin'"
+              class="secondary--text"
+            />
+            <v-card-subtitle
+              v-else
+              v-t="'roles.member'"
+            />
+          </v-col>
+          <v-col
+            v-if="!user.owner"
+            cols="auto"
           >
-            <template v-slot:activator="{ on }">
-              <v-btn
-                icon
-                v-on="on"
-              >
-                <v-icon>
-                  mdi-dots-vertical
-                </v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <!--              <v-list-item-->
-              <!--                v-if="!user.admin"-->
-              <!--                :disabled="!userIsOwner"-->
-              <!--                link-->
-              <!--              >-->
-              <!--                <v-list-item-title>-->
-              <!--                  Dodaj rolę administratora-->
-              <!--                </v-list-item-title>-->
-              <!--              </v-list-item>-->
-              <!--              <v-list-item-->
-              <!--                v-if="user.admin"-->
-              <!--                :disabled="!userIsOwner"-->
-              <!--                link-->
-              <!--              >-->
-              <!--                <v-list-item-title>-->
-              <!--                  Usuń rolę administratora-->
-              <!--                </v-list-item-title>-->
-              <!--              </v-list-item>-->
-              <!--              <v-list-item-->
-              <!--                link-->
-              <!--                :disabled="!userIsOwner"-->
-              <!--              >-->
-              <!--                <v-list-item-title>-->
-              <!--                  Przenieś rolę właściciela-->
-              <!--                </v-list-item-title>-->
-              <!--              </v-list-item>-->
-              <member-remove-dialog @remove="removeUser(user.uid)">
-                <template v-slot:activator="{ on }">
-                  <v-list-item v-on="on">
-                    <v-list-item-title v-t="'board-settings.members.remove'" />
-                  </v-list-item>
-                </template>
-              </member-remove-dialog>
-            </v-list>
-          </v-menu>
-        </v-col>
-      </v-row>
-    </v-card>
+            <v-menu
+              left
+              offset-y
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>
+                    mdi-dots-vertical
+                  </v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-if="!user.admin"
+                  :disabled="!userIsOwner"
+                  link
+                  @click="addAdmin(user.uid)"
+                >
+                  <v-list-item-title v-t="'board-settings.members.admin-add'" />
+                </v-list-item>
+                <v-list-item
+                  v-if="user.admin"
+                  :disabled="!userIsOwner"
+                  link
+                  @click="removeAdmin(user.uid)"
+                >
+                  <v-list-item-title v-t="'board-settings.members.admin-remove'" />
+                </v-list-item>
+                <!--              <v-list-item-->
+                <!--                link-->
+                <!--                :disabled="!userIsOwner"-->
+                <!--              >-->
+                <!--                <v-list-item-title>-->
+                <!--                  Przenieś rolę właściciela-->
+                <!--                </v-list-item-title>-->
+                <!--              </v-list-item>-->
+                <member-remove-dialog @remove="removeUser(user.uid)">
+                  <template v-slot:activator="{ on }">
+                    <v-list-item v-on="on">
+                      <v-list-item-title v-t="'board-settings.members.remove'" />
+                    </v-list-item>
+                  </template>
+                </member-remove-dialog>
+              </v-list>
+            </v-menu>
+          </v-col>
+        </v-row>
+      </v-card>
+    </transition-group>
   </div>
 </template>
 
@@ -172,6 +172,38 @@
           this.$toast.error(this.$t('toasts.unexpected-error'));
         }
       },
+      async addAdmin (userUid) {
+        try {
+          const boardInfoReference = this.$database.collection('boards-info').doc(this.$route.params.boardId);
+          await boardInfoReference.update({
+            admins: firebase.firestore.FieldValue.arrayUnion(userUid),
+          });
+          this.$toast(this.$t('toasts.admin-added'));
+        } catch (error) {
+          console.error(error);
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+        }
+      },
+      async removeAdmin (userUid) {
+        try {
+          const boardInfoReference = this.$database.collection('boards-info').doc(this.$route.params.boardId);
+          await boardInfoReference.update({
+            admins: firebase.firestore.FieldValue.arrayRemove(userUid),
+          });
+          this.$toast(this.$t('toasts.admin-removed'));
+        } catch (error) {
+          console.error(error);
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+        }
+      },
     },
   };
 </script>
+
+<style lang="scss">
+  .board-settings-members-tab {
+    .flip-list-move {
+      transition: transform 300ms;
+    }
+  }
+</style>

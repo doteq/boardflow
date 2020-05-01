@@ -21,6 +21,8 @@
       "title": "Join requests"
     },
     "members": {
+      "admin-add": "Add admin role",
+      "admin-remove": "Remove admin role",
       "remove": "Remove",
       "remove-dialog": {
         "description": "This user will no longer be able to edit this board and create or edit its events. He will still be able ask to join.",
@@ -155,6 +157,8 @@
     "title": "Add a subject"
   },
   "toasts": {
+    "admin-added": "Admin role has been added",
+    "admin-removed": "Admin role has been removed",
     "event-added": "Event added",
     "event-edited": "Event edited",
     "link-copied": "Link has been copied to clipboard",

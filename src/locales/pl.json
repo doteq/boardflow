@@ -21,6 +21,8 @@
       "title": "Prośby o dołączenie"
     },
     "members": {
+      "admin-add": "Dodaj rolę administratora",
+      "admin-remove": "Odbierz rolę administratora",
       "remove": "Usuń",
       "remove-dialog": {
         "description": "Ten użytkownik nie będzie już mógł edytować tej tablicy oraz dodawać i edytować jej wydarzeń. Wciąż będzie mógł poprosić o dołączenie.",
@@ -156,6 +158,8 @@
     "title": "Dodaj przedmiot"
   },
   "toasts": {
+    "admin-added": "Rola administratora została dodana",
+    "admin-removed": "Rola administratora została usunięta",
     "event-added": "Dodano wydarzenie",
     "event-edited": "Edytowano wydarzenie",
     "link-copied": "Skopiowano link do schowka",
