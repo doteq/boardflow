@@ -28,6 +28,12 @@
         "description": "Ten użytkownik nie będzie już mógł edytować tej tablicy oraz dodawać i edytować jej wydarzeń. Wciąż będzie mógł poprosić o dołączenie.",
         "title": "Usunąć użytkownika?"
       },
+      "change-owner-dialog": {
+        "change": "Zmień właściciela",
+        "description": "Zmiana właściciela tablicy spowoduje, że utracisz przez możliwość zarządzania rolami. Nie będziesz mógł cofnąć tej zmiany.",
+        "title": "Na pewno chcesz zmienić właściciela tablicy?"
+      },
+      "set-owner": "Ustaw jako właściciela",
       "title": "Lista członków"
     },
     "subjects": {
@@ -164,6 +170,7 @@
     "event-edited": "Edytowano wydarzenie",
     "link-copied": "Skopiowano link do schowka",
     "link-failed": "Nie udało się połączyć konta",
+    "owner-changed": "Właściciel został zmieniony",
     "sign-in": {
       "account-exists-with-different-credential": "Istnieje już konto z tym samym adresem email, ale innym dostawcą",
       "other": "Nie udało się zalogować",

@@ -85,14 +85,17 @@
                 >
                   <v-list-item-title v-t="'board-settings.members.admin-remove'" />
                 </v-list-item>
-                <!--              <v-list-item-->
-                <!--                link-->
-                <!--                :disabled="!userIsOwner"-->
-                <!--              >-->
-                <!--                <v-list-item-title>-->
-                <!--                  Przenieś rolę właściciela-->
-                <!--                </v-list-item-title>-->
-                <!--              </v-list-item>-->
+                <change-owner-dialog @change="changeOwner(user.uid)">
+                  <template v-slot:activator="{ on }">
+                    <v-list-item
+                      link
+                      :disabled="!userIsOwner"
+                      v-on="on"
+                    >
+                      <v-list-item-title v-t="'board-settings.members.set-owner'" />
+                    </v-list-item>
+                  </template>
+                </change-owner-dialog>
                 <member-remove-dialog @remove="removeUser(user.uid)">
                   <template v-slot:activator="{ on }">
                     <v-list-item v-on="on">
@@ -112,11 +115,13 @@
 <script>
   import _ from 'lodash';
   import firebase from 'firebase/app';
+  import ChangeOwnerDialog from '../ChangeOwnerDialog.vue';
   import MemberRemoveDialog from '../MemberRemoveDialog.vue';
   import 'firebase/firestore';
 
   export default {
     components: {
+      ChangeOwnerDialog,
       MemberRemoveDialog,
     },
     props: {
@@ -189,6 +194,19 @@
           const boardInfoReference = this.$database.collection('boards-info').doc(this.$route.params.boardId);
           await boardInfoReference.update({
             admins: firebase.firestore.FieldValue.arrayRemove(userUid),
+          });
+          this.$toast(this.$t('toasts.admin-removed'));
+        } catch (error) {
+          console.error(error);
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+        }
+      },
+      async changeOwner (userUid) {
+        try {
+          const boardInfoReference = this.$database.collection('boards-info').doc(this.$route.params.boardId);
+          await boardInfoReference.update({
+            owner: userUid,
+            admins: firebase.firestore.FieldValue.arrayUnion(userUid),
           });
           this.$toast(this.$t('toasts.admin-removed'));
         } catch (error) {
