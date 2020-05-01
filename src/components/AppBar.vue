@@ -38,7 +38,7 @@
 
     <slot name="buttons" />
 
-    <app-bar-locale-picker />
+    <app-bar-locale-picker class="mr-2" />
 
     <div>
       <app-bar-account-button v-if="signedIn" />

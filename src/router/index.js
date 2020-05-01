@@ -5,6 +5,7 @@ import Home from '../views/Home.vue';
 const Board = () => import(/* webpackChunkName: "board" */ '../views/Board.vue');
 const BoardSettings = () => import(/* webpackChunkName: "board-settings" */ '../views/BoardSettings.vue');
 const Create = () => import(/* webpackChunkName: "create" */ '../views/Create.vue');
+const RouteNotFound = () => import(/* webpackChunkName: "route-not-found" */ '../views/RouteNotFound.vue');
 
 Vue.use(VueRouter);
 
@@ -69,6 +70,11 @@ const routes = [
     path: '/create',
     name: 'Create',
     component: Create,
+  },
+  {
+    path: '*',
+    name: 'RouteNotFound',
+    component: RouteNotFound,
   },
 ];
 

@@ -6,7 +6,6 @@
     <template v-slot:activator="{ on }">
       <v-btn
         icon
-        class="mr-2"
         v-on="on"
       >
         <v-icon>mdi-translate</v-icon>

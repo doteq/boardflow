@@ -10,7 +10,6 @@
   "board-is-private-message": "Board is private",
   "board-not-found-message": "Board not found",
   "board-settings": {
-    "title": "Board settings",
     "general": {
       "board-name": "Board name",
       "title": "General"
@@ -23,7 +22,8 @@
     "members": {
       "remove": "Remove",
       "title": "Members list"
-    }
+    },
+    "title": "Board settings"
   },
   "cancel": "Cancel",
   "change-display-name": "Change display name",
@@ -46,11 +46,11 @@
     "go-to-board": "Go to board",
     "optional": "Optional",
     "ready": "Ready!",
+    "select": "Select",
+    "selected": "Selected",
     "start-using-message": "Send the link to your friends and start using @:app-name!",
     "subjects": "Subjects",
-    "subjects-hint": "You will also be able to add subjects in board settings or while adding a new event. In the settings you can also change subject colors.",
-    "select": "Select",
-    "selected": "Selected"
+    "subjects-hint": "You will also be able to add subjects in board settings or while adding a new event. In the settings you can also change subject colors."
   },
   "create-new-board": "Create new board",
   "create-new-board-short": "Create new",
@@ -127,6 +127,11 @@
   "privacy-policy": "Privacy Policy",
   "reject": "Reject",
   "remove": "Remove",
+  "route-not-found": {
+    "code": "404",
+    "go-back": "Go back",
+    "message": "Page not found"
+  },
   "save": "Save",
   "sign-in": "Sign in",
   "sign-in-with": "Sign in with...",
