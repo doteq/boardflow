@@ -21,7 +21,7 @@
           class="py-0"
         >
           {{ $t('create.configure-subjects') }}
-          <small v-t="'create.optional'" />
+          <small v-text="$t('create.optional')" />
         </v-stepper-step>
         <v-divider />
         <v-stepper-step
@@ -43,11 +43,12 @@
               required
               autofocus
               :counter="50"
+              :counter-value="(value) => value.trim().length"
             />
 
             <div
-              v-t="'visibility.title'"
               class="px-1 subtitle-2"
+              v-text="$t('visibility.title')"
             />
             <v-item-group
               v-model="isPublic"
@@ -180,8 +181,8 @@
           </v-form>
         </v-stepper-content>
         <v-stepper-content step="3">
-          <h1 v-t="'create.ready'" />
-          <span v-t="'create.start-using-message'" />
+          <h1 v-text="$t('create.ready')" />
+          <span v-text="$t('create.start-using-message')" />
           <v-text-field
             id="board-link-input"
             :value="link"
@@ -260,7 +261,7 @@
         return new URL(`/board/${this.generatedBoardId}`, window.location.origin).toString();
       },
       step1valid () {
-        return !!this.name.trim() && this.name.length <= 50;
+        return !!this.name.trim() && this.name.trim().length <= 50;
       },
     },
     watch: {

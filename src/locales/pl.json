@@ -45,6 +45,9 @@
     },
     "subjects": {
       "change-color": "Zmień kolor",
+      "field-required": "To pole jest wymagane",
+      "max-length-30": "Nazwa nie może mieć więcej niż 30 znaków",
+      "name-not-changed": "Nazwa nie została zmieniona",
       "title": "Przedmioty"
     },
     "title": "Ustawienia tablicy"

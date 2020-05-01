@@ -56,6 +56,8 @@
             outlined
             :label="$t('subject-creator-dialog.subject-name')"
             autofocus
+            :counter="30"
+            :counter-value="(value) => value.trim().length"
           />
         </v-card-text>
         <v-card-actions>
@@ -94,7 +96,7 @@
     }),
     computed: {
       valid () {
-        return this.name.trim().length > 0;
+        return this.name.trim().length > 0 && this.name.trim().length <= 30;
       },
     },
     methods: {

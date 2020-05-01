@@ -4,8 +4,15 @@
       class="headline mb-6 text-center"
       v-text="$t('board-settings.subjects.title')"
     />
+    <v-card
+      v-if="subjects === null"
+      outlined
+      class="py-1 mb-3"
+    >
+      <v-skeleton-loader type="list-item-avatar-two-line" />
+    </v-card>
     <subject-item
-      v-for="subject in subjects"
+      v-for="subject in (subjects !== null ? subjects : [])"
       :key="subject.id"
       :subject="subject"
     />
@@ -16,7 +23,10 @@
         outlined
         @click="openSubjectCreator"
       >
-        <v-icon>mdi-plus</v-icon>{{ $t('subject-creator-dialog.title') }}
+        <v-icon left>
+          mdi-plus
+        </v-icon>
+        {{ $t('subject-creator-dialog.title') }}
       </v-btn>
     </div>
     <subject-creator-dialog
@@ -36,20 +46,13 @@
       SubjectCreatorDialog,
       SubjectItem,
     },
-    data: () => ({
-      subjects: [
-        {
-          id: 'dgsfsgfsdgbvvcg',
-          name: 'Polski',
-          color: '#ffffff',
-        },
-        {
-          id: 'vweb86yy123voiovb',
-          name: 'Matematyka',
-          color: '#000000',
-        },
-      ],
-    }),
+    props: {
+      subjects: {
+        type: Array,
+        required: false,
+        default: null,
+      },
+    },
     methods: {
       openSubjectCreator () {
         this.$refs.subjectCreatorDialog.show(this.$route.params.boardId);
