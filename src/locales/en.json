@@ -8,6 +8,7 @@
   "app-name": "Task Overflow",
   "ask-to-join": "Ask to join",
   "board-is-private-message": "Board is private",
+  "board-menu": "Board menu",
   "board-not-found-message": "Board not found",
   "board-settings": {
     "general": {
@@ -22,6 +23,9 @@
     "members": {
       "remove": "Remove",
       "title": "Members list"
+    },
+    "subjects": {
+      "title": "Subjects"
     },
     "title": "Board settings"
   },
@@ -106,6 +110,7 @@
     "description": "The user will still be able to ask to join again",
     "title": "Are you sure you want to reject this join request?"
   },
+  "leave-board": "Leave board",
   "link-facebook": "Link Facebook account",
   "link-google": "Link Google account",
   "made-with": {

@@ -14,42 +14,49 @@
         v-if="userIsMember"
         v-slot:buttons
       >
-        <v-btn
-          v-if="$vuetify.breakpoint.smOnly"
-          text
-          :to="`/board/${$route.params.boardId}/settings`"
+        <board-menu
+          v-if="$vuetify.breakpoint.smAndDown"
+          dense
         >
-          <v-icon left>
-            mdi-cog
-          </v-icon>
-          <v-badge
-            v-t="'board-settings.title'"
-            :value="joinRequests !== null && joinRequests.length > 0"
-            color="red"
-            :content="joinRequests !== null ? joinRequests.length : ''"
-          />
-        </v-btn>
-
-        <v-tooltip v-if="$vuetify.breakpoint.xsOnly">
-          <template v-slot:activator="{ on }">
-            <v-btn
-              icon
-              class="mr-1"
-              :to="`/board/${$route.params.boardId}/settings`"
-              v-on="on"
-            >
-              <v-badge
-                :value="joinRequests !== null && joinRequests.length > 0"
-                color="red"
-                :content="joinRequests !== null ? joinRequests.length : ''"
-                overlap
+          <template v-slot:activator="{ on: menuOn, badgeCount, value }">
+            <div>
+              <v-tooltip v-if="$vuetify.breakpoint.xsOnly">
+                <template v-slot:activator="{ on: tooltipOn }">
+                  <v-btn
+                    icon
+                    class="mr-1"
+                    v-on="{ ...menuOn, ...tooltipOn }"
+                  >
+                    <v-badge
+                      :value="badgeCount > 0 && !value"
+                      color="red"
+                      :content="badgeCount"
+                      overlap
+                    >
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-badge>
+                  </v-btn>
+                </template>
+                <span v-text="$t('board-menu')" />
+              </v-tooltip>
+              <v-btn
+                v-else
+                text
+                v-on="menuOn"
               >
-                <v-icon>mdi-cog</v-icon>
-              </v-badge>
-            </v-btn>
+                <v-icon left>
+                  mdi-dots-vertical
+                </v-icon>
+                <v-badge
+                  v-t="'board-menu'"
+                  :value="badgeCount > 0 && !value"
+                  color="red"
+                  :content="badgeCount"
+                />
+              </v-btn>
+            </div>
           </template>
-          <span v-t="'board-settings.title'" />
-        </v-tooltip>
+        </board-menu>
       </template>
       <template
         v-if="$vuetify.breakpoint.xsOnly"
@@ -100,8 +107,8 @@
       class="d-flex fill-height flex-column align-center justify-center grow"
     >
       <h1
-        v-t="'board-not-found-message'"
         class="display-1"
+        v-text="$t('board-not-found-message')"
       />
     </div>
     <div
@@ -109,8 +116,8 @@
       class="d-flex fill-height fill-width flex-column align-center justify-center grow"
     >
       <h1
-        v-t="'board-is-private-message'"
         class="display-1 text-center"
+        v-text="$t('board-is-private-message')"
       />
       <v-btn
         v-if="!$store.state.userAuth"
@@ -129,8 +136,8 @@
       />
       <div
         v-else-if="selfMemberRequest"
-        v-t="'join-request-pending-message'"
         class="mt-8 body-1 text-center text--secondary"
+        v-text="$t('join-request-pending-message')"
       />
       <v-btn
         v-else
@@ -169,28 +176,36 @@
               <v-icon left>
                 mdi-plus
               </v-icon>
+              <v-spacer />
               {{ $t('add-new-event') }}
+              <v-spacer />
             </v-btn>
-            <v-badge
-              :value="joinRequests !== null && joinRequests.length > 0"
-              bordered
-              color="red"
-              :content="joinRequests !== null ? joinRequests.length : ''"
-              overlap
-              class="d-block"
-            >
-              <v-btn
-                block
-                class="mb-4"
-                outlined
-                :to="`/board/${$route.params.boardId}/settings`"
-              >
-                <v-icon left>
-                  mdi-cog
-                </v-icon>
-                {{ $t('board-settings.title') }}
-              </v-btn>
-            </v-badge>
+            <board-menu>
+              <template v-slot:activator="{ on, badgeCount, value }">
+                <v-badge
+                  :value="badgeCount > 0 && !value"
+                  bordered
+                  color="red"
+                  :content="badgeCount"
+                  overlap
+                  class="d-block"
+                >
+                  <v-btn
+                    block
+                    class="mb-4"
+                    outlined
+                    v-on="on"
+                  >
+                    <v-icon left>
+                      mdi-dots-vertical
+                    </v-icon>
+                    <v-spacer />
+                    {{ $t('board-menu') }}
+                    <v-spacer />
+                  </v-btn>
+                </v-badge>
+              </template>
+            </board-menu>
           </template>
           <v-card
             v-else
@@ -198,8 +213,8 @@
             class="pa-4 mb-4"
           >
             <h2
-              v-t="'not-a-board-member-message'"
               class="subtitle-1 text-center mb-4"
+              v-text="$t('not-a-board-member-message')"
             />
             <v-btn
               v-if="!$store.state.userAuth"
@@ -217,8 +232,8 @@
             />
             <div
               v-else-if="selfMemberRequest"
-              v-t="'join-request-pending-message'"
               class="body-2 text-center text--secondary"
+              v-text="$t('join-request-pending-message')"
             />
             <v-btn
               v-else
@@ -256,8 +271,8 @@
           }"
         >
           <h2
-            v-t="'not-a-board-member-message'"
             class="text-center mb-4 subtitle-1"
+            v-text="$t('not-a-board-member-message')"
           />
           <v-btn
             v-if="!$store.state.userAuth"
@@ -274,8 +289,8 @@
           />
           <div
             v-else-if="selfMemberRequest"
-            v-t="'join-request-pending-message'"
             class="body-2 text-center text--secondary"
+            v-text="$t('join-request-pending-message')"
           />
           <v-btn
             v-else
@@ -370,6 +385,7 @@
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
   import AppBar from '../components/AppBar.vue';
   import EventDetailsDialog from '../components/board/EventDetailsDialog.vue';
+  import BoardMenu from '../components/board/BoardMenu.vue';
   import 'firebase/firestore';
   import SignInSheet from '../components/SignInSheet.vue';
 
@@ -380,6 +396,7 @@
       EventCreateDialog,
       AppBar,
       EventDetailsDialog,
+      BoardMenu,
       SignInSheet,
     },
     data: () => ({

@@ -8,6 +8,7 @@
   "app-name": "Task Overflow",
   "ask-to-join": "Poproś o dołączenie",
   "board-is-private-message": "Tablica jest prywatna",
+  "board-menu": "Menu tablicy",
   "board-not-found-message": "Nie znaleziono tablicy",
   "board-settings": {
     "general": {
@@ -22,6 +23,9 @@
     "members": {
       "remove": "Usuń",
       "title": "Lista członków"
+    },
+    "subjects": {
+      "title": "Przedmioty"
     },
     "title": "Ustawienia tablicy"
   },
@@ -106,6 +110,7 @@
     "description": "Użytkownik nadal będzie mógł ponownie poprosić o dołączenie",
     "title": "Na pewno chcesz odrzucić prośbę o dołączenie?"
   },
+  "leave-board": "Opuść tablicę",
   "link-facebook": "Połącz konto Facebook",
   "link-google": "Połącz konto Google",
   "made-with": {

@@ -1,8 +1,9 @@
 <template>
   <div>
-    <h1 class="headline mb-6 text-center">
-      Przedmioty
-    </h1>
+    <h1
+      class="headline mb-6 text-center"
+      v-text="$t('board-settings.subjects.title')"
+    />
     <v-card
       v-for="subject in subjectsList"
       :key="subject.id"

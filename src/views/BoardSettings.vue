@@ -37,7 +37,7 @@
         <v-icon left>
           mdi-book
         </v-icon>
-        Przedmioty
+        {{ $t('board-settings.subjects.title') }}
       </v-tab>
 
       <v-tab-item class="px-4 py-6">
