@@ -19,13 +19,17 @@
         outlined
       >
         <v-row
-          class="align-center pl-4 pr-5"
+          class="align-center"
+          :class="{
+            'pl-4 pr-5 py-1': $vuetify.breakpoint.smAndUp,
+            'pl-4 pr-2': $vuetify.breakpoint.xsOnly,
+          }"
           no-gutters
         >
           <v-col cols="auto">
             <v-avatar
               class="elevation-4"
-              :size="48"
+              :size="$vuetify.breakpoint.xsOnly ? 32 : 48"
             >
               <v-img
                 :src="user.photoURL"
@@ -34,20 +38,27 @@
             </v-avatar>
           </v-col>
           <v-col>
-            <v-card-title v-text="user.name" />
+            <v-card-title
+              class="py-2"
+              :class="{
+                'subtitle-1': $vuetify.breakpoint.xsOnly,
+              }"
+              v-text="user.name"
+            />
             <v-card-subtitle
               v-if="user.owner"
               v-t="'roles.owner'"
-              class="amber--text"
+              class="amber--text py-2"
             />
             <v-card-subtitle
               v-else-if="user.admin"
               v-t="'roles.admin'"
-              class="secondary--text"
+              class="secondary--text py-2"
             />
             <v-card-subtitle
               v-else
               v-t="'roles.member'"
+              class="py-2"
             />
           </v-col>
           <v-col
