@@ -52,19 +52,39 @@
       <!--          Połącz Kalendarz Google-->
       <!--        </v-list-item-title>-->
       <!--      </v-list-item>-->
-      <v-list-item disabled>
-        <v-list-item-icon>
-          <v-icon>mdi-logout</v-icon>
-        </v-list-item-icon>
+      <board-leave-dialog @leave="leave">
+        <template v-slot:activator="{ on }">
+          <v-list-item
+            :disabled="userIsOwner || leaveLoading"
+            v-on="on"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-logout</v-icon>
+            </v-list-item-icon>
 
-        <v-list-item-title v-t="'leave-board'" />
-      </v-list-item>
+            <v-list-item-content>
+              <v-list-item-title v-text="$t('leave-board')" />
+              <v-list-item-subtitle
+                v-if="userIsOwner"
+                v-text="$t('leave-owner-message')"
+              />
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </board-leave-dialog>
     </v-list>
   </v-menu>
 </template>
 
 <script>
+  import firebase from 'firebase/app';
+  import BoardLeaveDialog from './BoardLeaveDialog.vue';
+  import 'firebase/functions';
+
   export default {
+    components: {
+      BoardLeaveDialog,
+    },
     props: {
       dense: {
         type: Boolean,
@@ -75,9 +95,14 @@
         type: Array,
         required: true,
       },
+      userIsOwner: {
+        type: Boolean,
+        required: true,
+      },
     },
     data: () => ({
       visible: false,
+      leaveLoading: false,
     }),
     computed: {
       settingsBadgeCount () {
@@ -86,6 +111,20 @@
       },
       badgeCount () {
         return this.settingsBadgeCount;
+      },
+    },
+    methods: {
+      async leave () {
+        if (this.leaveLoading) return;
+        this.leaveLoading = true;
+        const leaveBoardFunction = firebase.functions().httpsCallable('leaveBoard');
+        try {
+          await leaveBoardFunction({ boardId: this.$route.params.boardId });
+        } catch (error) {
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+          console.error(error);
+        }
+        this.leaveLoading = false;
       },
     },
   };

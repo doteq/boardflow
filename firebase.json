@@ -3,8 +3,8 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "hosting":{
-    "public":"dist",
+  "hosting": {
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -13,10 +13,10 @@
     "predeploy": [
       "npm run build"
     ],
-    "rewrites":[
+    "rewrites": [
       {
-        "source":"**",
-        "destination":"/index.html"
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   }

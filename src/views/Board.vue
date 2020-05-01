@@ -18,6 +18,7 @@
           v-if="$vuetify.breakpoint.smAndDown"
           dense
           :join-requests="joinRequests"
+          :user-is-owner="userIsOwner"
         >
           <template v-slot:activator="{ on: menuOn, badgeCount, value }">
             <div>
@@ -181,7 +182,10 @@
               {{ $t('add-new-event') }}
               <v-spacer />
             </v-btn>
-            <board-menu :join-requests="joinRequests">
+            <board-menu
+              :join-requests="joinRequests"
+              :user-is-owner="userIsOwner"
+            >
               <template v-slot:activator="{ on, badgeCount, value }">
                 <v-badge
                   :value="badgeCount > 0 && !value"
@@ -434,6 +438,11 @@
         if (!this.boardInfo) return null;
         if (!this.$store.state.userAuth) return false;
         return this.boardInfo.admins.includes(this.$store.state.userAuth.uid);
+      },
+      userIsOwner () {
+        if (!this.boardInfo) return null;
+        if (!this.$store.state.userAuth) return false;
+        return this.boardInfo.owner === this.$store.state.userAuth.uid;
       },
       canViewBoard () {
         if (!this.boardInfo) return null;

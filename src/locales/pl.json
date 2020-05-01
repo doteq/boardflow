@@ -8,6 +8,11 @@
   "app-name": "Task Overflow",
   "ask-to-join": "Poproś o dołączenie",
   "board-is-private-message": "Tablica jest prywatna",
+  "board-leave-dialog": {
+    "description": "Na pewno chcesz opuścić tą tablicę? Aby dołączyć będziesz musiał ponownie wysłać prośbę o dołączenie.",
+    "leave": "Opuść",
+    "title": "Opuść tablicę"
+  },
   "board-menu": "Menu tablicy",
   "board-not-found-message": "Nie znaleziono tablicy",
   "board-settings": {
@@ -123,6 +128,7 @@
     "title": "Na pewno chcesz odrzucić prośbę o dołączenie?"
   },
   "leave-board": "Opuść tablicę",
+  "leave-owner-message": "Właściciel nie może opuścić tablicy",
   "link-facebook": "Połącz konto Facebook",
   "link-google": "Połącz konto Google",
   "made-with": {

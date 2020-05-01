@@ -8,6 +8,11 @@
   "app-name": "Task Overflow",
   "ask-to-join": "Ask to join",
   "board-is-private-message": "Board is private",
+  "board-leave-dialog": {
+    "description": "Are you sure you want to leave this board? To join you will need to send a join request again.",
+    "leave": "Leave",
+    "title": "Leave board"
+  },
   "board-menu": "Board menu",
   "board-not-found-message": "Board not found",
   "board-settings": {
@@ -123,6 +128,7 @@
     "title": "Are you sure you want to reject this join request?"
   },
   "leave-board": "Leave board",
+  "leave-owner-message": "The owner cannot leave the board",
   "link-facebook": "Link Facebook account",
   "link-google": "Link Google account",
   "made-with": {
