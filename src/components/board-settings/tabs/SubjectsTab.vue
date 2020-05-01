@@ -22,25 +22,53 @@
           />
         </v-col>
         <v-col>
-          <v-hover
-            v-slot:default="{ hover }"
-            open-delay="200"
-          >
-            <div>
-              <v-card-title
-                v-if="!hover"
-                v-text="subject.name"
-              />
-              <v-text-field
-                v-if="hover"
-                v-model="subject.name"
-                outlined
-                class="ml-1 mr-10 pa-1 nazwa"
-                hide-details
-                filled
-              />
-            </div>
-          </v-hover>
+          <v-card-title>
+            {{ subject.name }}
+            <v-menu
+              v-model="nameChanger[subject.id].menu"
+              :close-on-content-click="false"
+              :close-on-click="false"
+              :nudge-width="200"
+              offset-x
+            >
+              <template v-slot:activator="{ on }">
+                <v-icon
+                  class="ml-2"
+                  v-on="on"
+                >
+                  mdi-pencil-outline
+                </v-icon>
+              </template>
+              <v-card>
+                <v-card-text class="pb-0">
+                  <v-form>
+                    <v-text-field
+                      v-model="nameChanger[subject.id].value"
+                      :label="$t('subject-creator-dialog.subject-name')"
+                      outlined
+                      hide-details
+                    />
+                  </v-form>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn
+                    text
+                    @click="cancelNameChange(subject)"
+                  >
+                    {{ $t('cancel') }}
+                  </v-btn>
+                  <v-btn
+                    color="primary"
+                    text
+                    @click="saveNameChange(subject)"
+                  >
+                    {{ $t('save') }}
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-menu>
+          </v-card-title>
         </v-col>
         <v-col
           cols="auto"
@@ -51,7 +79,7 @@
             outlined
             class="mr-3"
           >
-            Usuń
+            {{ $t('remove') }}
           </v-btn>
           <v-menu
             :close-on-content-click="false"
@@ -63,7 +91,7 @@
                 color="primary black--text"
                 v-on="on"
               >
-                Zmień kolor
+                {{ $t('board-settings.subjects.change-color') }}
               </v-btn>
             </template>
             <v-color-picker
@@ -81,7 +109,7 @@
         outlined
         @click="openSubjectCreator"
       >
-        <v-icon>mdi-plus</v-icon> Dodaj nowy
+        <v-icon>mdi-plus</v-icon>{{ $t('subject-creator-dialog.title') }}
       </v-btn>
     </div>
     <subject-creator-dialog
@@ -112,10 +140,28 @@
           color: '#000000',
         },
       ],
+      nameChanger: {
+        dgsfsgfsdgbvvcg: {
+          menu: false,
+          value: 'Polski',
+        },
+        vweb86yy123voiovb: {
+          menu: false,
+          value: 'Matematyka',
+        },
+      },
     }),
     methods: {
       openSubjectCreator () {
         this.$refs.subjectCreatorDialog.show(this.$route.params.boardId);
+      },
+      saveNameChange (subject) {
+        subject.name = this.nameChanger[subject.id].value;
+        this.nameChanger[subject.id].menu = false;
+      },
+      cancelNameChange (subject) {
+        this.nameChanger[subject.id].value = subject.name;
+        this.nameChanger[subject.id].menu = false;
       },
     },
   };

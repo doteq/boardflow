@@ -25,7 +25,8 @@
       "title": "Lista członków"
     },
     "subjects": {
-      "title": "Przedmioty"
+      "title": "Przedmioty",
+      "change-color": "Zmień kolor"
     },
     "title": "Ustawienia tablicy"
   },
