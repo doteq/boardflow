@@ -219,7 +219,7 @@
             owner: userUid,
             admins: firebase.firestore.FieldValue.arrayUnion(userUid),
           });
-          this.$toast(this.$t('toasts.admin-changed'));
+          this.$toast(this.$t('toasts.owner-changed'));
         } catch (error) {
           console.error(error);
           this.$toast.error(this.$t('toasts.unexpected-error'));
