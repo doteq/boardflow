@@ -47,6 +47,7 @@
                       :label="$t('subject-creator-dialog.subject-name')"
                       outlined
                       hide-details
+                      autofocus
                     />
                   </v-form>
                 </v-card-text>
