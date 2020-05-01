@@ -18,6 +18,8 @@
   "board-settings": {
     "general": {
       "board-name": "Board name",
+      "field-required": "This field is required",
+      "max-length-50": "The name cannot be longer than 50 characters",
       "title": "General"
     },
     "join-requests": {

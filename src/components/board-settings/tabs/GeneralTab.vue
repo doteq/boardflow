@@ -15,15 +15,25 @@
       />
     </div>
     <template v-else>
-      <v-form>
-        <v-text-field
-          v-model="name"
-          :label="$t('board-settings.general.board-name')"
-          outlined
-          required
-          autofocus
-        />
-      </v-form>
+      <v-text-field
+        v-model="name"
+        :label="$t('board-settings.general.board-name')"
+        outlined
+        required
+        autofocus
+        :counter="50"
+        :error-messages="nameErrors"
+      >
+        <template v-slot:append>
+          <v-progress-circular
+            v-if="nameLoading"
+            indeterminate
+            :size="24"
+            :width="2"
+            color="secondary"
+          />
+        </template>
+      </v-text-field>
 
       <div
         class="px-1 subtitle-2"
@@ -118,6 +128,8 @@
 </template>
 
 <script>
+  import _ from 'lodash';
+
   export default {
     props: {
       boardInfo: {
@@ -126,14 +138,38 @@
         default: null,
       },
     },
-    data: () => ({
-      name: 'Example Name',
-      isPublic: false,
-      isPublicLoading: false,
-    }),
+    data () {
+      return ({
+        name: '',
+        isPublic: false,
+        isPublicLoading: false,
+        saveNameDebounced: _.debounce(this.saveName, 500),
+        nameLoading: false,
+      });
+    },
     computed: {
       loading () {
         return !this.boardInfo;
+      },
+      nameErrors () {
+        const errors = [];
+
+        if (this.name.trim() === '') errors.push(this.$t('board-settings.general.field-required'));
+        if (this.name.length > 50) errors.push(this.$t('board-settings.max-length-50'));
+
+        return errors;
+      },
+    },
+    watch: {
+      'boardInfo.name': {
+        handler (value) {
+          if (!value) return;
+          this.name = value;
+        },
+        immediate: true,
+      },
+      name (value) {
+        this.saveNameDebounced(value);
       },
     },
     methods: {
@@ -148,6 +184,30 @@
           this.$toast.error(this.$t('toasts.unexpected-error'));
         }
         this.isPublicLoading = false;
+      },
+      async saveName (value) {
+        if (this.nameLoading) {
+          this.saveNameDebounced(value);
+          return;
+        }
+
+        if (value.trim() === '') return;
+        if (value.length > 50) return;
+
+        if (value.trim() === this.boardInfo.name) return;
+
+        this.nameLoading = true;
+
+        try {
+          await this.$database.collection('boards-info').doc(this.$route.params.boardId).update({
+            name: value.trim(),
+          });
+        } catch (error) {
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+          console.error(error);
+        }
+
+        this.nameLoading = false;
       },
     },
   };

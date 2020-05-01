@@ -18,6 +18,8 @@
   "board-settings": {
     "general": {
       "board-name": "Nazwa tablicy",
+      "field-required": "To pole jest wymagane",
+      "max-length-50": "Nazwa nie może mieć więcej niż 50 znaków",
       "title": "Ogólne"
     },
     "join-requests": {
