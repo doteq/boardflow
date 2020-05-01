@@ -47,7 +47,7 @@
         <join-requests-tab :join-requests="joinRequests" />
       </v-tab-item>
       <v-tab-item class="px-4 py-6">
-        <members-tab />
+        <members-tab :board-info="boardInfo" />
       </v-tab-item>
       <v-tab-item class="px-4 py-6">
         <subjects-tab />

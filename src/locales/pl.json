@@ -21,7 +21,19 @@
       "title": "Prośby o dołączenie"
     },
     "members": {
+      "admin-add": "Dodaj rolę administratora",
+      "admin-remove": "Odbierz rolę administratora",
       "remove": "Usuń",
+      "remove-dialog": {
+        "description": "Ten użytkownik nie będzie już mógł edytować tej tablicy oraz dodawać i edytować jej wydarzeń. Wciąż będzie mógł poprosić o dołączenie.",
+        "title": "Usunąć użytkownika?"
+      },
+      "change-owner-dialog": {
+        "change": "Zmień właściciela",
+        "description": "Zmiana właściciela tablicy spowoduje, że utracisz przez możliwość zarządzania rolami. Nie będziesz mógł cofnąć tej zmiany.",
+        "title": "Na pewno chcesz zmienić właściciela tablicy?"
+      },
+      "set-owner": "Ustaw jako właściciela",
       "title": "Lista członków"
     },
     "subjects": {
@@ -132,6 +144,11 @@
   "privacy-policy": "Polityka Prywatności",
   "reject": "Odrzuć",
   "remove": "Usuń",
+  "roles": {
+    "admin": "Administrator",
+    "member": "Członek",
+    "owner": "Właściciel"
+  },
   "request-join": "Poproś o dołączenie",
   "route-not-found": {
     "code": "404",
@@ -147,10 +164,13 @@
     "title": "Dodaj przedmiot"
   },
   "toasts": {
+    "admin-added": "Rola administratora została dodana",
+    "admin-removed": "Rola administratora została usunięta",
     "event-added": "Dodano wydarzenie",
     "event-edited": "Edytowano wydarzenie",
     "link-copied": "Skopiowano link do schowka",
     "link-failed": "Nie udało się połączyć konta",
+    "owner-changed": "Właściciel został zmieniony",
     "sign-in": {
       "account-exists-with-different-credential": "Istnieje już konto z tym samym adresem email, ale innym dostawcą",
       "other": "Nie udało się zalogować",
@@ -158,7 +178,8 @@
     },
     "signed-out": "Wylogowano",
     "unexpected-error": "Wystąpił nieoczekiwany błąd",
-    "unlink-failed": "Nie udało się odłączyć konta"
+    "unlink-failed": "Nie udało się odłączyć konta",
+    "user-removed": "Użytkownik został usunięty"
   },
   "unlink-dialog": {
     "description": "Po odłączeniu konta nie będziesz mógł się zalogować za pomocą tego dostawcy",

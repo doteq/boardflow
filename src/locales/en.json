@@ -21,7 +21,19 @@
       "title": "Join requests"
     },
     "members": {
+      "admin-add": "Add admin role",
+      "admin-remove": "Remove admin role",
       "remove": "Remove",
+      "remove-dialog": {
+        "description": "This user will no longer be able to edit this board and create or edit its events. He will still be able ask to join.",
+        "title": "Remove user?"
+      },
+      "change-owner-dialog": {
+        "change": "Change owner",
+        "description": "Changing the board owner will mean that you will lose the ability to manage roles. You won't be able to undo this change.",
+        "title": "Are you sure you want to change the owner of the board?"
+      },
+      "set-owner": "Set as owner",
       "title": "Members list"
     },
     "subjects": {
@@ -132,6 +144,11 @@
   "privacy-policy": "Privacy Policy",
   "reject": "Reject",
   "remove": "Remove",
+  "roles": {
+    "admin": "Admin",
+    "member": "Member",
+    "owner": "Owner"
+  },
   "route-not-found": {
     "code": "404",
     "go-back": "Go back",
@@ -146,10 +163,13 @@
     "title": "Add a subject"
   },
   "toasts": {
+    "admin-added": "Admin role has been added",
+    "admin-removed": "Admin role has been removed",
     "event-added": "Event added",
     "event-edited": "Event edited",
     "link-copied": "Link has been copied to clipboard",
     "link-failed": "Account link failed",
+    "owner-changed": "Owner has been changed",
     "sign-in": {
       "account-exists-with-different-credential": "An account with the same email, but different provider already exists",
       "other": "Login failed",
@@ -157,7 +177,8 @@
     },
     "signed-out": "Signed out",
     "unexpected-error": "An unexpected error occurred",
-    "unlink-failed": "Account unlink failed"
+    "unlink-failed": "Account unlink failed",
+    "user-removed": "User has been removed"
   },
   "unlink-dialog": {
     "description": "After unlinking an account you won't be able to sign in using that provider",
