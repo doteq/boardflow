@@ -300,6 +300,7 @@
             members: [
               this.$store.state.userAuth.uid,
             ],
+            owner: this.$store.state.userAuth.uid,
             name: this.name,
             public: this.isPublic,
           });

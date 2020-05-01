@@ -15,6 +15,7 @@ service cloud.firestore {
     	allow get, list;
 
     	allow create: if request.auth.uid != null &&
+      	request.auth.uid == request.resource.data.owner &&
       	request.auth.uid in request.resource.data.admins &&
       	request.auth.uid in request.resource.data.members;
 
@@ -22,8 +23,13 @@ service cloud.firestore {
       	request.resource.data.public == resource.data.public &&
         request.resource.data.members == request.data.members &&
         request.resource.data.admins == request.data.admins
-      ) || request.auth.uid in request.resource.data.admins) &&
-      	request.auth.uid in request.resource.data.members;
+      ) || request.auth.uid in resource.data.admins) &&
+      request.auth.uid in resource.data.members && (
+        request.resource.data.owner == request.data.owner || (
+          request.auth.uid == request.data.owner &&
+          request.resource.data.owner in request.resource.data.admins
+        )
+      );
 
       match /join-requests/{requestId} {
         allow create: if request.auth.uid != null &&
