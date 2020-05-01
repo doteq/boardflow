@@ -1,39 +1,41 @@
 <template>
-  <v-menu
-    left
-    offset-y
-  >
-    <template v-slot:activator="{ on }">
-      <v-btn
-        icon
-        v-on="on"
-      >
-        <v-icon>mdi-translate</v-icon>
-      </v-btn>
-    </template>
-    <v-list :dense="$vuetify.breakpoint.smAndDown">
-      <v-list-item-group
-        v-model="$i18n.locale"
-        color="primary"
-        mandatory
-      >
-        <v-list-item
-          v-for="locale in locales"
-          :key="locale.value"
-          :value="locale.value"
+  <div>
+    <v-menu
+      left
+      offset-y
+    >
+      <template v-slot:activator="{ on }">
+        <v-btn
+          icon
+          v-on="on"
         >
-          <v-list-item-icon>
-            <v-img
-              :src="locale.icon"
-              width="24"
-            />
-          </v-list-item-icon>
+          <v-icon>mdi-translate</v-icon>
+        </v-btn>
+      </template>
+      <v-list :dense="$vuetify.breakpoint.smAndDown">
+        <v-list-item-group
+          v-model="$i18n.locale"
+          color="primary"
+          mandatory
+        >
+          <v-list-item
+            v-for="locale in locales"
+            :key="locale.value"
+            :value="locale.value"
+          >
+            <v-list-item-icon>
+              <v-img
+                :src="locale.icon"
+                width="24"
+              />
+            </v-list-item-icon>
 
-          <v-list-item-title v-text="locale.name" />
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
-  </v-menu>
+            <v-list-item-title v-text="locale.name" />
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-menu>
+  </div>
 </template>
 
 <script>
