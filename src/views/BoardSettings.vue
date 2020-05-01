@@ -41,7 +41,7 @@
       </v-tab>
 
       <v-tab-item class="px-4 py-6">
-        <general-tab />
+        <general-tab :board-info="boardInfo" />
       </v-tab-item>
       <v-tab-item class="px-4 py-6">
         <join-requests-tab :join-requests="joinRequests" />
