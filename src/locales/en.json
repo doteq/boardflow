@@ -22,6 +22,10 @@
     },
     "members": {
       "remove": "Remove",
+      "remove-dialog": {
+        "description": "This user will no longer be able to edit this board and create or edit its events. He will still be able ask to join.",
+        "title": "Remove user?"
+      },
       "title": "Members list"
     },
     "subjects": {
@@ -132,6 +136,11 @@
   "privacy-policy": "Privacy Policy",
   "reject": "Reject",
   "remove": "Remove",
+  "roles": {
+    "admin": "Admin",
+    "member": "Member",
+    "owner": "Owner"
+  },
   "route-not-found": {
     "code": "404",
     "go-back": "Go back",
@@ -157,7 +166,8 @@
     },
     "signed-out": "Signed out",
     "unexpected-error": "An unexpected error occurred",
-    "unlink-failed": "Account unlink failed"
+    "unlink-failed": "Account unlink failed",
+    "user-removed": "User has been removed"
   },
   "unlink-dialog": {
     "description": "After unlinking an account you won't be able to sign in using that provider",

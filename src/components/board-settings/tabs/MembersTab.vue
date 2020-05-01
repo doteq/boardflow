@@ -1,9 +1,16 @@
 <template>
   <div>
     <h1
-      v-t="'board-settings.members.title'"
       class="headline mb-6 text-center"
+      v-text="$t('board-settings.members.title')"
     />
+    <v-card
+      v-if="loading"
+      outlined
+      class="py-2 mb-3"
+    >
+      <v-skeleton-loader type="list-item-avatar-two-line" />
+    </v-card>
     <v-card
       v-for="user in memberList"
       :key="user.uid"
@@ -11,7 +18,7 @@
       outlined
     >
       <v-row
-        class="align-center pl-4 pr-5 py-2"
+        class="align-center pl-4 pr-5"
         no-gutters
       >
         <v-col cols="auto">
@@ -27,28 +34,75 @@
         </v-col>
         <v-col>
           <v-card-title v-text="user.name" />
-        </v-col>
-        <v-col
-          :cols="4"
-          class="mr-3"
-        >
-          <v-select
-            :v-model="user.admin"
-            outlined
-            hide-details
-            dense
-            :items="permissionItems"
-            :value="permissionValue"
+          <v-card-subtitle
+            v-if="user.owner"
+            v-t="'roles.owner'"
+            class="amber--text"
+          />
+          <v-card-subtitle
+            v-else-if="user.admin"
+            v-t="'roles.admin'"
+            class="secondary--text"
+          />
+          <v-card-subtitle
+            v-else
+            v-t="'roles.member'"
           />
         </v-col>
         <v-col
+          v-if="!user.owner"
           cols="auto"
         >
-          <v-btn
-            v-t="'board-settings.members.remove'"
-            color="error"
-            outlined
-          />
+          <v-menu
+            left
+            offset-y
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn
+                icon
+                v-on="on"
+              >
+                <v-icon>
+                  mdi-dots-vertical
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <!--              <v-list-item-->
+              <!--                v-if="!user.admin"-->
+              <!--                :disabled="!userIsOwner"-->
+              <!--                link-->
+              <!--              >-->
+              <!--                <v-list-item-title>-->
+              <!--                  Dodaj rolę administratora-->
+              <!--                </v-list-item-title>-->
+              <!--              </v-list-item>-->
+              <!--              <v-list-item-->
+              <!--                v-if="user.admin"-->
+              <!--                :disabled="!userIsOwner"-->
+              <!--                link-->
+              <!--              >-->
+              <!--                <v-list-item-title>-->
+              <!--                  Usuń rolę administratora-->
+              <!--                </v-list-item-title>-->
+              <!--              </v-list-item>-->
+              <!--              <v-list-item-->
+              <!--                link-->
+              <!--                :disabled="!userIsOwner"-->
+              <!--              >-->
+              <!--                <v-list-item-title>-->
+              <!--                  Przenieś rolę właściciela-->
+              <!--                </v-list-item-title>-->
+              <!--              </v-list-item>-->
+              <member-remove-dialog @remove="removeUser(user.uid)">
+                <template v-slot:activator="{ on }">
+                  <v-list-item v-on="on">
+                    <v-list-item-title v-t="'board-settings.members.remove'" />
+                  </v-list-item>
+                </template>
+              </member-remove-dialog>
+            </v-list>
+          </v-menu>
         </v-col>
       </v-row>
     </v-card>
@@ -56,28 +110,68 @@
 </template>
 
 <script>
+  import _ from 'lodash';
+  import firebase from 'firebase/app';
+  import MemberRemoveDialog from '../MemberRemoveDialog.vue';
+  import 'firebase/firestore';
+
   export default {
-    data: () => ({
-      memberList: [
-        {
-          name: 'doteq',
-          uid: 'Ru1TAsTc9oc02v6RKKtsgNNS6uk1',
-          photoURL: 'https://graph.facebook.com/893036034476358/picture',
-          admin: true,
-          self: true,
-        },
-      ],
-      permissionItems: [
-        {
-          text: 'Admin',
-          value: true,
-        },
-        {
-          text: 'Członek',
-          value: false,
-        },
-      ],
-      permissionValue: '',
-    }),
+    components: {
+      MemberRemoveDialog,
+    },
+    props: {
+      boardInfo: {
+        type: Object,
+        required: false,
+        default: null,
+      },
+    },
+    computed: {
+      loading () {
+        return !this.boardInfo || !this.$store.state.userDataList;
+      },
+      userIsOwner () {
+        if (!this.boardInfo || !this.$store.state.userAuth) return null;
+        return this.boardInfo.owner === this.$store.state.userAuth.uid;
+      },
+      memberList () {
+        if (this.loading) return [];
+        const memberList = this.boardInfo.members.map((userId) => {
+          const user = this.$store.state.userDataList.find((e) => e.id === userId);
+          if (!user) return null;
+          return {
+            uid: userId,
+            name: user.name,
+            photoURL: user.photoURL,
+            admin: this.boardInfo.admins.includes(userId),
+            owner: this.boardInfo.owner === userId,
+            self: this.$store.state.userAuth ? this.$store.state.userAuth.uid === userId : false,
+          };
+        }).filter((user) => user !== null);
+        return _.sortBy(memberList, [
+          (memberItem) => {
+            if (memberItem.owner) return 0;
+            if (memberItem.admin) return 1;
+            return 2;
+          },
+          (memberItem) => memberItem.name,
+        ]);
+      },
+    },
+    methods: {
+      async removeUser (userUid) {
+        try {
+          const boardInfoReference = this.$database.collection('boards-info').doc(this.$route.params.boardId);
+          await boardInfoReference.update({
+            admins: firebase.firestore.FieldValue.arrayRemove(userUid),
+            members: firebase.firestore.FieldValue.arrayRemove(userUid),
+          });
+          this.$toast(this.$t('toasts.user-removed'));
+        } catch (error) {
+          console.error(error);
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+        }
+      },
+    },
   };
 </script>

@@ -22,6 +22,10 @@
     },
     "members": {
       "remove": "Usuń",
+      "remove-dialog": {
+        "description": "Ten użytkownik nie będzie już mógł edytować tej tablicy oraz dodawać i edytować jej wydarzeń. Wciąż będzie mógł poprosić o dołączenie.",
+        "title": "Usunąć użytkownika?"
+      },
       "title": "Lista członków"
     },
     "subjects": {
@@ -132,6 +136,11 @@
   "privacy-policy": "Polityka Prywatności",
   "reject": "Odrzuć",
   "remove": "Usuń",
+  "roles": {
+    "admin": "Administrator",
+    "member": "Członek",
+    "owner": "Właściciel"
+  },
   "request-join": "Poproś o dołączenie",
   "route-not-found": {
     "code": "404",
@@ -158,7 +167,8 @@
     },
     "signed-out": "Wylogowano",
     "unexpected-error": "Wystąpił nieoczekiwany błąd",
-    "unlink-failed": "Nie udało się odłączyć konta"
+    "unlink-failed": "Nie udało się odłączyć konta",
+    "user-removed": "Użytkownik został usunięty"
   },
   "unlink-dialog": {
     "description": "Po odłączeniu konta nie będziesz mógł się zalogować za pomocą tego dostawcy",
