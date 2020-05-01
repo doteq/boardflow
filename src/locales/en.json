@@ -45,6 +45,8 @@
     },
     "subjects": {
       "change-color": "Change color",
+      "field-required": "This field is required",
+      "name-not-changed": "Name has not been changed",
       "title": "Subjects"
     },
     "title": "Board settings"

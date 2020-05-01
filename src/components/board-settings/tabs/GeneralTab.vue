@@ -155,7 +155,7 @@
         const errors = [];
 
         if (this.name.trim() === '') errors.push(this.$t('board-settings.general.field-required'));
-        if (this.name.length > 50) errors.push(this.$t('board-settings.max-length-50'));
+        if (this.name.length > 50) errors.push(this.$t('board-settings.general.max-length-50'));
 
         return errors;
       },

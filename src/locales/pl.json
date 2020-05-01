@@ -45,6 +45,8 @@
     },
     "subjects": {
       "change-color": "Zmień kolor",
+      "field-required": "To pole jest wymagane",
+      "name-not-changed": "Nazwa nie została zmieniona",
       "title": "Przedmioty"
     },
     "title": "Ustawienia tablicy"

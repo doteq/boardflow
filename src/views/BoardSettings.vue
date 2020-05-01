@@ -50,7 +50,7 @@
         <members-tab :board-info="boardInfo" />
       </v-tab-item>
       <v-tab-item class="px-4 py-6">
-        <subjects-tab />
+        <subjects-tab :subjects="subjects" />
       </v-tab-item>
     </v-tabs>
   </v-container>
@@ -75,6 +75,7 @@
       boardInfo: null,
       boardInfoLoaded: false,
       joinRequests: null,
+      subjects: null,
       tabs: [
         {
           path: 'general',
@@ -114,6 +115,11 @@
         if (!this.$store.state.userAuth) return false;
         return this.boardInfo.admins.includes(this.$store.state.userAuth.uid);
       },
+      canViewBoard () {
+        if (!this.boardInfo) return null;
+        if (this.userIsMember) return true;
+        return this.boardInfo.public;
+      },
     },
     watch: {
       '$route.params.boardId': {
@@ -143,6 +149,23 @@
             }
           } else if (this.$firestoreRefs.joinRequests) {
             this.$unbind('joinRequests');
+          }
+        },
+        immediate: true,
+      },
+      canViewBoard: {
+        async handler (value) {
+          if (value) {
+            try {
+              const boardReference = this.$database
+                .collection('boards').doc(this.$route.params.boardId);
+              await this.$bind('subjects', boardReference.collection('subjects'));
+            } catch (error) {
+              console.error(error);
+              this.$toast.error(this.$t('toasts.unexpected-error'));
+            }
+          } else if (this.$firestoreRefs.subjects) {
+            this.$unbind('subjects');
           }
         },
         immediate: true,
