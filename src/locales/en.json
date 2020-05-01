@@ -42,6 +42,7 @@
       "title": "Members list"
     },
     "subjects": {
+      "change-color": "Change color",
       "title": "Subjects"
     },
     "title": "Board settings"
