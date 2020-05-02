@@ -127,6 +127,11 @@
     "lesson": "Lekcja",
     "test": "Sprawdzian, kartkówka"
   },
+  "events-archive": {
+    "date-time-string": "{date}, {time}",
+    "no-archived-events": "Nie ma żadnych zarchiwizowanych wydarzeń",
+    "title": "Archiwum wydarzeń"
+  },
   "facebook": "Facebook",
   "github": "GitHub",
   "google": "Google",

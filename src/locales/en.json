@@ -127,6 +127,11 @@
     "lesson": "Lesson",
     "test": "Test"
   },
+  "events-archive": {
+    "date-time-string": "{date}, {time}",
+    "no-archived-events": "There are no archived events",
+    "title": "Events archive"
+  },
   "facebook": "Facebook",
   "github": "GitHub",
   "google": "Google",
