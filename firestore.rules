@@ -76,7 +76,7 @@ service cloud.firestore {
       match /activity/{activityId} {
         allow get, list: if userCanViewBoard();
         allow create: if userIsMember() &&
-          request.resource.data.type in ['event-create', 'event-edit'] &&
+          request.resource.data.type in ['event-create', 'event-edit', 'event-archive', 'event-restore'] &&
           request.resource.data.user == request.auth.uid;
       }
     }

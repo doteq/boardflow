@@ -54,8 +54,22 @@
     </v-card>
     <v-card v-else-if="!event && edit">
       <div
-        v-t="'event-not-found'"
         class="display-1 text-center py-12 px-8"
+        v-text="$t('event-not-found')"
+      />
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          v-t="'close'"
+          text
+          @click="close()"
+        />
+      </v-card-actions>
+    </v-card>
+    <v-card v-else-if="edit && event.archived">
+      <div
+        class="display-1 text-center py-12 px-8"
+        v-text="$t('event-create-dialog.event-archived-message')"
       />
       <v-card-actions>
         <v-spacer />
@@ -627,7 +641,7 @@
       },
       ready () {
         return !this.loading &&
-          (this.event || !this.edit) &&
+          ((this.event && !this.event.archived) || !this.edit) &&
           this.$store.state.userAuth !== null &&
           this.userIsMember &&
           this.value;
@@ -724,6 +738,7 @@
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               user: this.$store.state.userAuth.uid,
             },
+            archived: false,
           };
 
           if (this.type === 'homework') {
