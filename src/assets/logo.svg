@@ -1,1 +1,151 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87.5 100"><defs><style>.cls-1{fill:#1697f6;}.cls-2{fill:#7bc6ff;}.cls-3{fill:#1867c0;}.cls-4{fill:#aeddff;}</style></defs><title>Artboard 46</title><polyline class="cls-1" points="43.75 0 23.31 0 43.75 48.32"/><polygon class="cls-2" points="43.75 62.5 43.75 100 0 14.58 22.92 14.58 43.75 62.5"/><polyline class="cls-3" points="43.75 0 64.19 0 43.75 48.32"/><polygon class="cls-4" points="64.58 14.58 87.5 14.58 43.75 100 43.75 62.5 64.58 14.58"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 50.799999 50.800001"
+   height="192"
+   width="192">
+  <defs
+     id="defs2">
+    <filter
+       id="filter999"
+       style="color-interpolation-filters:sRGB;">
+      <feFlood
+         id="feFlood989"
+         result="flood"
+         flood-color="rgb(0,0,0)"
+         flood-opacity="0.247059" />
+      <feComposite
+         id="feComposite991"
+         result="composite1"
+         operator="in"
+         in2="SourceGraphic"
+         in="flood" />
+      <feGaussianBlur
+         id="feGaussianBlur993"
+         result="blur"
+         stdDeviation="0.3"
+         in="composite1" />
+      <feOffset
+         id="feOffset995"
+         result="offset"
+         dy="0.3"
+         dx="0" />
+      <feComposite
+         id="feComposite997"
+         result="composite2"
+         operator="over"
+         in2="offset"
+         in="SourceGraphic" />
+    </filter>
+    <filter
+       id="filter1023"
+       style="color-interpolation-filters:sRGB;">
+      <feFlood
+         id="feFlood1013"
+         result="flood"
+         flood-color="rgb(0,0,0)"
+         flood-opacity="0.247059" />
+      <feComposite
+         id="feComposite1015"
+         result="composite1"
+         operator="in"
+         in2="SourceGraphic"
+         in="flood" />
+      <feGaussianBlur
+         id="feGaussianBlur1017"
+         result="blur"
+         stdDeviation="0.5"
+         in="composite1" />
+      <feOffset
+         id="feOffset1019"
+         result="offset"
+         dy="0.3"
+         dx="0" />
+      <feComposite
+         id="feComposite1021"
+         result="composite2"
+         operator="over"
+         in2="offset"
+         in="SourceGraphic" />
+    </filter>
+    <filter
+       id="filter1047"
+       style="color-interpolation-filters:sRGB;">
+      <feFlood
+         id="feFlood1037"
+         result="flood"
+         flood-color="rgb(0,0,0)"
+         flood-opacity="0.247059" />
+      <feComposite
+         id="feComposite1039"
+         result="composite1"
+         operator="in"
+         in2="SourceGraphic"
+         in="flood" />
+      <feGaussianBlur
+         id="feGaussianBlur1041"
+         result="blur"
+         stdDeviation="0.7"
+         in="composite1" />
+      <feOffset
+         id="feOffset1043"
+         result="offset"
+         dy="0.5"
+         dx="0" />
+      <feComposite
+         id="feComposite1045"
+         result="composite2"
+         operator="over"
+         in2="offset"
+         in="SourceGraphic" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-246.19998)"
+     id="layer1">
+    <rect
+       ry="4.2333312"
+       y="200.2393"
+       x="143.08417"
+       height="42.333324"
+       width="31.749998"
+       id="rect831"
+       style="opacity:1;fill:#028174;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers stroke fill;filter:url(#filter999)"
+       transform="rotate(30)" />
+    <rect
+       transform="rotate(15)"
+       style="opacity:1;fill:#0ab68b;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers stroke fill;filter:url(#filter1023)"
+       id="rect829"
+       width="31.749998"
+       height="42.333324"
+       x="75.584328"
+       y="236.27283"
+       ry="4.2333312" />
+    <rect
+       ry="4.2333312"
+       y="253.60832"
+       x="1.0583333"
+       height="42.333324"
+       width="31.749998"
+       id="rect817"
+       style="opacity:1;fill:#92de8b;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers stroke fill;filter:url(#filter1047)" />
+  </g>
+</svg>

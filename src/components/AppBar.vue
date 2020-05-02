@@ -18,7 +18,7 @@
         alt="Logo"
         class="shrink mr-2"
         contain
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+        src="../assets/logo.svg"
         :width="$vuetify.breakpoint.smAndDown ? 24 : 32"
       />
     </div>
