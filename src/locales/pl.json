@@ -78,7 +78,8 @@
     "selected": "Wybrana",
     "start-using-message": "Wyślij link swoim znajomym i zacznij korzystać z @:app-name!",
     "subjects": "Przedmioty",
-    "subjects-hint": "Będziesz też mógł dodawać przedmioty w ustawieniach tablicy oraz podczas dodawania nowego wydarzenia. W ustawieniach będziesz mógł również zmienić ich kolory,"
+    "subjects-hint": "Będziesz też mógł dodawać przedmioty w ustawieniach tablicy oraz podczas dodawania nowego wydarzenia. W ustawieniach będziesz mógł również zmienić ich kolory,",
+    "title": "Tworzenie tablicy"
   },
   "create-new-board": "Utwórz nową tablicę",
   "create-new-board-short": "Utwórz nową",

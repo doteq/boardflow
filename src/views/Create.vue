@@ -1,6 +1,8 @@
 <template>
   <v-container class="creator-container">
-    <app-bar back-to="/" />
+    <app-bar back-to="/">
+      {{ $t('create.title') }}
+    </app-bar>
     <v-stepper
       v-model="step"
       class="mb-9"
