@@ -3,6 +3,8 @@
     :value="value"
     :max-width="ready ? '700px' : '500px'"
     persistent
+    scrollable
+    :fullscreen="$vuetify.breakpoint.xsOnly"
     @keydown.esc="close()"
   >
     <v-card v-if="loading">
@@ -81,23 +83,29 @@
       </v-card-actions>
     </v-card>
     <v-card v-else>
-      <v-row no-gutters>
-        <v-col cols="auto">
-          <v-sheet
-            :color="colorString"
-            class="fill-height"
-            :width="6"
-            tile
-          />
-        </v-col>
-        <v-col>
-          <v-card-title v-t="'add-new-event'" />
-          <v-form
-            ref="form"
-            v-model="valid"
-            @submit.prevent="submit"
-          >
-            <v-card-text class="pt-2">
+      <v-form
+        ref="form"
+        v-model="valid"
+        class="d-block fill-height"
+        @submit.prevent="submit"
+      >
+        <v-row
+          no-gutters
+          class="fill-height"
+        >
+          <v-col cols="auto">
+            <v-sheet
+              :color="colorString"
+              class="fill-height"
+              :width="6"
+              tile
+            />
+          </v-col>
+          <v-col class="d-flex flex-column fill-height">
+            <v-card-title v-t="'add-new-event'" />
+            <v-card-text
+              class="pt-2 overflow-y-auto"
+            >
               <v-select
                 v-model="type"
                 :color="colorString"
@@ -161,7 +169,6 @@
                     readonly
                     outlined
                     :value="dateString"
-                    append-icon="mdi-menu-down"
                     v-on="on"
                   />
                 </template>
@@ -208,7 +215,6 @@
                         readonly
                         outlined
                         :value="time"
-                        append-icon="mdi-menu-down"
                         v-on="on"
                       />
                     </template>
@@ -261,7 +267,6 @@
                         readonly
                         outlined
                         :value="durationString"
-                        append-icon="mdi-menu-down"
                         v-on="on"
                       />
                     </template>
@@ -412,9 +417,9 @@
                 :loading="submitLoading"
               />
             </v-card-actions>
-          </v-form>
-        </v-col>
-      </v-row>
+          </v-col>
+        </v-row>
+      </v-form>
     </v-card>
     <subject-creator-dialog
       ref="subjectCreatorDialog"
