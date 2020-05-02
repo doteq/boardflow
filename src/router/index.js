@@ -77,6 +77,18 @@ const routes = [
     component: Create,
   },
   {
+    path: '/d/boards/:boardId',
+    redirect: '/board/:boardId',
+  },
+  {
+    path: '/d/boards/:boardId/events/:eventId',
+    redirect: '/board/:boardId/event/:eventId',
+  },
+  {
+    path: '/d/boards-info/:boardId',
+    redirect: '/board/:boardId',
+  },
+  {
     path: '*',
     name: 'RouteNotFound',
     component: RouteNotFound,
