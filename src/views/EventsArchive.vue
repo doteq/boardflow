@@ -94,7 +94,7 @@
             <v-card-subtitle
               cols="auto"
               class="align-self-center py-0"
-              v-text="event.time ? this.$t('evens-archive.date-time-string', [event.dateString, event.time]) : event.dateString"
+              v-text="event.time ? $t('events-archive.date-time-string', {date: event.dateString, time: event.time}) : event.dateString"
             />
             <v-spacer />
             <v-btn
