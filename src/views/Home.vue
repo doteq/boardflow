@@ -11,8 +11,8 @@
       class="d-flex flex-column align-center my-12"
     >
       <h1
-        v-t="'not-signed-in-message'"
         class="display-1 text-center mb-12"
+        v-text="$t('not-signed-in-message')"
       />
       <v-btn
         v-t="'sign-in'"
@@ -32,8 +32,8 @@
       class="d-flex flex-column align-center my-12"
     >
       <h1
-        v-t="'not-any-board-member-message'"
         class="display-1 text-center mb-12"
+        v-text="$t('not-any-board-member-message')"
       />
       <v-btn
         v-t="'create-new-board-short'"
@@ -63,6 +63,7 @@
               <v-avatar
                 v-for="(member, index) in board.members"
                 :key="member.uid"
+                class="elevation-8"
                 :class="{
                   'overlap-left': index !== 0,
                 }"
@@ -75,7 +76,7 @@
               <v-avatar
                 v-if="board.memberOverflow > 0"
                 color="accent"
-                class="overlap-left"
+                class="overlap-left elevation-8"
                 v-text="$t('overflow-number', [board.memberOverflow])"
               />
             </v-card-text>
@@ -146,14 +147,14 @@
         </template>
         <template v-slot:doteq>
           <a
-            v-t="'made-with.doteq'"
             href="https://github.com/doteq"
+            v-text="$t('made-with.doteq')"
           />
         </template>
         <template v-slot:dominik-korsa>
           <a
-            v-t="'made-with.dominik-korsa'"
             href="https://github.com/dominik-korsa"
+            v-text="$t('made-with.dominik-korsa')"
           />
         </template>
       </i18n>
