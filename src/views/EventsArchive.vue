@@ -236,5 +236,9 @@
 <style lang="scss">
   .events-archive-container {
     max-width: 700px;
+
+    .fill-width {
+      width: 100%;
+    }
   }
 </style>
