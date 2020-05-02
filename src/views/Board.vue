@@ -377,6 +377,7 @@
       <event-details-dialog
         :loading="!eventsAndSubjectsLoaded"
         :event="dialogEvent || lastDialogState.event"
+        :user-is-member="userIsMember"
         @close="closeEventDetailsDialog()"
       />
     </v-dialog>
@@ -457,7 +458,7 @@
       currentEvents () {
         if (!this.eventsAndSubjectsLoaded || !this.events) return null;
 
-        return this.events.filter((event) => event.date === this.date);
+        return this.events.filter((event) => event.date === this.date && !event.archived);
       },
       bindSelfMemberRequest () {
         return this.userIsMember === false && this.$store.state.userAuth !== null;
@@ -575,7 +576,7 @@
       },
       calendarEventColor (date) {
         if (!this.eventsAndSubjectsLoaded || !this.events) return [];
-        const dateEvents = this.events.filter((event) => event.date === date);
+        const dateEvents = this.events.filter((event) => event.date === date && !event.archived);
         const colors = [];
         if (dateEvents.findIndex((event) => event.type === 'homework') !== -1) colors.push('homework');
         if (dateEvents.findIndex((event) => event.type === 'lesson') !== -1) colors.push('lesson');

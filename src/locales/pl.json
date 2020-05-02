@@ -6,6 +6,7 @@
   "add-new-event": "Dodaj nowe wydarzenie",
   "add-new-event-short": "Dodaj nowe",
   "app-name": "Task Overflow",
+  "archive": "Archiwizuj",
   "ask-to-join": "Poproś o dołączenie",
   "board-is-private-message": "Tablica jest prywatna",
   "board-leave-dialog": {
@@ -88,6 +89,7 @@
     "date": "Data",
     "description": "Opis",
     "duration": "Czas trwania",
+    "event-archived-message": "Wydarzenie jest zarchiwizowane",
     "event-type": "Typ wydarzenia",
     "event-type-edit-hint": "Nie możesz zmienić typu wydarzenia podczas edytowania",
     "hours": "Godziny",
@@ -125,6 +127,11 @@
     "lesson": "Lekcja",
     "test": "Sprawdzian, kartkówka"
   },
+  "events-archive": {
+    "date-time-string": "{date}, {time}",
+    "no-archived-events": "Nie ma żadnych zarchiwizowanych wydarzeń",
+    "title": "Archiwum wydarzeń"
+  },
   "facebook": "Facebook",
   "github": "GitHub",
   "google": "Google",
@@ -156,12 +163,13 @@
   "privacy-policy": "Polityka Prywatności",
   "reject": "Odrzuć",
   "remove": "Usuń",
+  "request-join": "Poproś o dołączenie",
+  "restore": "Przywróć",
   "roles": {
     "admin": "Administrator",
     "member": "Członek",
     "owner": "Właściciel"
   },
-  "request-join": "Poproś o dołączenie",
   "route-not-found": {
     "code": "404",
     "go-back": "Wróć",

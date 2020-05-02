@@ -33,6 +33,13 @@
 
         <v-list-item-title v-t="'board-settings.subjects.title'" />
       </v-list-item>
+      <v-list-item :to="`/board/${$route.params.boardId}/archive`">
+        <v-list-item-icon>
+          <v-icon>mdi-archive</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-title v-t="'events-archive.title'" />
+      </v-list-item>
       <!--      <v-list-item>-->
       <!--        <v-list-item-icon>-->
       <!--          <v-icon>mdi-label</v-icon>-->

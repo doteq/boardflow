@@ -46,9 +46,22 @@
         />
       </v-col>
       <v-col class="d-flex flex-column fill-height">
-        <v-card-title v-text="event.title" />
-        <v-card-subtitle>Zadanie domowe</v-card-subtitle>
-        <v-card-text class="overflow-y-auto">
+        <v-card-title
+          class="pb-1"
+          v-text="event.title"
+        />
+        <v-card-subtitle class="py-0 my-0">
+          Zadanie domowe
+        </v-card-subtitle>
+        <v-expand-transition>
+          <v-card-subtitle
+            v-show="event.archived"
+            class="red--text py-0 my-0 text-uppercase title"
+          >
+            Zarchiwizowane
+          </v-card-subtitle>
+        </v-expand-transition>
+        <v-card-text class="overflow-y-auto mt-4">
           <span v-if="event.description">
             {{ event.description }}
           </span>
@@ -91,11 +104,31 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            v-t="'edit'"
-            text
-            :to="`/board/${$route.params.boardId}/event/${event.id}/edit`"
-          />
+          <template v-if="userIsMember">
+            <v-btn
+              v-if="event.archived"
+              text
+              :loading="restoreLoading"
+              @click="restore"
+            >
+              {{ $t('restore') }}
+            </v-btn>
+            <v-btn
+              v-else
+              color="red"
+              text
+              :loading="archiveLoading"
+              @click="archive"
+            >
+              {{ $t('archive') }}
+            </v-btn>
+            <v-btn
+              v-if="!event.archived"
+              v-t="'edit'"
+              text
+              :to="`/board/${$route.params.boardId}/event/${event.id}/edit`"
+            />
+          </template>
           <v-btn
             v-t="'close'"
             text
@@ -108,6 +141,8 @@
 </template>
 
 <script>
+  import firebase from 'firebase';
+
   export default {
     name: 'EventDetailsDialog',
     props: {
@@ -116,12 +151,20 @@
         required: false,
         default: null,
       },
+      userIsMember: {
+        type: Boolean,
+        required: true,
+      },
       loading: {
         type: Boolean,
         required: false,
         default: false,
       },
     },
+    data: () => ({
+      archiveLoading: false,
+      restoreLoading: false,
+    }),
     computed: {
       colorString () {
         if (!this.event) return null;
@@ -151,6 +194,72 @@
     methods: {
       closeDialog () {
         this.$emit('close');
+      },
+      async archive () {
+        if (this.archiveLoading) return;
+
+        this.archiveLoading = true;
+
+        await new Promise((resolve) => setTimeout(resolve, 250));
+
+        try {
+          const boardReference = this.$database.collection('boards').doc(this.$route.params.boardId);
+          const eventReference = boardReference.collection('events').doc(this.$route.params.eventId);
+          const activityDocumentReference = boardReference.collection('activity').doc();
+
+          const batch = this.$database.batch();
+
+          batch.update(eventReference, {
+            archived: true,
+          });
+
+          batch.set(activityDocumentReference, {
+            type: 'event-archive',
+            event: eventReference,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            user: this.$store.state.userAuth.uid,
+          });
+
+          await batch.commit();
+        } catch (error) {
+          console.error(error);
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+        }
+
+        this.archiveLoading = false;
+      },
+      async restore () {
+        if (this.restoreLoading) return;
+
+        this.restoreLoading = true;
+
+        await new Promise((resolve) => setTimeout(resolve, 250));
+
+        try {
+          const boardReference = this.$database.collection('boards').doc(this.$route.params.boardId);
+          const eventReference = boardReference.collection('events').doc(this.$route.params.eventId);
+          const activityDocumentReference = boardReference.collection('activity').doc();
+
+          const batch = this.$database.batch();
+
+          batch.update(eventReference, {
+            archived: false,
+          });
+
+          batch.set(activityDocumentReference, {
+            type: 'event-restore',
+            event: eventReference,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            user: this.$store.state.userAuth.uid,
+          });
+
+          await batch.commit();
+        } catch (error) {
+          console.error(error);
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+        }
+
+        this.restoreLoading = false;
       },
     },
   };

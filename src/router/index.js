@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 
 const Board = () => import(/* webpackChunkName: "board" */ '../views/Board.vue');
 const BoardSettings = () => import(/* webpackChunkName: "board-settings" */ '../views/BoardSettings.vue');
+const EventsArchive = () => import(/* webpackChunkName: "events-archive" */ '../views/EventsArchive.vue');
 const Create = () => import(/* webpackChunkName: "create" */ '../views/Create.vue');
 const RouteNotFound = () => import(/* webpackChunkName: "route-not-found" */ '../views/RouteNotFound.vue');
 
@@ -65,6 +66,10 @@ const routes = [
         redirect: 'general',
       },
     ],
+  }, {
+    path: '/board/:boardId/archive',
+    name: 'EventsArchive',
+    component: EventsArchive,
   },
   {
     path: '/create',

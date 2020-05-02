@@ -6,6 +6,7 @@
   "add-new-event": "Add new event",
   "add-new-event-short": "Add new",
   "app-name": "Task Overflow",
+  "archive": "Archive",
   "ask-to-join": "Ask to join",
   "board-is-private-message": "Board is private",
   "board-leave-dialog": {
@@ -88,6 +89,7 @@
     "date": "Date",
     "description": "Description",
     "duration": "Duration",
+    "event-archived-message": "Event is archived",
     "event-type": "Event type",
     "event-type-edit-hint": "You can't change the event type while editing",
     "hours": "Hours",
@@ -125,6 +127,11 @@
     "lesson": "Lesson",
     "test": "Test"
   },
+  "events-archive": {
+    "date-time-string": "{date}, {time}",
+    "no-archived-events": "There are no archived events",
+    "title": "Events archive"
+  },
   "facebook": "Facebook",
   "github": "GitHub",
   "google": "Google",
@@ -156,6 +163,7 @@
   "privacy-policy": "Privacy Policy",
   "reject": "Reject",
   "remove": "Remove",
+  "restore": "Restore",
   "roles": {
     "admin": "Admin",
     "member": "Member",
