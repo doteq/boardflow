@@ -98,7 +98,14 @@
                 full-width
                 :events="calendarEventColor"
                 color="secondary"
-              />
+              >
+                <v-spacer />
+                <v-btn
+                  v-t="'close'"
+                  text
+                  @click="calendarDialogVisible = false"
+                />
+              </v-date-picker>
             </v-dialog>
           </div>
         </div>
