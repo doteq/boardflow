@@ -4,7 +4,7 @@
     :max-width="ready ? '700px' : '500px'"
     persistent
     scrollable
-    :fullscreen="$vuetify.breakpoint.xsOnly"
+    :fullscreen="$vuetify.breakpoint.xsOnly && ready"
     @keydown.esc="close()"
   >
     <v-card v-if="loading">
