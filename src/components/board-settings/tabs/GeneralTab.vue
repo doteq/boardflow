@@ -20,7 +20,6 @@
         :label="$t('board-settings.general.board-name')"
         outlined
         required
-        autofocus
         :counter="50"
         :counter-value="(value) => value.trim().length"
         :error-messages="nameErrors"
