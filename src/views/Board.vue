@@ -26,7 +26,6 @@
                 <template v-slot:activator="{ on: tooltipOn }">
                   <v-btn
                     icon
-                    class="mr-1"
                     v-on="{ ...menuOn, ...tooltipOn }"
                   >
                     <v-badge

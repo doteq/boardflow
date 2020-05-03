@@ -13,7 +13,7 @@
           >
             <v-avatar
               class="elevation-4"
-              :size="$vuetify.breakpoint.smAndDown ? 40 : 48"
+              :size="avatarSize"
             >
               <v-img :src="$store.state.userAuth.photoURL" />
             </v-avatar>
@@ -115,6 +115,11 @@
       addedProviders () {
         if (!this.$store.state.userAuth) return [];
         return this.$store.state.userAuth.providerData.map((provider) => provider.providerId);
+      },
+      avatarSize () {
+        if (this.$vuetify.breakpoint.smOnly) return 40;
+        if (this.$vuetify.breakpoint.xsOnly) return 32;
+        return 48;
       },
     },
     methods: {

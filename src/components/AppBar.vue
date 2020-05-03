@@ -38,7 +38,11 @@
 
     <slot name="buttons" />
 
-    <app-bar-locale-picker class="mr-2" />
+    <app-bar-locale-picker
+      :class="{
+        'mr-2': $vuetify.breakpoint.smAndUp,
+      }"
+    />
 
     <div>
       <app-bar-account-button v-if="signedIn" />
