@@ -469,6 +469,25 @@
       bindSelfMemberRequest () {
         return this.userIsMember === false && this.$store.state.userAuth !== null;
       },
+      routeTitle () {
+        if (this.$route.name === 'BoardCreateEvent') {
+          return this.$t('routes.board-create-event');
+        }
+        if (this.$route.name === 'BoardEvent' && this.dialogEvent && this.boardInfo) {
+          return this.$t('routes.board-view-event', {
+            event: this.dialogEvent.title,
+            board: this.boardInfo.name,
+          });
+        }
+        if (this.$route.name === 'BoardEditEvent' && this.dialogEvent && this.boardInfo) {
+          return this.$t('routes.board-edit-event', {
+            event: this.dialogEvent.title,
+            board: this.boardInfo.name,
+          });
+        }
+        if (this.boardInfo) return this.$t('routes.board-name', { board: this.boardInfo.name });
+        return this.$t('routes.board');
+      },
     },
     watch: {
       '$route.params.boardId': {
@@ -544,6 +563,12 @@
           } else if (this.$firestoreRefs.joinRequests) {
             this.$unbind('joinRequests');
           }
+        },
+        immediate: true,
+      },
+      routeTitle: {
+        handler (value) {
+          document.title = value;
         },
         immediate: true,
       },

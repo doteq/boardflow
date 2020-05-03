@@ -229,7 +229,7 @@
               :loading="submitLoading"
               @click="submitStep2"
             >
-              {{ $t('create.create') }}
+              {{ subjects.length > 0 ? $t('create.create') : $t('create.skip-and-create') }}
             </v-btn>
           </div>
         </v-stepper-content>
@@ -324,6 +324,17 @@
         return this.$t('suggested-subjects').filter((subjectName) => this.subjects.findIndex(
           (subject) => subject.name.toLowerCase() === subjectName.toLowerCase(),
         ) === -1).sort();
+      },
+      routeTitle () {
+        return this.$t('routes.create');
+      },
+    },
+    watch: {
+      routeTitle: {
+        handler (value) {
+          document.title = value;
+        },
+        immediate: true,
       },
     },
     methods: {

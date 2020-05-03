@@ -84,6 +84,7 @@
     "ready": "Ready!",
     "select": "Select",
     "selected": "Selected",
+    "skip-and-create": "Skip and create",
     "start-using-message": "Send the link to your friends and start using @:app-name!",
     "subject-duplicate-message": "A subject with this name has already been added",
     "suggested-subjects": "Suggested subjects",
@@ -242,5 +243,18 @@
       "title": "Public"
     },
     "title": "Board visibility"
+  },
+  "routes": {
+    "board": "Board | @:app-name",
+    "board-name": "{board} | @:app-name",
+    "board-create-event": "Event creation | @:app-name",
+    "board-edit-event": "Editing: {event} | {board} | @:app-name",
+    "board-settings": "Board settings | @:app-name",
+    "board-settings-tab": "{tab} | @:routes.board-settings | @:app-name",
+    "board-view-event": "{event} | {board} | @:app-name",
+    "create": "Create board | @:app-name",
+    "events-archive": "Events archive | @:app-name",
+    "home": "@:app-name",
+    "route-not-found": "404 - Page not found | @:app-name"
   }
 }

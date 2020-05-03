@@ -120,6 +120,16 @@
         if (this.userIsMember) return true;
         return this.boardInfo.public;
       },
+      routeTitle () {
+        let tabTitle;
+        if (this.$route.name === 'BoardSettingsGeneral') tabTitle = this.$t('board-settings.general.title');
+        if (this.$route.name === 'BoardSettingsJoinRequests') tabTitle = this.$t('board-settings.join-requests.title');
+        if (this.$route.name === 'BoardSettingsMembers') tabTitle = this.$t('board-settings.members.title');
+        if (this.$route.name === 'BoardSettingsSubjects') tabTitle = this.$t('board-settings.subjects.title');
+
+        if (tabTitle) return this.$t('routes.board-settings-tab', { tab: tabTitle });
+        return this.$t('routes.board-settings');
+      },
     },
     watch: {
       '$route.params.boardId': {
@@ -167,6 +177,12 @@
           } else if (this.$firestoreRefs.subjects) {
             this.$unbind('subjects');
           }
+        },
+        immediate: true,
+      },
+      routeTitle: {
+        handler (value) {
+          document.title = value;
         },
         immediate: true,
       },

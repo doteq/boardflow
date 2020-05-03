@@ -215,6 +215,17 @@
           };
         });
       },
+      routeTitle () {
+        return this.$t('routes.home');
+      },
+    },
+    watch: {
+      routeTitle: {
+        handler (value) {
+          document.title = value;
+        },
+        immediate: true,
+      },
     },
     methods: {
       showSignInSheet () {

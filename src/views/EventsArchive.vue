@@ -157,6 +157,9 @@
           colorString: event.type,
         }));
       },
+      routeTitle () {
+        return this.$t('routes.events-archive');
+      },
     },
     watch: {
       '$route.params.boardId': {
@@ -191,6 +194,12 @@
               this.$unbind('events');
             }
           }
+        },
+        immediate: true,
+      },
+      routeTitle: {
+        handler (value) {
+          document.title = value;
         },
         immediate: true,
       },

@@ -84,6 +84,7 @@
     "ready": "Gotowe!",
     "select": "Wybierz",
     "selected": "Wybrana",
+    "skip-and-create": "Pomiń i utwórz",
     "start-using-message": "Wyślij link swoim znajomym i zacznij korzystać z @:app-name!",
     "subject-duplicate-message": "Przedmiot o podanej nazwie jest już dodany",
     "suggested-subjects": "Sugerowane przedmioty",
@@ -255,5 +256,18 @@
       "title": "Publiczna"
     },
     "title": "Widoczność tablicy"
+  },
+  "routes": {
+    "board": "Tablica | @:app-name",
+    "board-name": "{board} | @:app-name",
+    "board-create-event": "Tworzenie wydarzenia | @:app-name",
+    "board-edit-event": "Edytowanie: {event} | {board} | @:app-name",
+    "board-settings": "Ustawienia tablicy | @:app-name",
+    "board-settings-tab": "{tab} | @:routes.board-settings | @:app-name",
+    "board-view-event": "{event} | {board} | @:app-name",
+    "create": "Utwórz tablicę | @:app-name",
+    "events-archive": "Archiwum wydarzeń | @:app-name",
+    "home": "@:app-name",
+    "route-not-found": "404 - Nie znaleziono strony | @:app-name"
   }
 }
