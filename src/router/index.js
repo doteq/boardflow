@@ -38,7 +38,6 @@ const routes = [
   },
   {
     path: '/board/:boardId/settings',
-    name: 'BoardSettings',
     component: BoardSettings,
     children: [
       {

@@ -146,41 +146,92 @@
             </div>
           </v-form>
         </v-stepper-content>
-        <v-stepper-content step="2">
-          <v-form @submit.prevent="submitStep2">
-            <v-combobox
-              v-model="subjects"
-              :search-input.sync="subjectsInput"
-              class="pa-2 md-2"
-              chips
-              multiple
-              :label="$t('create.subjects')"
-              :items="defaultSubjects"
-              persistent-hint
-              outlined
-              autofocus
-              :hint="$t('create.subjects-hint')"
-            >
-              <template v-slot:selection="data">
-                <v-chip
-                  :color="chipColor(data.item)"
-                  close
-                  @click:close="removeSubject(data.index)"
-                >
-                  <strong>{{ data.item }}</strong>&nbsp;
-                </v-chip>
-              </template>
-            </v-combobox>
-            <div class="d-flex">
-              <v-spacer />
-              <v-btn
-                v-t="'create.create'"
-                color="primary black--text"
-                :loading="submitLoading"
-                type="submit"
+        <v-stepper-content
+          step="2"
+          :class="{
+            'px-2': $vuetify.breakpoint.xsOnly,
+          }"
+        >
+          <v-card
+            outlined
+          >
+            <v-subheader v-t="'create.added-subjects'" />
+            <v-list subheader>
+              <v-list-item v-if="subjects.length === 0">
+                <v-list-item-title
+                  v-t="'create.no-added-subjects'"
+                  class="text--secondary"
+                />
+              </v-list-item>
+              <added-subject-item
+                v-for="subject in subjects"
+                :key="subject.key"
+                :subject="subject"
+                :is-subject-already-added="isSubjectAlreadyAdded"
+                @click:remove="removeSubject(subject.key)"
+                @name-change="subject.name = $event"
+                @color-change="subject.color = $event"
               />
-            </div>
-          </v-form>
+            </v-list>
+            <v-divider />
+            <v-subheader v-t="'create.suggested-subjects'" />
+            <v-list
+              subheader
+              dense
+              class="overflow-y-auto suggested-subjects-list"
+            >
+              <v-list-item v-if="suggestedSubjects.length === 0">
+                <v-list-item-title
+                  v-t="'create.no-suggested-subjects'"
+                  class="text--secondary"
+                />
+              </v-list-item>
+              <v-list-item
+                v-for="subjectName in suggestedSubjects"
+                :key="subjectName"
+                link
+                @click="addDefaultSubject(subjectName)"
+              >
+                <v-list-item-title v-text="subjectName" />
+                <v-icon>
+                  mdi-plus
+                </v-icon>
+              </v-list-item>
+            </v-list>
+            <v-divider />
+            <v-subheader v-t="'create.add-subject'" />
+            <v-form @submit.prevent="addCustomSubject">
+              <v-text-field
+                v-model="subjectInput"
+                class="mx-3"
+                outlined
+                :hint="$t('create.press-enter-to-add')"
+                :counter="30"
+                :counter-value="(value) => value.trim().length"
+                :error-messages="subjectNameErrors"
+              >
+                <template v-slot:append-outer>
+                  <v-icon
+                    :disabled="subjectNameErrors.length > 0 || subjectInput.trim() === ''"
+                    color="primary"
+                    @click="addCustomSubject"
+                  >
+                    mdi-plus
+                  </v-icon>
+                </template>
+              </v-text-field>
+            </v-form>
+          </v-card>
+          <div class="d-flex mt-6">
+            <v-spacer />
+            <v-btn
+              color="primary black--text"
+              :loading="submitLoading"
+              @click="submitStep2"
+            >
+              {{ $t('create.create') }}
+            </v-btn>
+          </div>
         </v-stepper-content>
         <v-stepper-content step="3">
           <h1 v-text="$t('create.ready')" />
@@ -228,32 +279,23 @@
 </template>
 
 <script>
+  import _ from 'lodash';
   import AppBar from '../components/AppBar.vue';
-  import { getRandomMaterialColor } from '../utils';
+  import { baseColorsArray } from '../utils';
+  import AddedSubjectItem from '../components/create/AddedSubjectItem.vue';
 
   export default {
     name: 'BoardCreation',
     components: {
+      AddedSubjectItem,
       AppBar,
     },
     data: () => ({
       step: 1,
       name: '',
-      items: [
-        {
-          text: 'Publiczna',
-          value: true,
-        },
-        {
-          text: 'Prywatna',
-          value: false,
-        },
-      ],
       isPublic: true,
       subjects: [],
-      subjectsInput: '',
-      subjectsOutput: [],
-      defaultSubjects: ['Polski', 'j. Angielski', 'Matematyka', 'Historia', 'j. Niemiecki', 'Religia', 'Informatyka', 'Biologia', 'Chemia', 'Geografia', 'Edukacja dla bezpieczeństwa', 'Wychowanie do życia w rodzinie', 'Fizyka', 'Wychowanie fizyczne', 'Godzina wychowawcza'],
+      subjectInput: '',
       generatedBoardId: null,
       submitLoading: false,
     }),
@@ -265,11 +307,23 @@
       step1valid () {
         return !!this.name.trim() && this.name.trim().length <= 50;
       },
-    },
-    watch: {
-      subjects () {
-        this.subjectsInput = '';
-        this.subjectsOutput = this.subjectsOutput.filter((subject) => this.subjects.includes(subject.name));
+      subjectNameErrors () {
+        const errors = [];
+
+        if (this.subjectInput.trim().length > 30) {
+          errors.push(this.$t('create.max-length-30-message'));
+        }
+
+        if (this.isSubjectAlreadyAdded(this.subjectInput.trim())) {
+          errors.push(this.$t('create.subject-duplicate-message'));
+        }
+
+        return errors;
+      },
+      suggestedSubjects () {
+        return this.$t('suggested-subjects').filter((subjectName) => this.subjects.findIndex(
+          (subject) => subject.name.toLowerCase() === subjectName.toLowerCase(),
+        ) === -1).sort();
       },
     },
     methods: {
@@ -277,6 +331,43 @@
         if (this.step1valid) {
           this.step = 2;
         }
+      },
+      getUniqueRandomColor () {
+        const unusedBaseColors = _.without(
+          baseColorsArray.map((color) => color.toUpperCase()),
+          ...this.subjects.map((subject) => subject.color.toUpperCase()),
+        );
+
+        if (unusedBaseColors.length === 0) {
+          return _.sample(baseColorsArray).toUpperCase();
+        }
+        return _.sample(unusedBaseColors).toUpperCase();
+      },
+      isSubjectAlreadyAdded (name) {
+        const subjectNames = this.subjects.map((subject) => subject.name.toLowerCase());
+
+        return subjectNames.includes(name.toLowerCase());
+      },
+      addDefaultSubject (name) {
+        this.subjects.push({
+          color: this.getUniqueRandomColor(),
+          name,
+          key: _.uniqueId(),
+        });
+      },
+      addCustomSubject () {
+        if (this.subjectNameErrors.length > 0 || this.subjectInput.trim() === '') return;
+
+        this.subjects.push({
+          color: this.getUniqueRandomColor(),
+          name: this.subjectInput,
+          key: _.uniqueId(),
+        });
+
+        this.subjectInput = '';
+      },
+      removeSubject (key) {
+        this.subjects.splice(this.subjects.findIndex((subject) => subject.key === key), 1);
       },
       async submitStep2 () {
         if (this.submitLoading) return;
@@ -310,7 +401,7 @@
 
           const batch = this.$database.batch();
 
-          this.subjectsOutput.forEach(({ name, color }) => {
+          this.subjects.forEach(({ name, color }) => {
             batch.set(subjectsReference.doc(), {
               name,
               color,
@@ -327,33 +418,26 @@
         }
         this.submitLoading = false;
       },
-      chipColor (chip) {
-        const subjectObj = this.subjectsOutput.find((obj) => obj.name === chip);
-        if (subjectObj) return subjectObj.color;
-
-        const generatedColor = getRandomMaterialColor();
-        this.subjectsOutput.push({ name: chip, color: generatedColor });
-        return generatedColor;
-      },
       copyText () {
         const input = document.getElementById('board-link-input');
         input.select();
         document.execCommand('copy');
         this.$toast('toasts.link-copied');
       },
-      removeSubject (index) {
-        this.subjects.splice(index, 1);
-      },
     },
   };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .creator-container {
     max-width: 700px;
-  }
 
-  .background-color-transition {
-    transition: background-color 200ms;
+    .background-color-transition {
+      transition: background-color 200ms;
+    }
+
+    .suggested-subjects-list {
+      max-height: 300px;
+    }
   }
 </style>

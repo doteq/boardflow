@@ -1,6 +1,6 @@
 import colors from 'vuetify/lib/util/colors';
 
-const baseColorsArray = Object.entries(colors).flatMap(([key, value]) => {
+export const baseColorsArray = Object.entries(colors).flatMap(([key, value]) => {
   if (key === 'shades') return [];
   return value.base;
 });
