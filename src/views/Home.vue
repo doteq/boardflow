@@ -22,10 +22,17 @@
       />
     </div>
 
-    <v-progress-linear
+    <div
       v-else-if="loading"
-      indeterminate
-    />
+      class="pt-12 pb-4 d-flex align-center justify-center"
+    >
+      <v-progress-circular
+        indeterminate
+        color="primary"
+        :size="96"
+        :width="4"
+      />
+    </div>
 
     <div
       v-else-if="boardItems.length === 0"
@@ -178,7 +185,7 @@
         return !!this.$store.state.userAuth;
       },
       loading () {
-        return !this.boardItems && this.signedIn;
+        return (!this.boardItems || !this.$store.state.userDataList) && this.signedIn;
       },
       boardItems () {
         if (!this.$store.state.boardsInfo || !this.$store.state.userDataList || !this.signedIn) return null;

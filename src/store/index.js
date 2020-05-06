@@ -34,10 +34,14 @@ const store = new Vuex.Store({
       (context) => context.unbindFirestoreRef('userData'),
     ),
     bindUserDataList: firestoreAction(
-      (context, { database }) => context.bindFirestoreRef('userDataList', database.collection('user-data')),
+      (context, { database }) => context.bindFirestoreRef('userDataList', database.collection('user-data'), {
+        wait: true,
+      }),
     ),
     bindBoardsInfo: firestoreAction(
-      (context, { database }) => context.bindFirestoreRef('boardsInfo', database.collection('boards-info')),
+      (context, { database }) => context.bindFirestoreRef('boardsInfo', database.collection('boards-info'), {
+        wait: true,
+      }),
     ),
   },
 });
