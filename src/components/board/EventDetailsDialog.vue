@@ -69,10 +69,9 @@
         <v-expand-transition>
           <v-card-subtitle
             v-show="event.archived"
+            v-t="'event-details-dialog.archived'"
             class="red--text py-0 my-0 text-uppercase title"
-          >
-            Zarchiwizowane
-          </v-card-subtitle>
+          />
         </v-expand-transition>
         <v-card-text class="overflow-y-auto mt-2">
           <div
@@ -115,36 +114,45 @@
             <v-icon left>
               mdi-bullseye-arrow
             </v-icon>
-            <div>Zadanie dla chętnych</div>
+            <div v-text="$t('event-details-dialog.optional-homework')" />
           </div>
           <div class="mt-2 d-flex align-start">
             <v-icon left>
               mdi-account-plus
             </v-icon>
             <div class="d-flex flex-wrap align-center">
-              <div class="text-no-wrap mr-1">
-                Dodane
-                <span
-                  class="font-weight-medium"
-                  v-text="creationDateString"
-                />
-              </div>
-              <div
+              <i18n
+                path="event-details-dialog.created.date"
+                tag="div"
+                class="text-no-wrap mr-1"
+              >
+                <template v-slot:date>
+                  <span
+                    class="font-weight-medium"
+                    v-text="creationDateString"
+                  />
+                </template>
+              </i18n>
+              <i18n
                 v-if="creationUser"
+                path="event-details-dialog.created.user"
+                tag="div"
                 class="text-no-wrap"
               >
-                <span>przez</span>
-                <v-avatar
-                  :size="24"
-                  class="mx-1"
-                >
-                  <v-img :src="creationUser.photoURL" />
-                </v-avatar>
-                <span
-                  class="font-weight-medium"
-                  v-text="creationUser.name"
-                />
-              </div>
+                <template v-slot:avatar>
+                  <v-avatar
+                    :size="24"
+                  >
+                    <v-img :src="creationUser.photoURL" />
+                  </v-avatar>
+                </template>
+                <template v-slot:user>
+                  <span
+                    class="font-weight-medium"
+                    v-text="creationUser.name"
+                  />
+                </template>
+              </i18n>
             </div>
           </div>
         </v-card-text>
@@ -153,9 +161,7 @@
           outlined
           class="mx-3 overflow-hidden"
         >
-          <v-subheader>
-            Linki
-          </v-subheader>
+          <v-subheader v-t="'event-details-dialog.links'" />
           <v-list-item
             v-for="link in event.links"
             :key="link"

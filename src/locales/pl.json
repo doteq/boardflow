@@ -99,6 +99,7 @@
     "date": "Data",
     "description": "Opis",
     "duration": "Czas trwania",
+    "event-archived-message": "Wydarzenie jest zarchiwizowane",
     "event-type-edit-hint": "Nie możesz zmienić typu wydarzenia podczas edytowania",
     "hours": "Godziny",
     "links": "Linki",
@@ -135,6 +136,15 @@
       "test": "Edytowanie testu"
     },
     "url-address": "Adres URL"
+  },
+  "event-details-dialog": {
+    "archived": "Zarchiwizowane",
+    "created": {
+      "date": "Dodane {date}",
+      "user": "przez {avatar} {user}"
+    },
+    "links": "Linki",
+    "optional-homework": "Zadanie dla chętnych"
   },
   "event-not-found": "Nie znaleziono wydarzenia",
   "event-states": {

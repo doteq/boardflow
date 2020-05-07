@@ -17,7 +17,8 @@
           color="lesson"
         >
           mdi-message-video
-        </v-icon> <v-icon
+        </v-icon>
+        <v-icon
           v-else-if="type === 'test'"
           color="test"
         >
