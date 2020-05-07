@@ -424,6 +424,7 @@
 
 <script>
   import firebase from 'firebase/app';
+  import _ from 'lodash';
   import EventList from '../components/board/EventList.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
   import AppBar from '../components/AppBar.vue';
@@ -498,7 +499,14 @@
       currentEvents () {
         if (!this.eventsAndSubjectsLoaded || !this.events) return null;
 
-        return this.events.filter((event) => event.date === this.date && !event.archived);
+        const visibleEvents = this.events.filter((event) => event.date === this.date && !event.archived);
+
+        return _.orderBy(visibleEvents, [(event) => {
+          if (!event.time) return 10000;
+          const [hourOfDay, minuteOfHour] = event.time.split(':').map((string) => parseInt(string, 10));
+
+          return hourOfDay * 60 + minuteOfHour;
+        }], ['asc']);
       },
       bindSelfMemberRequest () {
         return this.userIsMember === false && this.$store.state.userAuth !== null;
