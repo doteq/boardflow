@@ -1,11 +1,43 @@
 <template>
-  <v-container class="board-settings-container">
+  <v-container
+    class="board-settings-container"
+    :class="{
+      'fill-height': userIsMember === false || !signedIn,
+    }"
+  >
     <app-bar
       :back-to="`/board/${$route.params.boardId}`"
     >
       {{ $t('board-settings.title') }}
     </app-bar>
+    <div
+      v-if="!signedIn"
+      class="d-flex fill-height flex-column align-center justify-center grow"
+    >
+      <h1
+        class="display-1 text-center"
+        v-text="$t('not-signed-in-message')"
+      />
+      <v-btn
+        v-t="'sign-in'"
+        color="primary black--text"
+        class="mt-8"
+        large
+        @click="showSignInSheet"
+      />
+      <sign-in-sheet ref="signInSheet" />
+    </div>
+    <div
+      v-else-if="userIsMember === false"
+      class="d-flex fill-height flex-column align-center justify-center grow"
+    >
+      <h1
+        class="display-1 text-center"
+        v-text="$t('not-a-board-member-message')"
+      />
+    </div>
     <v-tabs
+      v-else
       v-model="tabIndex"
       :vertical="$vuetify.breakpoint.mdAndUp"
     >
@@ -44,7 +76,10 @@
         <general-tab :board-info="boardInfo" />
       </v-tab-item>
       <v-tab-item class="px-4 py-6">
-        <join-requests-tab :join-requests="joinRequests" />
+        <join-requests-tab
+          :board-info="boardInfo"
+          :join-requests="joinRequests"
+        />
       </v-tab-item>
       <v-tab-item class="px-4 py-6">
         <members-tab :board-info="boardInfo" />
@@ -61,6 +96,7 @@
   import JoinRequestsTab from '../components/board-settings/tabs/JoinRequestsTab.vue';
   import MembersTab from '../components/board-settings/tabs/MembersTab.vue';
   import SubjectsTab from '../components/board-settings/tabs/SubjectsTab.vue';
+  import SignInSheet from '../components/SignInSheet.vue';
 
   export default {
     name: 'BoardSettings',
@@ -70,6 +106,7 @@
       JoinRequestsTab,
       MembersTab,
       SubjectsTab,
+      SignInSheet,
     },
     data: () => ({
       boardInfo: null,
@@ -105,20 +142,18 @@
           this.$router.replace(`/board/${this.$route.params.boardId}/settings/${tab.path}`);
         },
       },
+      signedIn () {
+        return this.$store.state.userAuth !== null;
+      },
       userIsMember () {
         if (!this.boardInfo) return null;
-        if (!this.$store.state.userAuth) return false;
+        if (!this.signedIn) return false;
         return this.boardInfo.members.includes(this.$store.state.userAuth.uid);
       },
       userIsAdmin () {
         if (!this.boardInfo) return null;
-        if (!this.$store.state.userAuth) return false;
+        if (!this.signedIn) return false;
         return this.boardInfo.admins.includes(this.$store.state.userAuth.uid);
-      },
-      canViewBoard () {
-        if (!this.boardInfo) return null;
-        if (this.userIsMember) return true;
-        return this.boardInfo.public;
       },
       routeTitle () {
         let tabTitle;
@@ -152,18 +187,21 @@
               const joinRequestsReference = this.$database
                 .collection('boards-info').doc(this.$route.params.boardId)
                 .collection('join-requests');
-              await this.$bind('joinRequests', joinRequestsReference);
+              await this.$bind('joinRequests', joinRequestsReference, {
+                wait: true,
+              });
             } catch (error) {
               console.error(error);
               this.$toast.error(this.$t('toasts.unexpected-error'));
             }
           } else if (this.$firestoreRefs.joinRequests) {
             this.$unbind('joinRequests');
+            this.joinRequests = null;
           }
         },
         immediate: true,
       },
-      canViewBoard: {
+      userIsMember: {
         async handler (value) {
           if (value) {
             try {
@@ -185,6 +223,11 @@
           document.title = value;
         },
         immediate: true,
+      },
+    },
+    methods: {
+      showSignInSheet () {
+        this.$refs.signInSheet.show();
       },
     },
   };

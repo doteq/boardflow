@@ -4,6 +4,20 @@
       class="headline mb-6 text-center"
       v-text="$t('board-settings.members.title')"
     />
+    <v-alert
+      v-if="userIsAdmin === false"
+      type="warning"
+      class="mb-8"
+    >
+      Tylko administratorzy mogą dodawać i usuwać członków. Właściciel może też zarządzać rolami
+    </v-alert>
+    <v-alert
+      v-else-if="userIsOwner === false"
+      type="warning"
+      class="mb-8"
+    >
+      Tylko właściciel tablicy może też zarządzać rolami
+    </v-alert>
     <v-card
       v-if="loading"
       outlined
@@ -62,7 +76,7 @@
             />
           </v-col>
           <v-col
-            v-if="!user.owner"
+            v-if="!user.owner && userIsAdmin"
             cols="auto"
           >
             <v-menu
@@ -110,7 +124,7 @@
                 <member-remove-dialog @remove="removeUser(user.uid)">
                   <template v-slot:activator="{ on }">
                     <v-list-item
-                      :disabled="user.self"
+                      :disabled="user.self || (user.admin && !userIsOwner)"
                       v-on="on"
                     >
                       <v-list-item-title v-t="'board-settings.members.remove'" />
@@ -148,6 +162,10 @@
     computed: {
       loading () {
         return !this.boardInfo || !this.$store.state.userDataList;
+      },
+      userIsAdmin () {
+        if (!this.boardInfo) return null;
+        return this.boardInfo.admins.includes(this.$store.state.userAuth.uid);
       },
       userIsOwner () {
         if (!this.boardInfo || !this.$store.state.userAuth) return null;
