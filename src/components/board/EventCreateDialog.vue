@@ -6,6 +6,7 @@
     scrollable
     :fullscreen="$vuetify.breakpoint.xsOnly && ready"
     @keydown.esc="close()"
+    @click:outside="ready ? null : close()"
   >
     <v-card v-if="loading">
       <div
@@ -82,6 +83,64 @@
         />
       </v-card-actions>
     </v-card>
+    <v-card v-else-if="!typeValid && !edit">
+      <div
+        class="display-1 text-center py-12 px-8"
+        v-text="$t('event-create-dialog.select-event-type')"
+      />
+      <v-card-text class="d-flex flex-column align-center">
+        <v-btn
+          class="mt-4"
+          block
+          color="homework"
+          outlined
+          :to="`/board/${$route.params.boardId}/create-event/homework`"
+        >
+          <v-icon left>
+            mdi-clipboard-text
+          </v-icon>
+          <v-spacer />
+          {{ $t('event-types.homework') }}
+          <v-spacer />
+        </v-btn>
+        <v-btn
+          class="mt-4"
+          block
+          color="lesson"
+          outlined
+          :to="`/board/${$route.params.boardId}/create-event/lesson`"
+        >
+          <v-icon left>
+            mdi-message-video
+          </v-icon>
+          <v-spacer />
+          {{ $t('event-types.lesson') }}
+          <v-spacer />
+        </v-btn>
+        <v-btn
+          class="mt-4"
+          block
+          color="test"
+          outlined
+          :to="`/board/${$route.params.boardId}/create-event/test`"
+        >
+          <v-icon left>
+            mdi-comment-question
+          </v-icon>
+          <v-spacer />
+          {{ $t('event-types.test') }}
+          <v-spacer />
+        </v-btn>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn
+          v-t="'close'"
+          text
+          @click="close()"
+        />
+      </v-card-actions>
+    </v-card>
     <v-card v-else>
       <v-form
         ref="form"
@@ -102,21 +161,10 @@
             />
           </v-col>
           <v-col class="d-flex flex-column fill-height">
-            <v-card-title v-t="'add-new-event'" />
+            <v-card-title v-t="`event-create-dialog.title-${edit ? 'edit' : 'create'}.${type}`" />
             <v-card-text
               class="pt-2 overflow-y-auto"
             >
-              <v-select
-                v-model="type"
-                :color="colorString"
-                :items="types"
-                :label="$t('event-create-dialog.event-type')"
-                required
-                outlined
-                :disabled="edit"
-                :hint="edit ? $t('event-create-dialog.event-type-edit-hint') : null"
-                :persistent-hint="edit"
-              />
               <v-select
                 v-model="subject"
                 :color="colorString"
@@ -126,6 +174,7 @@
                 :label="$t('event-create-dialog.subject')"
                 required
                 outlined
+                prepend-icon="mdi-book-outline"
                 :rules="subjectRules"
               >
                 <template v-slot:append-item>
@@ -145,6 +194,7 @@
                 outlined
                 :color="colorString"
                 :rules="titleRules"
+                prepend-icon="mdi-text-short"
               />
               <v-textarea
                 v-model="description"
@@ -152,6 +202,7 @@
                 :label="$t('event-create-dialog.optional-label', [$t('event-create-dialog.description')])"
                 outlined
                 auto-grow
+                prepend-icon="mdi-text"
               />
               <v-menu
                 ref="dateMenu"
@@ -169,6 +220,7 @@
                     readonly
                     outlined
                     :value="dateString"
+                    prepend-icon="mdi-calendar"
                     v-on="on"
                   />
                 </template>
@@ -215,6 +267,7 @@
                         readonly
                         outlined
                         :value="time"
+                        prepend-icon="mdi-clock-outline"
                         v-on="on"
                       />
                     </template>
@@ -266,6 +319,7 @@
                         :color="colorString"
                         readonly
                         outlined
+                        prepend-icon="mdi-timer-sand"
                         :value="durationString"
                         v-on="on"
                       />
@@ -318,7 +372,10 @@
                   </v-menu>
                 </v-col>
               </v-row>
-              <v-card outlined>
+              <v-card
+                outlined
+                class="overflow-hidden"
+              >
                 <v-subheader v-text="$t('event-create-dialog.optional-label', [$t('event-create-dialog.links')])" />
                 <v-list-item
                   v-for="(link, index) in links"
@@ -480,7 +537,6 @@
         valid: false,
         subject: null,
         title: '',
-        type: 'homework',
         date: null,
         dateMenuVisible: false,
         time: null,
@@ -506,22 +562,6 @@
       };
     },
     computed: {
-      types () {
-        return [
-          {
-            text: this.$t('event-types.homework'),
-            value: 'homework',
-          },
-          {
-            text: this.$t('event-types.test'),
-            value: 'test',
-          },
-          {
-            text: this.$t('event-types.lesson'),
-            value: 'lesson',
-          },
-        ];
-      },
       subjectItems () {
         if (!this.subjects) return null;
         return this.subjects.map((subject) => ({
@@ -649,7 +689,18 @@
           ((this.event && !this.event.archived) || !this.edit) &&
           this.$store.state.userAuth !== null &&
           this.userIsMember &&
-          this.value;
+          this.value &&
+          this.typeValid;
+      },
+      type () {
+        if (this.edit) {
+          return this.event.type;
+        }
+
+        return this.$route.params.eventType;
+      },
+      typeValid () {
+        return ['homework', 'test', 'lesson'].includes(this.type);
       },
     },
     watch: {
@@ -684,7 +735,6 @@
         this.title = '';
         this.description = '';
         this.optional = false;
-        this.type = 'homework';
         this.time = null;
         this.duration = 0;
         this.links = [];
@@ -695,7 +745,6 @@
         this.title = event.title;
         this.description = event.description || '';
         this.optional = event.optional || false;
-        this.type = event.type;
         this.time = event.time;
         this.duration = event.duration || 0;
         this.links = [...event.links];

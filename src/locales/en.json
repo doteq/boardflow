@@ -100,8 +100,6 @@
     "description": "Description",
     "duration": "Duration",
     "event-archived-message": "Event is archived",
-    "event-type": "Event type",
-    "event-type-edit-hint": "You can't change the event type while editing",
     "hours": "Hours",
     "links": "Links",
     "minutes": "Minutes",
@@ -122,9 +120,20 @@
       "invalid-url": "Entered URL is invalid",
       "link-already-added": "This link has already been added"
     },
+    "select-event-type": "Select event type",
     "subject": "Subject",
     "time": "Time",
     "title": "Title",
+    "title-create": {
+      "homework": "Add new homework",
+      "lesson": "Add new lesson",
+      "test": "Add new test"
+    },
+    "title-edit": {
+      "homework": "Edit homework",
+      "lesson": "Edit lesson",
+      "test": "Edit test"
+    },
     "url-address": "URL address"
   },
   "event-not-found": "Event not found",
