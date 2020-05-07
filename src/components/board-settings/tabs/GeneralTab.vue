@@ -20,7 +20,7 @@
         type="warning"
         class="mb-8"
       >
-        Te ustawienia mogą zmieniać tylko administratorzy tablicy
+        {{ $t('board-settings.general.not-admin-message') }}
       </v-alert>
       <v-text-field
         v-model="name"

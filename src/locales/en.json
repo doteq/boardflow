@@ -21,25 +21,29 @@
       "board-name": "Board name",
       "field-required": "This field is required",
       "max-length-50": "The name cannot be longer than 50 characters",
+      "not-admin-message": "Only admins can modify these settings",
       "title": "General"
     },
     "join-requests": {
       "board-link": "Board link",
       "no-pending-join-requests": "No pending join requests",
+      "not-admin-message": "Only admins can check pending join requests",
       "title": "Join requests"
     },
     "members": {
       "admin-add": "Add admin role",
       "admin-remove": "Remove admin role",
-      "remove": "Remove",
-      "remove-dialog": {
-        "description": "This user will no longer be able to edit this board and create or edit its events. He will still be able ask to join.",
-        "title": "Remove user?"
-      },
       "change-owner-dialog": {
         "change": "Change owner",
         "description": "Changing the board owner will mean that you will lose the ability to manage roles. You won't be able to undo this change.",
         "title": "Are you sure you want to change the owner of the board?"
+      },
+      "not-admin-message": "Only admins can add and remove members. The owner can also manage roles",
+      "not-owner-message": "Only the owner can manage roles",
+      "remove": "Remove",
+      "remove-dialog": {
+        "description": "This user will no longer be able to edit this board and create or edit its events. He will still be able ask to join.",
+        "title": "Remove user?"
       },
       "set-owner": "Set as owner",
       "title": "Members list"

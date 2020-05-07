@@ -9,14 +9,14 @@
       type="warning"
       class="mb-8"
     >
-      Tylko administratorzy mogą dodawać i usuwać członków. Właściciel może też zarządzać rolami
+      {{ $t('board-settings.members.not-admin-message') }}
     </v-alert>
     <v-alert
       v-else-if="userIsOwner === false"
       type="warning"
       class="mb-8"
     >
-      Tylko właściciel tablicy może też zarządzać rolami
+      {{ $t('board-settings.members.not-owner-message') }}
     </v-alert>
     <v-card
       v-if="loading"

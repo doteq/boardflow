@@ -1,15 +1,15 @@
 <template>
   <div>
     <h1
-      v-t="'board-settings.join-requests.title'"
       class="headline mb-6 text-center"
+      v-text="$t('board-settings.join-requests.title')"
     />
     <v-alert
       v-if="userIsAdmin === false"
       type="warning"
       class="mb-8"
     >
-      Tylko administratorzy mogą sprawdzać oczekujące prośby o dołączenie
+      {{ $t('board-settings.join-requests.not-admin-message') }}
     </v-alert>
     <v-text-field
       id="board-link-input"
@@ -46,8 +46,8 @@
       </template>
       <h1
         v-else-if="joinRequestItems.length === 0"
-        v-t="'board-settings.join-requests.no-pending-join-requests'"
         class="headline px-4 py-12 text-center text--secondary"
+        v-text="$t('board-settings.join-requests.no-pending-join-requests')"
       />
       <template v-else-if="$vuetify.breakpoint.smAndUp">
         <v-card

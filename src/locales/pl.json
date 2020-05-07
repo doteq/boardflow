@@ -21,25 +21,29 @@
       "board-name": "Nazwa tablicy",
       "field-required": "To pole jest wymagane",
       "max-length-50": "Nazwa nie może mieć więcej niż 50 znaków",
+      "not-admin-message": "Tylko administratorzy mogą zmieniać te ustawienia",
       "title": "Ogólne"
     },
     "join-requests": {
       "board-link": "Link do tablicy",
       "no-pending-join-requests": "Brak oczekujących próśb o dołączenie",
+      "not-admin-message": "Tylko administratorzy mogą sprawdzać oczekujące prośby o dołączenie",
       "title": "Prośby o dołączenie"
     },
     "members": {
       "admin-add": "Dodaj rolę administratora",
       "admin-remove": "Odbierz rolę administratora",
-      "remove": "Usuń",
-      "remove-dialog": {
-        "description": "Ten użytkownik nie będzie już mógł edytować tej tablicy oraz dodawać i edytować jej wydarzeń. Wciąż będzie mógł poprosić o dołączenie.",
-        "title": "Usunąć użytkownika?"
-      },
       "change-owner-dialog": {
         "change": "Zmień właściciela",
         "description": "Zmiana właściciela tablicy spowoduje, że utracisz przez możliwość zarządzania rolami. Nie będziesz mógł cofnąć tej zmiany.",
         "title": "Na pewno chcesz zmienić właściciela tablicy?"
+      },
+      "not-admin-message": "Tylko administratorzy mogą dodawać i usuwać członków. Właściciel może też zarządzać rolami",
+      "not-owner-message": "Tylko właściciel tablicy może też zarządzać rolami",
+      "remove": "Usuń",
+      "remove-dialog": {
+        "description": "Ten użytkownik nie będzie już mógł edytować tej tablicy oraz dodawać i edytować jej wydarzeń. Wciąż będzie mógł poprosić o dołączenie.",
+        "title": "Usunąć użytkownika?"
       },
       "set-owner": "Ustaw jako właściciela",
       "title": "Lista członków"
