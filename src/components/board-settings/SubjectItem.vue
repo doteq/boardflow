@@ -55,8 +55,8 @@
             </v-btn>
           </template>
           <v-card>
-            <v-card-text class="pb-0">
-              <v-form @submit.prevent="saveNameChange()">
+            <v-form @submit.prevent="saveNameChange()">
+              <v-card-text class="pb-0">
                 <v-text-field
                   v-model="nameChangeMenuInput"
                   :label="$t('subject-creator-dialog.subject-name')"
@@ -66,27 +66,27 @@
                   :counter="30"
                   :counter-value="(value) => value.trim().length"
                 />
-              </v-form>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                text
-                :disabled="nameChangeLoading"
-                @click="cancelNameChange()"
-              >
-                {{ $t('cancel') }}
-              </v-btn>
-              <v-btn
-                color="primary"
-                text
-                type="submit"
-                :disabled="nameErrors.length > 0 || !nameChanged"
-                :loading="nameChangeLoading"
-              >
-                {{ $t('save') }}
-              </v-btn>
-            </v-card-actions>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn
+                  text
+                  :disabled="nameChangeLoading"
+                  @click="cancelNameChange()"
+                >
+                  {{ $t('cancel') }}
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  text
+                  type="submit"
+                  :disabled="nameErrors.length > 0 || !nameChanged"
+                  :loading="nameChangeLoading"
+                >
+                  {{ $t('save') }}
+                </v-btn>
+              </v-card-actions>
+            </v-form>
           </v-card>
         </v-menu>
       </v-col>
