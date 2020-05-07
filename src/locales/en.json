@@ -53,6 +53,7 @@
       "field-required": "This field is required",
       "max-length-30": "The name cannot be longer than 30 characters",
       "name-not-changed": "Name has not been changed",
+      "no-subjects": "No subjects have been added",
       "title": "Subjects"
     },
     "title": "Board settings"

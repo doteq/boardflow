@@ -11,8 +11,14 @@
     >
       <v-skeleton-loader type="list-item-avatar-two-line" />
     </v-card>
+    <h1
+      v-else-if="subjects.length === 0"
+      class="headline px-4 py-12 text-center text--secondary"
+      v-text="$t('board-settings.subjects.no-subjects')"
+    />
     <subject-item
-      v-for="subject in (subjects !== null ? subjects : [])"
+      v-for="subject in subjects"
+      v-else
       :key="subject.id"
       :subject="subject"
     />
