@@ -47,5 +47,18 @@
 
   export default {
     components: { AppBarLocalePicker },
+    computed: {
+      routeTitle () {
+        return this.$t('routes.route-not-found');
+      },
+    },
+    watch: {
+      routeTitle: {
+        handler (value) {
+          document.title = value;
+        },
+        immediate: true,
+      },
+    },
   };
 </script>
