@@ -466,13 +466,14 @@
                 @click="close()"
               />
               <v-btn
-                v-t="'save'"
                 :color="colorString"
                 outlined
                 type="submit"
                 :disabled="!valid || (changes !== null && changes.length === 0)"
                 :loading="submitLoading"
-              />
+              >
+                {{ $t('save') }}
+              </v-btn>
             </v-card-actions>
           </v-col>
         </v-row>

@@ -69,13 +69,14 @@
             @click="visible = false"
           />
           <v-btn
-            v-t="'add'"
             color="primary"
             outlined
             type="submit"
             :disabled="!valid"
             :loading="submitLoading"
-          />
+          >
+            {{ $t('add') }}
+          </v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

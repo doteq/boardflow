@@ -15,12 +15,13 @@
           @click="cancel"
         />
         <v-btn
-          v-t="'unlink-dialog.unlink'"
           color="secondary"
           outlined
           :loading="loading"
           @click="unlink"
-        />
+        >
+          {{ $t('unlink-dialog.unlink') }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
