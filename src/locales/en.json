@@ -109,6 +109,10 @@
     "links": "Links",
     "minutes": "Minutes",
     "no-changes-message": "You haven't made any changes",
+    "no-subjects": {
+      "subtitle": "Click the button below to add a new one",
+      "title": "No subjects have been added"
+    },
     "not-a-board-member-message": {
       "create": "In order to add events you have to be a board member",
       "edit": "In order to edit events you have to be a board member"

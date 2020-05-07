@@ -110,6 +110,10 @@
     "links": "Linki",
     "minutes": "Minuty",
     "no-changes-message": "Nie dokonałeś żadnych zmian",
+    "no-subjects": {
+      "subtitle": "Kliknij przycisk poniżej, aby dodać nowy",
+      "title": "Nie dodano żadnych przedmiotów"
+    },
     "not-a-board-member-message": {
       "create": "Aby dodawać wydarzenia, musisz być członkiem tablicy",
       "edit": "Aby edytować wydarzenia, musisz być członkiem tablicy"

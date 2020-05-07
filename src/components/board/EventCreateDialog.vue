@@ -187,6 +187,20 @@
                     <v-list-item-title v-t="'event-create-dialog.add-new-subject-short'" />
                   </v-list-item>
                 </template>
+                <template v-slot:no-data>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-t="'event-create-dialog.no-subjects.title'"
+                        class="text--secondary"
+                      />
+                      <v-list-item-subtitle
+                        v-t="'event-create-dialog.no-subjects.subtitle'"
+                        class="text--secondary mt-2"
+                      />
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
               </v-select>
               <v-text-field
                 v-model="title"
