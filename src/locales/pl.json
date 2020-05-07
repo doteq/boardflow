@@ -100,7 +100,6 @@
     "description": "Opis",
     "duration": "Czas trwania",
     "event-archived-message": "Wydarzenie jest zarchiwizowane",
-    "event-type": "Typ wydarzenia",
     "event-type-edit-hint": "Nie możesz zmienić typu wydarzenia podczas edytowania",
     "hours": "Godziny",
     "links": "Linki",
@@ -122,10 +121,37 @@
       "invalid-url": "Podany adres URL jest niepoprawny",
       "link-already-added": "Ten link jest już dodany"
     },
+    "select-event-type": "Wybierz typ wydarzenia",
     "subject": "Przedmiot",
     "time": "Godzina",
     "title": "Tytuł",
+    "title-create": {
+      "homework": "Dodawanie zadania domowego",
+      "lesson": "Dodawanie lekcji",
+      "test": "Dodawanie testu"
+    },
+    "title-edit": {
+      "homework": "Edytowanie zadania domowego",
+      "lesson": "Edytowanie lekcji",
+      "test": "Edytowanie testu"
+    },
     "url-address": "Adres URL"
+  },
+  "event-details-dialog": {
+    "archived": "Zarchiwizowane",
+    "created": {
+      "date": "Dodane {date}",
+      "user": "przez {avatar} {user}"
+    },
+    "links": "Linki",
+    "optional-homework": "Zadanie dla chętnych"
+  },
+  "event-element": {
+    "duration": "Czas trwania",
+    "has-description": "Posiada opis",
+    "has-links": "Posiada linki",
+    "optional": "Dla chętnych",
+    "time": "Godzina"
   },
   "event-not-found": "Nie znaleziono wydarzenia",
   "event-states": {
@@ -135,7 +161,7 @@
   "event-types": {
     "homework": "Zadanie domowe",
     "lesson": "Lekcja",
-    "test": "Sprawdzian, kartkówka"
+    "test": "Test"
   },
   "events-archive": {
     "date-time-string": "{date}, {time}",
@@ -184,6 +210,19 @@
     "code": "404",
     "go-back": "Wróć",
     "message": "Nie znaleziono strony"
+  },
+  "routes": {
+    "board": "Tablica | @:app-name",
+    "board-name": "{board} | @:app-name",
+    "board-create-event": "Tworzenie wydarzenia | @:app-name",
+    "board-edit-event": "Edytowanie: {event} | {board} | @:app-name",
+    "board-settings": "Ustawienia tablicy | @:app-name",
+    "board-settings-tab": "{tab} | @:routes.board-settings | @:app-name",
+    "board-view-event": "{event} | {board} | @:app-name",
+    "create": "Utwórz tablicę | @:app-name",
+    "events-archive": "Archiwum wydarzeń | @:app-name",
+    "home": "@:app-name",
+    "route-not-found": "404 - Nie znaleziono strony | @:app-name"
   },
   "save": "Zapisz",
   "sign-in": "Zaloguj się",
@@ -256,18 +295,5 @@
       "title": "Publiczna"
     },
     "title": "Widoczność tablicy"
-  },
-  "routes": {
-    "board": "Tablica | @:app-name",
-    "board-name": "{board} | @:app-name",
-    "board-create-event": "Tworzenie wydarzenia | @:app-name",
-    "board-edit-event": "Edytowanie: {event} | {board} | @:app-name",
-    "board-settings": "Ustawienia tablicy | @:app-name",
-    "board-settings-tab": "{tab} | @:routes.board-settings | @:app-name",
-    "board-view-event": "{event} | {board} | @:app-name",
-    "create": "Utwórz tablicę | @:app-name",
-    "events-archive": "Archiwum wydarzeń | @:app-name",
-    "home": "@:app-name",
-    "route-not-found": "404 - Nie znaleziono strony | @:app-name"
   }
 }
