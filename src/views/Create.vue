@@ -3,7 +3,25 @@
     <app-bar back-to="/">
       {{ $t('create.title') }}
     </app-bar>
+
+    <div
+      v-if="!signedIn"
+      class="d-flex flex-column align-center my-12"
+    >
+      <h1
+        class="display-1 text-center mb-12"
+        v-text="$t('not-signed-in-message')"
+      />
+      <v-btn
+        v-t="'sign-in'"
+        color="primary black--text"
+        large
+        @click="showSignInSheet"
+      />
+    </div>
+
     <v-stepper
+      v-else
       v-model="step"
       class="mb-9"
     >
@@ -275,6 +293,7 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
+    <sign-in-sheet ref="signInSheet" />
   </v-container>
 </template>
 
@@ -283,12 +302,14 @@
   import AppBar from '../components/AppBar.vue';
   import { baseColorsArray } from '../utils';
   import AddedSubjectItem from '../components/create/AddedSubjectItem.vue';
+  import SignInSheet from '../components/SignInSheet.vue';
 
   export default {
     name: 'BoardCreation',
     components: {
       AddedSubjectItem,
       AppBar,
+      SignInSheet,
     },
     data: () => ({
       step: 1,
@@ -327,6 +348,9 @@
       },
       routeTitle () {
         return this.$t('routes.create');
+      },
+      signedIn () {
+        return !!this.$store.state.userAuth;
       },
     },
     watch: {
@@ -434,6 +458,9 @@
         input.select();
         document.execCommand('copy');
         this.$toast('toasts.link-copied');
+      },
+      showSignInSheet () {
+        this.$refs.signInSheet.show();
       },
     },
   };
