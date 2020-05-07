@@ -119,43 +119,10 @@
         v-text="$t('board-not-found-message')"
       />
     </div>
-    <div
+    <not-member
       v-else-if="canViewBoard === false"
       class="d-flex fill-height fill-width flex-column align-center justify-center grow"
-    >
-      <h1
-        class="display-1 text-center"
-        v-text="$t('board-is-private-message')"
-      />
-      <v-btn
-        v-if="!$store.state.userAuth"
-        v-t="'sign-in'"
-        color="primary black--text"
-        class="mt-8"
-        large
-        @click="showSignInSheet"
-      />
-      <v-skeleton-loader
-        v-else-if="!selfMemberRequestLoaded"
-        type="image"
-        width="200px"
-        height="44px"
-        class="mt-8"
-      />
-      <div
-        v-else-if="selfMemberRequest"
-        class="mt-8 body-1 text-center text--secondary"
-        v-text="$t('join-request-pending-message')"
-      />
-      <v-btn
-        v-else
-        v-t="'ask-to-join'"
-        color="primary black--text"
-        class="mt-8"
-        large
-        @click="requestPermission"
-      />
-    </div>
+    />
     <template v-else>
       <v-row v-if="$vuetify.breakpoint.mdAndUp">
         <v-col class="shrink">
@@ -387,7 +354,6 @@
         @close="closeEventDetailsDialog()"
       />
     </v-dialog>
-    <sign-in-sheet ref="signInSheet" />
   </v-container>
 </template>
 
@@ -399,7 +365,7 @@
   import EventDetailsDialog from '../components/board/EventDetailsDialog.vue';
   import BoardMenu from '../components/board/BoardMenu.vue';
   import 'firebase/firestore';
-  import SignInSheet from '../components/SignInSheet.vue';
+  import NotMember from '../components/NotMember.vue';
 
   export default {
     name: 'Board',
@@ -409,7 +375,7 @@
       AppBar,
       EventDetailsDialog,
       BoardMenu,
-      SignInSheet,
+      NotMember,
     },
     data: () => ({
       date: new Date().toISOString().split('T')[0],
@@ -613,9 +579,6 @@
         if (dateEvents.findIndex((event) => event.type === 'lesson') !== -1) colors.push('lesson');
         if (dateEvents.findIndex((event) => event.type === 'test') !== -1) colors.push('test');
         return colors;
-      },
-      showSignInSheet () {
-        this.$refs.signInSheet.show();
       },
       async requestPermission () {
         try {

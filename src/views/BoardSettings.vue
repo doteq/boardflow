@@ -5,9 +5,11 @@
     >
       {{ $t('board-settings.title') }}
     </app-bar>
+    <not-member v-if="!canViewBoard" />
     <v-tabs
       v-model="tabIndex"
       :vertical="$vuetify.breakpoint.mdAndUp"
+      v-else
     >
       <v-tab>
         <v-icon left>
@@ -61,6 +63,8 @@
   import JoinRequestsTab from '../components/board-settings/tabs/JoinRequestsTab.vue';
   import MembersTab from '../components/board-settings/tabs/MembersTab.vue';
   import SubjectsTab from '../components/board-settings/tabs/SubjectsTab.vue';
+  import NotSignedIn from '../components/NotSignedIn.vue';
+  import NotMember from '../components/NotMember.vue';
 
   export default {
     name: 'BoardSettings',
@@ -70,6 +74,8 @@
       JoinRequestsTab,
       MembersTab,
       SubjectsTab,
+      NotSignedIn,
+      NotMember,
     },
     data: () => ({
       boardInfo: null,
