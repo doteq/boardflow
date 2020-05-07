@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-0">
+  <v-container class="pa-0 pb-12">
     <v-fade-transition
       group
       hide-on-leave

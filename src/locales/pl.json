@@ -146,6 +146,13 @@
     "links": "Linki",
     "optional-homework": "Zadanie dla chętnych"
   },
+  "event-element": {
+    "duration": "Czas trwania",
+    "has-description": "Posiada opis",
+    "has-links": "Posiada linki",
+    "optional": "Dla chętnych",
+    "time": "Godzina"
+  },
   "event-not-found": "Nie znaleziono wydarzenia",
   "event-states": {
     "done": "Zrobione",

@@ -145,6 +145,13 @@
     "links": "Links",
     "optional-homework": "Optional homework"
   },
+  "event-element": {
+    "duration": "Duration",
+    "has-description": "Has description",
+    "has-links": "Has links",
+    "optional": "Optional",
+    "time": "Time"
+  },
   "event-not-found": "Event not found",
   "event-states": {
     "done": "Done",
