@@ -177,9 +177,53 @@
             </v-icon>
           </v-list-item>
         </v-card>
-        <v-card-actions>
+        <v-card-actions class="">
           <v-spacer />
-          <template v-if="userIsMember">
+          <template v-if="userIsMember && $vuetify.breakpoint.xsOnly">
+            <v-btn
+              v-if="event.archived"
+              text
+              :loading="restoreLoading"
+              @click="restore"
+            >
+              {{ $t('restore') }}
+            </v-btn>
+            <v-tooltip
+              v-else
+              top
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  color="red"
+                  icon
+                  :loading="archiveLoading"
+                  class="mr-2"
+                  v-on="on"
+                  @click="archive"
+                >
+                  <v-icon>mdi-archive-arrow-down</v-icon>
+                </v-btn>
+              </template>
+              {{ $t('archive') }}
+            </v-tooltip>
+            <v-tooltip
+              v-if="!event.archived"
+              top
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-if="!event.archived"
+                  icon
+                  :to="`/board/${$route.params.boardId}/event/${event.id}/edit`"
+                  v-on="on"
+                >
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </template>
+              {{ $t('edit') }}
+            </v-tooltip>
+          </template>
+          <template v-else-if="userIsMember">
             <v-btn
               v-if="event.archived"
               text
