@@ -1,9 +1,32 @@
 <template>
-  <v-container class="creator-container">
+  <v-container
+    class="creator-container"
+    :class="{
+      'fill-height': !signedIn
+    }"
+  >
     <app-bar back-to="/">
       {{ $t('create.title') }}
     </app-bar>
+    <div
+      v-if="!signedIn"
+      class="d-flex fill-height flex-column align-center justify-center grow"
+    >
+      <h1
+        class="display-1 text-center"
+        v-text="$t('not-signed-in-message')"
+      />
+      <v-btn
+        v-t="'sign-in'"
+        color="primary black--text"
+        class="mt-8"
+        large
+        @click="showSignInSheet"
+      />
+      <sign-in-sheet ref="signInSheet" />
+    </div>
     <v-stepper
+      v-else
       v-model="step"
       class="mb-9"
     >
@@ -283,12 +306,14 @@
   import AppBar from '../components/AppBar.vue';
   import { baseColorsArray } from '../utils';
   import AddedSubjectItem from '../components/create/AddedSubjectItem.vue';
+  import SignInSheet from '../components/SignInSheet.vue';
 
   export default {
     name: 'BoardCreation',
     components: {
       AddedSubjectItem,
       AppBar,
+      SignInSheet,
     },
     data: () => ({
       step: 1,
@@ -300,6 +325,9 @@
       submitLoading: false,
     }),
     computed: {
+      signedIn () {
+        return this.$store.state.userAuth !== null;
+      },
       link () {
         if (!this.generatedBoardId) return null;
         return new URL(`/board/${this.generatedBoardId}`, window.location.origin).toString();
@@ -434,6 +462,9 @@
         input.select();
         document.execCommand('copy');
         this.$toast('toasts.link-copied');
+      },
+      showSignInSheet () {
+        this.$refs.signInSheet.show();
       },
     },
   };
