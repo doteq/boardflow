@@ -37,6 +37,11 @@ const routes = [
     component: Board,
   },
   {
+    path: '/board/:boardId/create-event/:eventType',
+    name: 'BoardCreateEvent',
+    component: Board,
+  },
+  {
     path: '/board/:boardId/settings',
     component: BoardSettings,
     children: [

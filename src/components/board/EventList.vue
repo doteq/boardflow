@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-0">
+  <v-container class="pa-0 pb-12">
     <v-fade-transition
       group
       hide-on-leave
@@ -31,20 +31,30 @@
         class="mt-12 mx-6 d-flex flex-column align-center"
       >
         <h1
+
           class="d-block text-center headline"
           v-text="$t('no-events-on-selected-day-message')"
         />
-        <v-btn
-          class="mt-12"
-          color="secondary"
-          large
-          :to="`/board/${$route.params.boardId}/create-event`"
+        <v-menu
+          offset-y
+          bottom
+          :nudge-bottom="8"
         >
-          <v-icon left>
-            mdi-plus
-          </v-icon>
-          {{ $t('add-new-event') }}
-        </v-btn>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              class="mt-12"
+              color="secondary"
+              large
+              v-on="on"
+            >
+              <v-icon left>
+                mdi-plus
+              </v-icon>
+              {{ $t('add-new-event') }}
+            </v-btn>
+          </template>
+          <event-type-select-menu-list />
+        </v-menu>
       </div>
       <template v-else>
         <event-element
@@ -82,11 +92,13 @@
 
 <script>
   import EventElement from './EventElement.vue';
+  import EventTypeSelectMenuList from './EventTypeSelectMenuList.vue';
 
   export default {
     name: 'EventList',
     components: {
       EventElement,
+      EventTypeSelectMenuList,
     },
     props: {
       events: {

@@ -13,75 +13,62 @@
             tile
           />
         </v-col>
-        <v-col>
-          <v-row
-            no-gutters
-            class="align-center"
-          >
-            <v-col>
-              <v-card-title>
-                {{ event.title }}
-              </v-card-title>
-            </v-col>
-            <v-col class="shrink">
-              <v-simple-checkbox
-                v-if="event.done !== undefined"
-                v-model="event.done"
-                class="mr-4"
-                @click.stop.capture
+        <v-col class="overflow-x-hidden">
+          <v-card-title
+            class="text-no-wrap text-truncate d-block"
+            v-text="event.title"
+          />
+          <v-card-subtitle class="px-2">
+            <div class="d-flex align-center px-2">
+              <span
+                :class="`${colorString}--text`"
+                v-text="$t(`event-types.${event.type}`)"
               />
-            </v-col>
-          </v-row>
-          <v-card-subtitle class="pt-0">
-            <v-row no-gutters>
-              <v-col class="text-left">
-                <v-row no-gutters>
-                  <v-col class="shrink d-flex align-center mr-2">
-                    <v-sheet
-                      width="25"
-                      height="12"
-                      :color="event.subject.color"
-                    />
-                  </v-col>
-                  <v-col>
-                    {{ event.subject.name }}
-                  </v-col>
-                </v-row>
-              </v-col>
-              <v-col class="text-center mx-3 hidden-xs-only">
-                <span v-if="event.time">
-                  <span
-                    v-if="event.type === 'homework'"
-                    v-text="$t('event-types.homework')"
-                  />
-                  <span
-                    v-else-if="event.type === 'lesson'"
-                    v-text="$t('event-types.lesson')"
-                  />
-                  <span
-                    v-else-if="event.type === 'test'"
-                    v-text="$t('event-types.test')"
-                  />
-                </span>
-              </v-col>
-              <v-col class="text-right">
-                <span v-if="event.time"><v-icon>mdi-clock-outline</v-icon>{{ event.time }}</span>
-                <span v-else>
-                  <span
-                    v-if="event.type === 'homework'"
-                    v-text="$t('event-types.homework')"
-                  />
-                  <span
-                    v-else-if="event.type === 'lesson'"
-                    v-text="$t('event-types.lesson')"
-                  />
-                  <span
-                    v-else-if="event.type === 'test'"
-                    v-text="$t('event-types.test')"
-                  />
-                </span>
-              </v-col>
-            </v-row>
+              <v-spacer />
+              <v-sheet
+                height="15"
+                width="30"
+                :color="event.subject.color"
+              />
+              <span
+                class="ml-2"
+                v-text="event.subject.name"
+              />
+            </div>
+            <div class="d-flex">
+              <event-element-icon
+                v-if="event.time"
+                icon="mdi-clock-outline"
+                :tooltip="$t('event-element.time')"
+              >
+                {{ event.time }}
+              </event-element-icon>
+              <event-element-icon
+                v-if="event.duration"
+                icon="mdi-timer-sand"
+                :tooltip="$t('event-element.duration')"
+              >
+                {{ durationString }}
+              </event-element-icon>
+              <event-element-icon
+                v-if="event.optional"
+                icon="mdi-bullseye-arrow"
+                :tooltip="$t('event-element.optional')"
+              />
+              <v-spacer />
+              <event-element-icon
+                v-if="event.description"
+                icon="mdi-text"
+                :tooltip="$t('event-element.has-description')"
+                right
+              />
+              <event-element-icon
+                v-if="event.links.length > 0"
+                icon="mdi-link"
+                :tooltip="$t('event-element.has-links')"
+                right
+              />
+            </div>
           </v-card-subtitle>
         </v-col>
       </v-row>
@@ -90,8 +77,14 @@
 </template>
 
 <script>
+  import humanizeDuration from 'humanize-duration';
+  import EventElementIcon from './EventElementIcon.vue';
+
   export default {
     name: 'EventElement',
+    components: {
+      EventElementIcon,
+    },
     props: {
       event: {
         type: Object,
@@ -104,6 +97,14 @@
     computed: {
       colorString () {
         return this.event.type;
+      },
+      durationString () {
+        if (!this.event.duration) return null;
+
+        return humanizeDuration(this.event.duration * 60 * 1000, {
+          language: this.$i18n.locale,
+          units: ['h', 'm'],
+        });
       },
     },
     watch: {

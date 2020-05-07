@@ -54,40 +54,26 @@
             tile
           />
         </v-col>
-        <v-col>
-          <v-card-title v-text="event.title" />
-          <v-card-subtitle class="my-0">
-            <v-row no-gutters>
-              <v-col
-                cols="auto"
-                class="d-flex align-center mr-2"
-              >
-                <v-sheet
-                  width="25"
-                  height="12"
-                  :color="event.subject.color"
-                />
-              </v-col>
-              <v-col
-                cols="auto"
-                v-text="event.subject.name"
-              />
-              <v-spacer />
-              <v-col cols="auto">
-                <span
-                  v-if="event.type === 'homework'"
-                  v-text="$t('event-types.homework')"
-                />
-                <span
-                  v-else-if="event.type === 'lesson'"
-                  v-text="$t('event-types.lesson')"
-                />
-                <span
-                  v-else-if="event.type === 'test'"
-                  v-text="$t('event-types.test')"
-                />
-              </v-col>
-            </v-row>
+        <v-col class="overflow-x-hidden">
+          <v-card-title
+            class="d-block text-no-wrap text-truncate"
+            v-text="event.title"
+          />
+          <v-card-subtitle class="d-flex align-center">
+            <span
+              :class="`${colorString}--text`"
+              v-text="$t(`event-types.${event.type}`)"
+            />
+            <v-spacer />
+            <v-sheet
+              height="15"
+              width="30"
+              :color="event.subject.color"
+            />
+            <span
+              class="ml-2"
+              v-text="event.subject.name"
+            />
           </v-card-subtitle>
           <v-divider />
           <v-card-actions class="pl-0">

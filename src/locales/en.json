@@ -100,8 +100,6 @@
     "description": "Description",
     "duration": "Duration",
     "event-archived-message": "Event is archived",
-    "event-type": "Event type",
-    "event-type-edit-hint": "You can't change the event type while editing",
     "hours": "Hours",
     "links": "Links",
     "minutes": "Minutes",
@@ -122,10 +120,37 @@
       "invalid-url": "Entered URL is invalid",
       "link-already-added": "This link has already been added"
     },
+    "select-event-type": "Select event type",
     "subject": "Subject",
     "time": "Time",
     "title": "Title",
+    "title-create": {
+      "homework": "Add new homework",
+      "lesson": "Add new lesson",
+      "test": "Add new test"
+    },
+    "title-edit": {
+      "homework": "Edit homework",
+      "lesson": "Edit lesson",
+      "test": "Edit test"
+    },
     "url-address": "URL address"
+  },
+  "event-details-dialog": {
+    "archived": "Archived",
+    "created": {
+      "date": "Added on {date}",
+      "user": "by {avatar} {user}"
+    },
+    "links": "Links",
+    "optional-homework": "Optional homework"
+  },
+  "event-element": {
+    "duration": "Duration",
+    "has-description": "Has description",
+    "has-links": "Has links",
+    "optional": "Optional",
+    "time": "Time"
   },
   "event-not-found": "Event not found",
   "event-states": {
@@ -183,6 +208,19 @@
     "code": "404",
     "go-back": "Go back",
     "message": "Page not found"
+  },
+  "routes": {
+    "board": "Board | @:app-name",
+    "board-name": "{board} | @:app-name",
+    "board-create-event": "Event creation | @:app-name",
+    "board-edit-event": "Editing: {event} | {board} | @:app-name",
+    "board-settings": "Board settings | @:app-name",
+    "board-settings-tab": "{tab} | @:routes.board-settings | @:app-name",
+    "board-view-event": "{event} | {board} | @:app-name",
+    "create": "Create board | @:app-name",
+    "events-archive": "Events archive | @:app-name",
+    "home": "@:app-name",
+    "route-not-found": "404 - Page not found | @:app-name"
   },
   "save": "Save",
   "sign-in": "Sign in",
@@ -243,18 +281,5 @@
       "title": "Public"
     },
     "title": "Board visibility"
-  },
-  "routes": {
-    "board": "Board | @:app-name",
-    "board-name": "{board} | @:app-name",
-    "board-create-event": "Event creation | @:app-name",
-    "board-edit-event": "Editing: {event} | {board} | @:app-name",
-    "board-settings": "Board settings | @:app-name",
-    "board-settings-tab": "{tab} | @:routes.board-settings | @:app-name",
-    "board-view-event": "{event} | {board} | @:app-name",
-    "create": "Create board | @:app-name",
-    "events-archive": "Events archive | @:app-name",
-    "home": "@:app-name",
-    "route-not-found": "404 - Page not found | @:app-name"
   }
 }

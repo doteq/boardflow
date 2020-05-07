@@ -141,20 +141,29 @@
             />
           </template>
           <template v-else-if="userIsMember">
-            <v-btn
-              block
-              color="secondary"
-              class="mb-4"
-              large
-              :to="`/board/${$route.params.boardId}/create-event`"
+            <v-menu
+              offset-y
+              bottom
+              :nudge-bottom="8"
             >
-              <v-icon left>
-                mdi-plus
-              </v-icon>
-              <v-spacer />
-              {{ $t('add-new-event') }}
-              <v-spacer />
-            </v-btn>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  block
+                  color="secondary"
+                  class="mb-4"
+                  large
+                  v-on="on"
+                >
+                  <v-icon left>
+                    mdi-plus
+                  </v-icon>
+                  <v-spacer />
+                  {{ $t('add-new-event') }}
+                  <v-spacer />
+                </v-btn>
+              </template>
+              <event-type-select-menu-list />
+            </v-menu>
             <board-menu
               :join-requests="joinRequests"
               :user-is-owner="userIsOwner"
@@ -292,17 +301,39 @@
           :events="currentEvents"
         />
       </div>
-      <v-btn
+      <!--      <v-btn-->
+      <!--        v-if="$vuetify.breakpoint.smAndDown && userIsMember"-->
+      <!--        fab-->
+      <!--        bottom-->
+      <!--        right-->
+      <!--        fixed-->
+      <!--        color="secondary"-->
+      <!--        :to="`/board/${$route.params.boardId}/create-event`"-->
+      <!--      >-->
+      <!--        <v-icon>mdi-plus</v-icon>-->
+      <!--      </v-btn>-->
+
+      <v-menu
         v-if="$vuetify.breakpoint.smAndDown && userIsMember"
-        fab
-        bottom
-        right
-        fixed
-        color="secondary"
-        :to="`/board/${$route.params.boardId}/create-event`"
+        offset-y
+        top
+        :nudge-top="8"
       >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-model="fabOpen"
+            fab
+            color="secondary"
+            bottom
+            right
+            fixed
+            v-on="on"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </template>
+        <event-type-select-menu-list />
+      </v-menu>
     </template>
     <v-dialog
       :value="$route.name === 'BoardCreateEvent' && userIsMember === false"
@@ -362,6 +393,7 @@
   import EventList from '../components/board/EventList.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
   import AppBar from '../components/AppBar.vue';
+  import EventTypeSelectMenuList from '../components/board/EventTypeSelectMenuList.vue';
   import EventDetailsDialog from '../components/board/EventDetailsDialog.vue';
   import BoardMenu from '../components/board/BoardMenu.vue';
   import 'firebase/firestore';
@@ -373,6 +405,7 @@
       EventList,
       EventCreateDialog,
       AppBar,
+      EventTypeSelectMenuList,
       EventDetailsDialog,
       BoardMenu,
       NotMember,
@@ -392,6 +425,7 @@
       selfMemberRequest: null,
       selfMemberRequestLoaded: false,
       joinRequests: null,
+      fabOpen: false,
     }),
     computed: {
       dateString () {
