@@ -15,6 +15,13 @@
       />
     </div>
     <template v-else>
+      <v-alert
+        v-if="!userIsAdmin"
+        type="warning"
+        class="mb-8"
+      >
+        {{ $t('board-settings.general.not-admin-message') }}
+      </v-alert>
       <v-text-field
         v-model="name"
         :label="$t('board-settings.general.board-name')"
@@ -23,6 +30,7 @@
         :counter="50"
         :counter-value="(value) => value.trim().length"
         :error-messages="nameErrors"
+        :readonly="!userIsAdmin"
       >
         <template v-slot:append>
           <v-progress-circular
@@ -71,6 +79,7 @@
                 />
                 <v-card-actions>
                   <v-btn
+                    v-if="userIsAdmin || active"
                     block
                     text
                     :disabled="active"
@@ -109,6 +118,7 @@
                 />
                 <v-card-actions>
                   <v-btn
+                    v-if="userIsAdmin || active"
                     block
                     text
                     :disabled="active"
@@ -150,6 +160,10 @@
     computed: {
       loading () {
         return !this.boardInfo;
+      },
+      userIsAdmin () {
+        if (!this.boardInfo) return null;
+        return this.boardInfo.admins.includes(this.$store.state.userAuth.uid);
       },
       nameErrors () {
         const errors = [];

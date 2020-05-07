@@ -100,7 +100,8 @@
       },
       joinRequests: {
         type: Array,
-        required: true,
+        required: false,
+        default: null,
       },
       userIsOwner: {
         type: Boolean,
