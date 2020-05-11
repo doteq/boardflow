@@ -230,7 +230,8 @@
     "create": "Create board | @:app-name",
     "events-archive": "Events archive | @:app-name",
     "home": "@:app-name",
-    "route-not-found": "404 - Page not found | @:app-name"
+    "route-not-found": "404 - Page not found | @:app-name",
+    "all-events": "All events | @:app-name"
   },
   "save": "Save",
   "sign-in": "Sign in",

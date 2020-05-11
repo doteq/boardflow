@@ -232,7 +232,8 @@
     "create": "Utwórz tablicę | @:app-name",
     "events-archive": "Archiwum wydarzeń | @:app-name",
     "home": "@:app-name",
-    "route-not-found": "404 - Nie znaleziono strony | @:app-name"
+    "route-not-found": "404 - Nie znaleziono strony | @:app-name",
+    "all-events": "Wszystkie wydarzenia | @:app-name"
   },
   "save": "Zapisz",
   "sign-in": "Zaloguj się",
