@@ -26,6 +26,15 @@
 
         <v-list-item-title v-t="'board-settings.title'" />
       </v-list-item>
+
+      <v-list-item :to="`/board/${$route.params.boardId}/all-events`">
+        <v-list-item-icon>
+          <v-icon>mdi-calendar</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-title v-t="'all-events.title'" />
+      </v-list-item>
+
       <v-list-item :to="`/board/${$route.params.boardId}/settings/subjects`">
         <v-list-item-icon>
           <v-icon>mdi-book</v-icon>

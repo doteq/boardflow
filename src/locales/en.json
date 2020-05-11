@@ -199,6 +199,7 @@
   },
   "next": "Next",
   "no-events-on-selected-day-message": "There are no events on selected day",
+  "no-events-message-all": "There are no events",
   "not-a-board-member-message": "You aren't a member of this board",
   "not-any-board-member-message": "You aren't a member of any board",
   "not-signed-in-message": "You aren't signed in",
@@ -290,5 +291,8 @@
       "title": "Public"
     },
     "title": "Board visibility"
+  },
+  "all-events": {
+    "title": "All events"
   }
 }

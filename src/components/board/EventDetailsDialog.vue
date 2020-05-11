@@ -245,7 +245,7 @@
               v-if="!event.archived"
               v-t="'edit'"
               text
-              :to="`/board/${$route.params.boardId}/event/${event.id}/edit`"
+              :to="allEvents ? `/board/${$route.params.boardId}/event/${event.id}/edit` : `/board/${$route.params.boardId}/all-events/event/${event.id}/edit`"
             />
           </template>
           <v-btn
@@ -281,6 +281,7 @@
         required: false,
         default: false,
       },
+      allEvents: Boolean,
     },
     data: () => ({
       archiveLoading: false,

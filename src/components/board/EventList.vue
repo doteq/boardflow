@@ -31,9 +31,14 @@
         class="mt-12 mx-6 d-flex flex-column align-center"
       >
         <h1
-
+          v-if="!allEvents"
           class="d-block text-center headline"
           v-text="$t('no-events-on-selected-day-message')"
+        />
+        <h1
+          v-else
+          class="d-block text-center headline"
+          v-text="$t('no-events-message-all')"
         />
         <v-menu
           offset-y
@@ -64,6 +69,7 @@
           :class="{
             'mt-3': index !== 0
           }"
+          :all-events="allEvents"
         />
         <h1
           v-if="eventItemsNotDone.length > 0"
@@ -74,6 +80,7 @@
           :key="event.id"
           :event="event"
           class="mt-3"
+          :all-events="allEvents"
         />
         <h1
           v-if="eventItemsListDone.length > 0"
@@ -84,6 +91,7 @@
           :key="event.id"
           :event="event"
           class="mt-3"
+          :all-events="allEvents"
         />
       </template>
     </v-fade-transition>
@@ -106,6 +114,7 @@
         required: false,
         default: null,
       },
+      allEvents: Boolean,
     },
     computed: {
       loading () {
