@@ -273,7 +273,10 @@
         </v-col>
         <v-col>
           <event-list
+            :loading="eventListLoading"
             :events="currentEvents"
+            :done-homework="doneHomework"
+            :date="date"
           />
         </v-col>
       </v-row>
@@ -331,7 +334,10 @@
           color="secondary"
         />
         <event-list
+          :loading="eventListLoading"
           :events="currentEvents"
+          :done-homework="doneHomework"
+          :date="date"
         />
       </div>
       <!--      <v-btn-->
@@ -461,6 +467,8 @@
       selfMemberRequestLoaded: false,
       joinRequests: null,
       fabOpen: false,
+      boardUserData: null,
+      boardUserDataLoaded: false,
     }),
     computed: {
       dateString () {
@@ -495,6 +503,13 @@
         if (!this.events) return null;
         if (!['BoardEvent', 'BoardEditEvent'].includes(this.$route.name)) return null;
         return this.events.find((event) => event.id === this.$route.params.eventId) || null;
+      },
+      eventListLoading () {
+        return !this.eventsAndSubjectsLoaded || (this.userIsMember && !this.boardUserDataLoaded);
+      },
+      doneHomework () {
+        if (!this.userIsMember || !this.boardUserDataLoaded) return null;
+        return this.boardUserData ? this.boardUserData.doneHomework || [] : [];
       },
       currentEvents () {
         if (!this.eventsAndSubjectsLoaded || !this.events) return null;
@@ -608,6 +623,27 @@
         },
         immediate: true,
       },
+      userIsMember: {
+        async handler (value) {
+          if (value) {
+            this.boardUserDataLoaded = false;
+            try {
+              const boardUserDataReference = this.$database
+                .collection('boards').doc(this.$route.params.boardId)
+                .collection('user-data').doc(this.$store.state.userAuth.uid);
+              await this.$bind('boardUserData', boardUserDataReference);
+              this.boardUserDataLoaded = true;
+            } catch (error) {
+              console.error(error);
+              this.$toast.error(this.$t('toasts.unexpected-error'));
+            }
+          } else if (this.$firestoreRefs.boardUserData) {
+            this.$unbind('boardUserData');
+            this.boardUserDataLoaded = false;
+          }
+        },
+        immediate: true,
+      },
       routeTitle: {
         handler (value) {
           document.title = value;
@@ -651,7 +687,13 @@
         if (!this.eventsAndSubjectsLoaded || !this.events) return [];
         const dateEvents = this.events.filter((event) => event.date === date && !event.archived);
         const colors = [];
-        if (dateEvents.findIndex((event) => event.type === 'homework') !== -1) colors.push('homework');
+
+        const homeworkEvents = dateEvents.filter((event) => event.type === 'homework');
+        if (homeworkEvents.length > 0) {
+          if ((!this.boardUserDataLoaded && this.userIsMember) || !this.userIsMember) colors.push('homework');
+          else if (homeworkEvents.findIndex((event) => !this.doneHomework.includes(event.id)) === -1) colors.push('homework-done');
+          else colors.push('homework');
+        }
         if (dateEvents.findIndex((event) => event.type === 'lesson') !== -1) colors.push('lesson');
         if (dateEvents.findIndex((event) => event.type === 'test') !== -1) colors.push('test');
         return colors;

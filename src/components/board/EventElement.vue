@@ -3,6 +3,7 @@
     <v-card
       class="overflow-hidden"
       :to="`/board/${$route.params.boardId}/event/${event.id}`"
+      :elevation="event.done ? 0 : undefined"
     >
       <v-row no-gutters>
         <v-col cols="auto">
@@ -14,10 +15,39 @@
           />
         </v-col>
         <v-col class="overflow-x-hidden">
-          <v-card-title
-            class="text-no-wrap text-truncate d-block"
-            v-text="event.title"
-          />
+          <div class="d-flex">
+            <v-card-title
+              class="text-no-wrap text-truncate d-block grow pb-0"
+              :class="{
+                'text--disabled': event.done,
+              }"
+              v-text="event.title"
+            />
+            <v-tooltip
+              v-if="event.done !== null"
+              bottom
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  class="mr-3 mt-3"
+                  :color="event.done ? 'primary' : ''"
+                  :disabled="doneToggleLoading"
+                  @mousedown.stop="() => {}"
+                  v-on="on"
+                  @click.prevent.native="toggleDone()"
+                >
+                  <v-icon v-if="event.done">
+                    $checkboxOn
+                  </v-icon>
+                  <v-icon v-else>
+                    $checkboxOff
+                  </v-icon>
+                </v-btn>
+              </template>
+              Zadanie zrobione
+            </v-tooltip>
+          </div>
           <v-card-subtitle class="px-2">
             <div class="d-flex align-center px-2">
               <span
@@ -78,7 +108,9 @@
 
 <script>
   import humanizeDuration from 'humanize-duration';
+  import firebase from 'firebase/app';
   import EventElementIcon from './EventElementIcon.vue';
+  import 'firebase/firestore';
 
   export default {
     name: 'EventElement',
@@ -92,10 +124,11 @@
       },
     },
     data: () => ({
-      done: false,
+      doneToggleLoading: false,
     }),
     computed: {
       colorString () {
+        if (this.event.type === 'homework' && this.event.done) return 'homework-done';
         return this.event.type;
       },
       durationString () {
@@ -107,9 +140,32 @@
         });
       },
     },
-    watch: {
-      done (value) {
-        console.log(value);
+    methods: {
+      async toggleDone () {
+        this.doneToggleLoading = true;
+        try {
+          const boardUserDataReference = this.$database
+            .collection('boards').doc(this.$route.params.boardId)
+            .collection('user-data').doc(this.$store.state.userAuth.uid);
+
+          if (this.event.done) {
+            await boardUserDataReference.set({
+              doneHomework: firebase.firestore.FieldValue.arrayRemove(this.event.id),
+            }, {
+              merge: true,
+            });
+          } else {
+            await boardUserDataReference.set({
+              doneHomework: firebase.firestore.FieldValue.arrayUnion(this.event.id),
+            }, {
+              merge: true,
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+        }
+        this.doneToggleLoading = false;
       },
     },
   };

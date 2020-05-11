@@ -34,6 +34,7 @@ export default (i18n) => new Vuetify({
         accent: '#028174',
         lesson: '#42A5F5',
         homework: '#FFEE58',
+        'homework-done': '#978235',
         test: '#FF7043',
       },
       dark: {
@@ -42,6 +43,7 @@ export default (i18n) => new Vuetify({
         accent: '#028174',
         lesson: '#42A5F5',
         homework: '#FFEE58',
+        'homework-done': '#978235',
         test: '#FF7043',
       },
     },
