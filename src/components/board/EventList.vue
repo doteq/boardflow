@@ -114,7 +114,11 @@
         required: false,
         default: null,
       },
-      allEvents: Boolean,
+      allEvents: {
+        type: Boolean,
+        required: false,
+        default: false,
+      },
     },
     computed: {
       loading () {

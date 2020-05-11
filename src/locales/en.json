@@ -5,6 +5,9 @@
   "add-as-member": "Add as member",
   "add-new-event": "Add new event",
   "add-new-event-short": "Add new",
+  "all-events": {
+    "title": "All events"
+  },
   "app-name": "Boardflow",
   "archive": "Archive",
   "ask-to-join": "Ask to join",
@@ -198,8 +201,8 @@
     "title-vuetify": "Vuetify"
   },
   "next": "Next",
-  "no-events-on-selected-day-message": "There are no events on selected day",
   "no-events-message-all": "There are no events",
+  "no-events-on-selected-day-message": "There are no events on selected day",
   "not-a-board-member-message": "You aren't a member of this board",
   "not-any-board-member-message": "You aren't a member of any board",
   "not-signed-in-message": "You aren't signed in",
@@ -220,18 +223,19 @@
     "message": "Page not found"
   },
   "routes": {
+    "all-events": "All events | @:app-name",
+    "all-events-edit": "Editing: {event} | All events | @:app-name",
     "board": "Board | @:app-name",
-    "board-name": "{board} | @:app-name",
     "board-create-event": "Event creation | @:app-name",
     "board-edit-event": "Editing: {event} | {board} | @:app-name",
+    "board-name": "{board} | @:app-name",
     "board-settings": "Board settings | @:app-name",
     "board-settings-tab": "{tab} | @:routes.board-settings | @:app-name",
     "board-view-event": "{event} | {board} | @:app-name",
     "create": "Create board | @:app-name",
     "events-archive": "Events archive | @:app-name",
     "home": "@:app-name",
-    "route-not-found": "404 - Page not found | @:app-name",
-    "all-events": "All events | @:app-name"
+    "route-not-found": "404 - Page not found | @:app-name"
   },
   "save": "Save",
   "sign-in": "Sign in",
@@ -292,8 +296,5 @@
       "title": "Public"
     },
     "title": "Board visibility"
-  },
-  "all-events": {
-    "title": "All events"
   }
 }

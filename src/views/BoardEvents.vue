@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="board-events-container">
     <app-bar
       :back-to="`/board/${$route.params.boardId}`"
     />
@@ -11,10 +11,10 @@
       ref="eventCreateDialog"
       :subjects="subjects"
       :initial-date="new Date().toISOString().split('T')[0]"
-      :value="$route.name === 'BoardCreateEventAll' || $route.name === 'BoardEditEventAll'"
-      :edit="$route.name === 'BoardEditEventAll' || lastDialogState.edit"
+      :value="$route.name === 'BoardEditEventAll'"
+      :edit="true"
       :loading="!eventsAndSubjectsLoaded || !boardInfoLoaded"
-      :event="dialogEvent || lastDialogState.event"
+      :event="dialogEvent || lastDialogEvent"
       :user-is-member="userIsMember"
       @close="closeCreatorDialog()"
     />
@@ -29,7 +29,7 @@
     >
       <event-details-dialog
         :loading="!eventsAndSubjectsLoaded"
-        :event="dialogEvent || lastDialogState.event"
+        :event="dialogEvent || lastDialogEvent"
         :user-is-member="userIsMember"
         @close="closeEventDetailsDialog()"
       />
@@ -57,10 +57,7 @@
       events: null,
       subjects: null,
       eventsAndSubjectsLoaded: false,
-      lastDialogState: {
-        event: null,
-        edit: false,
-      },
+      lastDialogEvent: null,
     }),
     computed: {
       userIsMember () {
@@ -86,6 +83,11 @@
         return visibleEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
       },
       routeTitle () {
+        if (this.$route.name === 'BoardEditEventAll') {
+          return this.$t('routes.all-events-edit', {
+            event: this.dialogEvent.title,
+          });
+        }
         return this.$t('routes.all-events');
       },
     },
@@ -140,22 +142,20 @@
     },
     methods: {
       closeEventDetailsDialog () {
-        this.lastDialogState.event = this.dialogEvent;
+        this.lastDialogEvent = this.dialogEvent;
 
         this.$router.push(`/board/${this.$route.params.boardId}/all-events`);
 
         setTimeout(() => {
-          this.lastDialogState.event = null;
+          this.lastDialogEvent = null;
         }, 750);
       },
       closeCreatorDialog () {
         if (this.$route.name === 'BoardEditEventAll') {
-          this.lastDialogState.edit = true;
-          this.lastDialogState.event = this.dialogEvent;
+          this.lastDialogEvent = this.dialogEvent;
 
           setTimeout(() => {
-            this.lastDialogState.edit = false;
-            this.lastDialogState.event = null;
+            this.lastDialogEvent = null;
           }, 750);
         }
         this.$router.push(`/board/${this.$route.params.boardId}/all-events`);
@@ -164,6 +164,12 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss">
+  .board-events-container {
+    max-width: 700px;
 
+  .fill-width {
+    width: 100%;
+  }
+  }
 </style>

@@ -281,7 +281,11 @@
         required: false,
         default: false,
       },
-      allEvents: Boolean,
+      allEvents: {
+        type: Boolean,
+        required: false,
+        default: false,
+      },
     },
     data: () => ({
       archiveLoading: false,

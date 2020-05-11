@@ -97,7 +97,11 @@
         type: Object,
         required: true,
       },
-      allEvents: Boolean,
+      allEvents: {
+        type: Boolean,
+        required: false,
+        default: false,
+      },
     },
     data: () => ({
       done: false,

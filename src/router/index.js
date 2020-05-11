@@ -83,7 +83,7 @@ const routes = [
   },
   {
     path: '/board/:boardId/all-events',
-    name: 'Events',
+    name: 'BoardEventsAll',
     component: BoardEvents,
   },
   {
@@ -94,11 +94,6 @@ const routes = [
   {
     path: '/board/:boardId/all-events/event/:eventId/edit',
     name: 'BoardEditEventAll',
-    component: BoardEvents,
-  },
-  {
-    path: '/board/:boardId/all-events/event/:eventId/edit',
-    name: 'BoardCreateEventAll',
     component: BoardEvents,
   },
   {
