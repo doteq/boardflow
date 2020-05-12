@@ -79,7 +79,6 @@
         if (!this.eventsAndSubjectsLoaded || !this.events) return null;
 
         const visibleEvents = this.events.filter((event) => !event.archived);
-        console.log(visibleEvents.sort((a, b) => new Date(b.date) - new Date(a.date)));
         return visibleEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
       },
       routeTitle () {
