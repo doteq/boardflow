@@ -12,7 +12,7 @@
       :subjects="subjects"
       :initial-date="new Date().toISOString().split('T')[0]"
       :value="$route.name === 'BoardEditEventAll'"
-      :edit="true"
+      edit
       :loading="!eventsAndSubjectsLoaded || !boardInfoLoaded"
       :event="dialogEvent || lastDialogEvent"
       :user-is-member="userIsMember"
