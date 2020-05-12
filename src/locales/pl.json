@@ -159,6 +159,8 @@
     "optional-homework": "Zadanie dla chętnych"
   },
   "event-element": {
+    "date": "Data",
+    "date-time-string": "{date}, {time}",
     "duration": "Czas trwania",
     "has-description": "Posiada opis",
     "has-links": "Posiada linki",

@@ -158,6 +158,8 @@
     "optional-homework": "Optional homework"
   },
   "event-element": {
+    "date": "Date",
+    "date-time-string": "{date}, {time}",
     "duration": "Duration",
     "has-description": "Has description",
     "has-links": "Has links",
