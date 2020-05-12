@@ -227,6 +227,7 @@
   "routes": {
     "all-events": "All events | @:app-name",
     "all-events-edit": "Editing: {event} | All events | @:app-name",
+    "all-events-event": "{event} | All events | @:app-name",
     "board": "Board | @:app-name",
     "board-create-event": "Event creation | @:app-name",
     "board-edit-event": "Editing: {event} | {board} | @:app-name",

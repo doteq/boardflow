@@ -229,6 +229,7 @@
   "routes": {
     "all-events": "Wszystkie wydarzenia | @:app-name",
     "all-events-edit": "Edytowanie: {event} | Wszystkie wydarzenia | @:app-name",
+    "all-events-event": "{event} | Wszystkie wydarzenia | @:app-name",
     "board": "Tablica | @:app-name",
     "board-create-event": "Tworzenie wydarzenia | @:app-name",
     "board-edit-event": "Edytowanie: {event} | {board} | @:app-name",

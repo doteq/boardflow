@@ -87,6 +87,11 @@
             event: this.dialogEvent.title,
           });
         }
+        if (this.$route.name === 'BoardEventAll') {
+          return this.$t('routes.all-events-event', {
+            event: this.dialogEvent.title,
+          });
+        }
         return this.$t('routes.all-events');
       },
     },
