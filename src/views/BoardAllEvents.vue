@@ -6,7 +6,7 @@
       {{ $t('all-events.title') }}
     </app-bar>
     <board-all-events-list
-      :events="currentEvents"
+      :events="events"
       :loading="eventListLoading"
       :done-homework="doneHomework"
       all-events
@@ -42,7 +42,6 @@
 </template>
 
 <script>
-  import _ from 'lodash';
   import AppBar from '../components/AppBar.vue';
   import EventDetailsDialog from '../components/board/EventDetailsDialog.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
@@ -79,17 +78,13 @@
       dialogEvent () {
         if (!this.events) return null;
         if (!['BoardAllEventsEvent', 'BoardAllEventsEdit'].includes(this.$route.name)) return null;
-        return this.events.find((event) => event.id === this.$route.params.eventId) || null;
-      },
-      currentEvents () {
-        if (!this.eventsAndSubjectsLoaded || !this.events) return null;
-
-        return _.orderBy(this.events, [(event) => {
-          if (!event.time) return 10000;
-          const [hourOfDay, minuteOfHour] = event.time.split(':').map((string) => parseInt(string, 10));
-
-          return hourOfDay * 60 + minuteOfHour;
-        }], ['asc']);
+        const event = this.events.find((el) => el.id === this.$route.params.eventId);
+        if (!event) return null;
+        return {
+          ...event,
+          id: event.id,
+          done: this.doneHomework && event.type === 'homework' ? this.doneHomework.includes(event.id) : null,
+        };
       },
       eventListLoading () {
         return !this.eventsAndSubjectsLoaded || (this.userIsMember && !this.boardUserDataLoaded);

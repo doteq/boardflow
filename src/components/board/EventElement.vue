@@ -67,21 +67,7 @@
             </div>
             <div class="d-flex">
               <event-element-icon
-                v-if="allEvents"
-                icon="mdi-calendar"
-                :tooltip="$t('event-element.date')"
-              >
-                {{
-                  event.time ?
-                    $t('event-element.date-time-string', {
-                      date: dateString,
-                      time:event.time
-                    }) :
-                    dateString
-                }}
-              </event-element-icon>
-              <event-element-icon
-                v-else-if="event.time"
+                v-if="event.time"
                 icon="mdi-clock-outline"
                 :tooltip="$t('event-element.time')"
               >

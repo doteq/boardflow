@@ -26,7 +26,7 @@
         />
       </template>
       <div
-        v-else-if="eventItems.length === 0"
+        v-else-if="eventDates.length === 0"
         :key="'no-events-info'"
         class="mt-12 mx-6 d-flex flex-column align-center"
       >
@@ -35,22 +35,27 @@
           v-text="$t('no-events-message-all')"
         />
       </div>
-      <template v-else>
+      <div
+        v-for="{ date, dateString, items } in eventDates"
+        v-else
+        :key="`date:${date}`"
+        class="mt-3"
+      >
+        <v-subheader v-text="dateString" />
         <event-element
-          v-for="(event, index) in eventItems"
-          :key="event.id"
+          v-for="event in items"
+          :key="`event:${event.id}`"
           :event="event"
-          :class="{
-            'mt-3': index !== 0
-          }"
+          class="mt-3"
           all-events
         />
-      </template>
+      </div>
     </v-fade-transition>
   </v-container>
 </template>
 
 <script>
+  import _ from 'lodash';
   import EventElement from '../board/EventElement.vue';
 
   export default {
@@ -76,9 +81,9 @@
       },
     },
     computed: {
-      eventItems () {
+      eventDates () {
         if (this.loading) return null;
-        return this.events.map((event) => ({
+        const eventItems = this.events.map((event) => ({
           id: event.id,
           type: event.type,
           title: event.title,
@@ -92,6 +97,24 @@
           edits: event.edits,
           optional: event.optional,
           done: event.type === 'homework' ? this.doneHomework.includes(event.id) : null,
+        }));
+        return _.toPairs(_.groupBy(
+          _.orderBy(eventItems, [(item) => Date.parse(item.date)], ['desc']),
+          (item) => item.date,
+        )).map(([date, items]) => ({
+          date,
+          dateString: new Date(date).toLocaleDateString(this.$i18n.locale, {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long',
+          }),
+          items: _.orderBy(items, [(event) => {
+            if (!event.time) return 10000;
+            const [hourOfDay, minuteOfHour] = event.time.split(':').map((string) => parseInt(string, 10));
+
+            return hourOfDay * 60 + minuteOfHour;
+          }], ['asc']),
         }));
       },
     },
