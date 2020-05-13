@@ -2,7 +2,9 @@
   <v-container class="board-events-container">
     <app-bar
       :back-to="`/board/${$route.params.boardId}`"
-    />
+    >
+      {{ $t('all-events.title') }}
+    </app-bar>
     <event-list
       :events="currentEvents"
       all-events
