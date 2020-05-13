@@ -167,6 +167,10 @@
     "optional": "Optional",
     "time": "Time"
   },
+  "event-list": {
+    "header-done": "Done homework",
+    "header-not-done": "Not done homework"
+  },
   "event-not-found": "Event not found",
   "event-states": {
     "done": "Done",

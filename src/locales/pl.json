@@ -168,6 +168,10 @@
     "optional": "Dla chętnych",
     "time": "Godzina"
   },
+  "event-list": {
+    "header-done": "Zadania zrobione",
+    "header-not-done": "Zadania niezrobione"
+  },
   "event-not-found": "Nie znaleziono wydarzenia",
   "event-states": {
     "done": "Zrobione",

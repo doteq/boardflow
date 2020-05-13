@@ -69,7 +69,7 @@
           :key="`event-items-not-done-header:${date}`"
           class="mt-3"
         >
-          Zadania niezrobione
+          {{ $t('event-list.header-not-done') }}
         </v-subheader>
         <!--        <h1-->
         <!--          v-if="eventItemsNotDone.length > 0"-->
@@ -87,7 +87,7 @@
           :key="`event-items-done-header:${date}`"
           class="mt-3"
         >
-          Zadania zrobione
+          {{ $t('event-list.header-done') }}
         </v-subheader>
         <!--        <h1-->
         <!--          v-if="eventItemsDone.length > 0"-->
