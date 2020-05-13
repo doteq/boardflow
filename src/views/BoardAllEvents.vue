@@ -11,7 +11,7 @@
       ref="eventCreateDialog"
       :subjects="subjects"
       :initial-date="new Date().toISOString().split('T')[0]"
-      :value="$route.name === 'BoardEditEventAll'"
+      :value="$route.name === 'BoardAllEventsEdit'"
       edit
       :loading="!eventsAndSubjectsLoaded || !boardInfoLoaded"
       :event="dialogEvent || lastDialogEvent"
@@ -19,7 +19,7 @@
       @close="closeCreatorDialog()"
     />
     <v-dialog
-      :value="$route.name === 'BoardEventAll' && canViewBoard === true"
+      :value="$route.name === 'BoardAllEventsEvent' && canViewBoard === true"
       scrollable
       max-width="500px"
       persistent
@@ -44,7 +44,6 @@
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
 
   export default {
-    name: 'BoardEvents',
     components: {
       AppBar,
       EventList,
@@ -72,7 +71,7 @@
       },
       dialogEvent () {
         if (!this.events) return null;
-        if (!['BoardEventAll', 'BoardEditEventAll'].includes(this.$route.name)) return null;
+        if (!['BoardAllEventsEvent', 'BoardAllEventsEdit'].includes(this.$route.name)) return null;
         return this.events.find((event) => event.id === this.$route.params.eventId) || null;
       },
       currentEvents () {
@@ -82,12 +81,12 @@
         return visibleEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
       },
       routeTitle () {
-        if (this.$route.name === 'BoardEditEventAll' && this.dialogEvent) {
+        if (this.$route.name === 'BoardAllEventsEdit' && this.dialogEvent) {
           return this.$t('routes.all-events-edit', {
             event: this.dialogEvent.title,
           });
         }
-        if (this.$route.name === 'BoardEventAll' && this.dialogEvent) {
+        if (this.$route.name === 'BoardAllEventsEvent' && this.dialogEvent) {
           return this.$t('routes.all-events-event', {
             event: this.dialogEvent.title,
           });
@@ -155,7 +154,7 @@
         }, 750);
       },
       closeCreatorDialog () {
-        if (this.$route.name === 'BoardEditEventAll') {
+        if (this.$route.name === 'BoardAllEventsEdit') {
           this.lastDialogEvent = this.dialogEvent;
 
           setTimeout(() => {
