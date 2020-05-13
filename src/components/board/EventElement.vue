@@ -168,6 +168,7 @@
     },
     methods: {
       async toggleDone () {
+        if (this.doneToggleLoading) return;
         this.doneToggleLoading = true;
         try {
           const boardUserDataReference = this.$database

@@ -418,7 +418,7 @@
       @keydown.esc="closeEventDetailsDialog()"
     >
       <event-details-dialog
-        :loading="!eventsAndSubjectsLoaded"
+        :loading="eventListLoading"
         :event="dialogEvent || lastDialogState.event"
         :user-is-member="userIsMember"
         @close="closeEventDetailsDialog()"
@@ -502,7 +502,13 @@
       dialogEvent () {
         if (!this.events) return null;
         if (!['BoardEvent', 'BoardEditEvent'].includes(this.$route.name)) return null;
-        return this.events.find((event) => event.id === this.$route.params.eventId) || null;
+        const event = this.events.find((el) => el.id === this.$route.params.eventId);
+        if (!event) return null;
+        return {
+          ...event,
+          id: event.id,
+          done: this.doneHomework && event.type === 'homework' ? this.doneHomework.includes(event.id) : null,
+        };
       },
       eventListLoading () {
         return !this.eventsAndSubjectsLoaded || (this.userIsMember && !this.boardUserDataLoaded);
