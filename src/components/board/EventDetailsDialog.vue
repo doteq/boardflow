@@ -67,13 +67,70 @@
           />
         </v-card-subtitle>
         <v-expand-transition>
-          <v-card-subtitle
-            v-show="event.archived"
-            v-t="'event-details-dialog.archived'"
-            class="red--text py-0 my-0 text-uppercase title"
-          />
+          <div
+            v-if="event.archived"
+          >
+            <v-alert
+              color="red"
+              text
+              tile
+              class="mb-0 mt-4"
+            >
+              <v-row
+                align="center"
+                no-gutters
+              >
+                <v-col class="grow">
+                  {{ $t('event-details-dialog.archived') }}
+                </v-col>
+                <v-col class="shrink">
+                  <v-btn
+                    v-if="userIsMember && event.archived"
+                    text
+                    :loading="restoreLoading"
+                    @click="restore"
+                  >
+                    {{ $t('restore') }}
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-alert>
+          </div>
+          <div
+            v-else-if="event.done !== null"
+          >
+            <v-alert
+              :color="event.done ? 'primary' : 'amber'"
+              tile
+              text
+              class="mb-0 mt-4"
+              dense
+            >
+              <v-row
+                align="center"
+                no-gutters
+              >
+                <v-col class="grow">
+                  {{ event.done ? $t('event-states.done') : $t('event-states.not-done') }}
+                </v-col>
+                <v-col class="shrink">
+                  <v-btn
+                    icon
+                    @click="toggleDone()"
+                  >
+                    <v-icon v-if="event.done">
+                      $checkboxOn
+                    </v-icon>
+                    <v-icon v-else>
+                      $checkboxOff
+                    </v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-alert>
+          </div>
         </v-expand-transition>
-        <v-card-text class="overflow-y-auto mt-2">
+        <v-card-text class="overflow-y-auto pt-4">
           <div
             v-if="event.description"
             class="my-2 d-flex align-start"
@@ -180,16 +237,8 @@
         <v-card-actions class="">
           <v-spacer />
           <template v-if="userIsMember && $vuetify.breakpoint.xsOnly">
-            <v-btn
-              v-if="event.archived"
-              text
-              :loading="restoreLoading"
-              @click="restore"
-            >
-              {{ $t('restore') }}
-            </v-btn>
             <v-tooltip
-              v-else
+              v-if="!event.archived"
               top
             >
               <template v-slot:activator="{ on }">
@@ -225,15 +274,7 @@
           </template>
           <template v-else-if="userIsMember">
             <v-btn
-              v-if="event.archived"
-              text
-              :loading="restoreLoading"
-              @click="restore"
-            >
-              {{ $t('restore') }}
-            </v-btn>
-            <v-btn
-              v-else
+              v-if="!event.archived"
               color="red"
               text
               :loading="archiveLoading"
@@ -394,6 +435,30 @@
         }
 
         this.restoreLoading = false;
+      },
+      async toggleDone () {
+        try {
+          const boardUserDataReference = this.$database
+            .collection('boards').doc(this.$route.params.boardId)
+            .collection('user-data').doc(this.$store.state.userAuth.uid);
+
+          if (this.event.done) {
+            await boardUserDataReference.set({
+              doneHomework: firebase.firestore.FieldValue.arrayRemove(this.event.id),
+            }, {
+              merge: true,
+            });
+          } else {
+            await boardUserDataReference.set({
+              doneHomework: firebase.firestore.FieldValue.arrayUnion(this.event.id),
+            }, {
+              merge: true,
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+        }
       },
     },
   };

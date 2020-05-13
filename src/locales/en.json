@@ -160,11 +160,16 @@
   "event-element": {
     "date": "Date",
     "date-time-string": "{date}, {time}",
+    "done-checkbox": "Homework done",
     "duration": "Duration",
     "has-description": "Has description",
     "has-links": "Has links",
     "optional": "Optional",
     "time": "Time"
+  },
+  "event-list": {
+    "header-done": "Done homework",
+    "header-not-done": "Not done homework"
   },
   "event-not-found": "Event not found",
   "event-states": {

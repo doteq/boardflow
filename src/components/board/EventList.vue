@@ -31,14 +31,8 @@
         class="mt-12 mx-6 d-flex flex-column align-center"
       >
         <h1
-          v-if="!allEvents"
           class="d-block text-center headline"
           v-text="$t('no-events-on-selected-day-message')"
-        />
-        <h1
-          v-else
-          class="d-block text-center headline"
-          v-text="$t('no-events-message-all')"
         />
         <v-menu
           offset-y
@@ -69,29 +63,42 @@
           :class="{
             'mt-3': index !== 0
           }"
-          :all-events="allEvents"
         />
-        <h1
+        <v-subheader
           v-if="eventItemsNotDone.length > 0"
-          v-text="$t('event-states.not-done')"
-        />
+          :key="`event-items-not-done-header:${date}`"
+          class="mt-3"
+        >
+          {{ $t('event-list.header-not-done') }}
+        </v-subheader>
+        <!--        <h1-->
+        <!--          v-if="eventItemsNotDone.length > 0"-->
+        <!--          :key="'event-items-not-done-header'"-->
+        <!--          v-text="$t('event-states.not-done')"-->
+        <!--        />-->
         <event-element
           v-for="event in eventItemsNotDone"
           :key="event.id"
           :event="event"
           class="mt-3"
-          :all-events="allEvents"
         />
-        <h1
-          v-if="eventItemsListDone.length > 0"
-          v-text="$t('event-states.done')"
-        />
+        <v-subheader
+          v-if="eventItemsDone.length > 0"
+          :key="`event-items-done-header:${date}`"
+          class="mt-3"
+        >
+          {{ $t('event-list.header-done') }}
+        </v-subheader>
+        <!--        <h1-->
+        <!--          v-if="eventItemsDone.length > 0"-->
+        <!--          :key="'event-items-done-header'"-->
+        <!--          v-text="$t('event-states.done')"-->
+        <!--        />-->
         <event-element
-          v-for="event in eventItemsListDone"
+          v-for="event in eventItemsDone"
           :key="event.id"
           :event="event"
           class="mt-3"
-          :all-events="allEvents"
         />
       </template>
     </v-fade-transition>
@@ -114,16 +121,22 @@
         required: false,
         default: null,
       },
-      allEvents: {
+      doneHomework: {
+        type: Array,
+        required: false,
+        default: null,
+      },
+      loading: {
         type: Boolean,
         required: false,
         default: false,
       },
+      date: {
+        type: String,
+        required: true,
+      },
     },
     computed: {
-      loading () {
-        return !this.events;
-      },
       eventItems () {
         if (this.loading) return null;
         return this.events.map((event) => ({
@@ -139,17 +152,17 @@
           creation: event.creation,
           edits: event.edits,
           optional: event.optional,
-          done: undefined, // TODO: DODAĆ
+          done: event.type === 'homework' ? this.doneHomework.includes(event.id) : null,
         }));
       },
-      eventItemsListDone () {
+      eventItemsDone () {
         return this.eventItems.filter((event) => event.done);
       },
       eventItemsNotDone () {
         return this.eventItems.filter((event) => event.done === false);
       },
       eventItemsOther () {
-        return this.eventItems.filter((event) => event.done === undefined);
+        return this.eventItems.filter((event) => event.done === null);
       },
     },
   };

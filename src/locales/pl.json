@@ -161,11 +161,16 @@
   "event-element": {
     "date": "Data",
     "date-time-string": "{date}, {time}",
+    "done-checkbox": "Zadanie zrobione",
     "duration": "Czas trwania",
     "has-description": "Posiada opis",
     "has-links": "Posiada linki",
     "optional": "Dla chętnych",
     "time": "Godzina"
+  },
+  "event-list": {
+    "header-done": "Zadania zrobione",
+    "header-not-done": "Zadania niezrobione"
   },
   "event-not-found": "Nie znaleziono wydarzenia",
   "event-states": {

@@ -79,6 +79,10 @@ service cloud.firestore {
           request.resource.data.type in ['event-create', 'event-edit', 'event-archive', 'event-restore'] &&
           request.resource.data.user == request.auth.uid;
       }
+
+      match /user-data/{userId} {
+      	allow get, create, update: if userId == request.auth.uid;
+      }
     }
   }
 }
