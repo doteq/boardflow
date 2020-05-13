@@ -6,7 +6,7 @@
       {{ $t('all-events.title') }}
     </app-bar>
     <board-all-events-list
-      :events="events"
+      :events="notArchivedEvents"
       :loading="eventListLoading"
       :done-homework="doneHomework"
       all-events
@@ -105,6 +105,10 @@
           });
         }
         return this.$t('routes.all-events');
+      },
+      notArchivedEvents () {
+        if (!this.events) return null;
+        return this.events.filter((event) => !event.archived);
       },
     },
     watch: {
