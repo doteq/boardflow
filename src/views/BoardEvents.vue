@@ -82,12 +82,12 @@
         return visibleEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
       },
       routeTitle () {
-        if (this.$route.name === 'BoardEditEventAll') {
+        if (this.$route.name === 'BoardEditEventAll' && this.dialogEvent) {
           return this.$t('routes.all-events-edit', {
             event: this.dialogEvent.title,
           });
         }
-        if (this.$route.name === 'BoardEventAll') {
+        if (this.$route.name === 'BoardEventAll' && this.dialogEvent) {
           return this.$t('routes.all-events-event', {
             event: this.dialogEvent.title,
           });
