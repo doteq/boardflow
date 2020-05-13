@@ -5,8 +5,10 @@
     >
       {{ $t('all-events.title') }}
     </app-bar>
-    <event-list
+    <board-all-events-list
       :events="currentEvents"
+      :loading="eventListLoading"
+      :done-homework="doneHomework"
       all-events
     />
     <event-create-dialog
@@ -40,17 +42,18 @@
 </template>
 
 <script>
+  import _ from 'lodash';
   import AppBar from '../components/AppBar.vue';
-  import EventList from '../components/board/EventList.vue';
   import EventDetailsDialog from '../components/board/EventDetailsDialog.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
+  import BoardAllEventsList from '../components/board-all-events/BoardAllEventsList.vue';
 
   export default {
     components: {
       AppBar,
-      EventList,
-      EventDetailsDialog,
       EventCreateDialog,
+      EventDetailsDialog,
+      BoardAllEventsList,
     },
     data: () => ({
       boardInfo: null,
@@ -59,6 +62,8 @@
       subjects: null,
       eventsAndSubjectsLoaded: false,
       lastDialogEvent: null,
+      boardUserData: null,
+      boardUserDataLoaded: false,
     }),
     computed: {
       userIsMember () {
@@ -79,8 +84,19 @@
       currentEvents () {
         if (!this.eventsAndSubjectsLoaded || !this.events) return null;
 
-        const visibleEvents = this.events.filter((event) => !event.archived);
-        return visibleEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+        return _.orderBy(this.events, [(event) => {
+          if (!event.time) return 10000;
+          const [hourOfDay, minuteOfHour] = event.time.split(':').map((string) => parseInt(string, 10));
+
+          return hourOfDay * 60 + minuteOfHour;
+        }], ['asc']);
+      },
+      eventListLoading () {
+        return !this.eventsAndSubjectsLoaded || (this.userIsMember && !this.boardUserDataLoaded);
+      },
+      doneHomework () {
+        if (!this.userIsMember || !this.boardUserDataLoaded) return null;
+        return this.boardUserData ? this.boardUserData.doneHomework || [] : [];
       },
       routeTitle () {
         if (this.$route.name === 'BoardAllEventsEdit' && this.dialogEvent) {
@@ -97,6 +113,27 @@
       },
     },
     watch: {
+      userIsMember: {
+        async handler (value) {
+          if (value) {
+            this.boardUserDataLoaded = false;
+            try {
+              const boardUserDataReference = this.$database
+                .collection('boards').doc(this.$route.params.boardId)
+                .collection('user-data').doc(this.$store.state.userAuth.uid);
+              await this.$bind('boardUserData', boardUserDataReference);
+              this.boardUserDataLoaded = true;
+            } catch (error) {
+              console.error(error);
+              this.$toast.error(this.$t('toasts.unexpected-error'));
+            }
+          } else if (this.$firestoreRefs.boardUserData) {
+            this.$unbind('boardUserData');
+            this.boardUserDataLoaded = false;
+          }
+        },
+        immediate: true,
+      },
       '$route.params.boardId': {
         async handler (value) {
           this.boardInfoLoaded = false;
