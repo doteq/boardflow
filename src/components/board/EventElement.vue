@@ -45,7 +45,7 @@
                   </v-icon>
                 </v-btn>
               </template>
-              Zadanie zrobione
+              {{ $t('event-element.done-checkbox') }}
             </v-tooltip>
           </div>
           <v-card-subtitle class="px-2">

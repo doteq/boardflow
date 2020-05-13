@@ -161,6 +161,7 @@
   "event-element": {
     "date": "Data",
     "date-time-string": "{date}, {time}",
+    "done-checkbox": "Zadanie zrobione",
     "duration": "Czas trwania",
     "has-description": "Posiada opis",
     "has-links": "Posiada linki",
