@@ -628,7 +628,7 @@
         return isUrl(this.addLinkMenuInput);
       },
       changes () {
-        if (!this.edit || !this.event) return null;
+        if (!this.edit || !this.event || !this.ready) return null;
 
         const changes = [];
 
