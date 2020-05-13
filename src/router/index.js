@@ -6,6 +6,7 @@ const Board = () => import(/* webpackChunkName: "board" */ '../views/Board.vue')
 const BoardSettings = () => import(/* webpackChunkName: "board-settings" */ '../views/BoardSettings.vue');
 const EventsArchive = () => import(/* webpackChunkName: "events-archive" */ '../views/EventsArchive.vue');
 const Create = () => import(/* webpackChunkName: "create" */ '../views/Create.vue');
+const BoardEvents = () => import(/* webpackChunkName: "board-events" */ '../views/BoardEvents');
 const RouteNotFound = () => import(/* webpackChunkName: "route-not-found" */ '../views/RouteNotFound.vue');
 
 Vue.use(VueRouter);
@@ -79,6 +80,21 @@ const routes = [
     path: '/create',
     name: 'Create',
     component: Create,
+  },
+  {
+    path: '/board/:boardId/all-events',
+    name: 'BoardEventsAll',
+    component: BoardEvents,
+  },
+  {
+    path: '/board/:boardId/all-events/event/:eventId',
+    name: 'BoardEventAll',
+    component: BoardEvents,
+  },
+  {
+    path: '/board/:boardId/all-events/event/:eventId/edit',
+    name: 'BoardEditEventAll',
+    component: BoardEvents,
   },
   {
     path: '/d/boards/:boardId',

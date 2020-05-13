@@ -5,6 +5,9 @@
   "add-as-member": "Dodaj jako członka",
   "add-new-event": "Dodaj nowe wydarzenie",
   "add-new-event-short": "Dodaj nowe",
+  "all-events": {
+    "title": "Wszystkie wydarzenia"
+  },
   "app-name": "Boardflow",
   "archive": "Archiwizuj",
   "ask-to-join": "Poproś o dołączenie",
@@ -156,6 +159,8 @@
     "optional-homework": "Zadanie dla chętnych"
   },
   "event-element": {
+    "date": "Data",
+    "date-time-string": "{date}, {time}",
     "duration": "Czas trwania",
     "has-description": "Posiada opis",
     "has-links": "Posiada linki",
@@ -199,6 +204,7 @@
     "title-vuetify": "Vuetify"
   },
   "next": "Dalej",
+  "no-events-message-all": "Nie ma żadnych wydarzeń",
   "no-events-on-selected-day-message": "Nie ma żadnych wydarzeń w wybranym dniu",
   "not-a-board-member-message": "Nie jesteś członkiem tej tablicy",
   "not-any-board-member-message": "Nie jesteś członkiem żadnej tablicy",
@@ -221,10 +227,13 @@
     "message": "Nie znaleziono strony"
   },
   "routes": {
+    "all-events": "Wszystkie wydarzenia | @:app-name",
+    "all-events-edit": "Edytowanie: {event} | Wszystkie wydarzenia | @:app-name",
+    "all-events-event": "{event} | Wszystkie wydarzenia | @:app-name",
     "board": "Tablica | @:app-name",
-    "board-name": "{board} | @:app-name",
     "board-create-event": "Tworzenie wydarzenia | @:app-name",
     "board-edit-event": "Edytowanie: {event} | {board} | @:app-name",
+    "board-name": "{board} | @:app-name",
     "board-settings": "Ustawienia tablicy | @:app-name",
     "board-settings-tab": "{tab} | @:routes.board-settings | @:app-name",
     "board-view-event": "{event} | {board} | @:app-name",

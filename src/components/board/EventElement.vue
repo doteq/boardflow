@@ -2,7 +2,7 @@
   <div>
     <v-card
       class="overflow-hidden"
-      :to="`/board/${$route.params.boardId}/event/${event.id}`"
+      :to="allEvents ? `/board/${$route.params.boardId}/all-events/event/${event.id}` : `/board/${$route.params.boardId}/event/${event.id}`"
     >
       <v-row no-gutters>
         <v-col cols="auto">
@@ -37,7 +37,21 @@
             </div>
             <div class="d-flex">
               <event-element-icon
-                v-if="event.time"
+                v-if="allEvents"
+                icon="mdi-calendar"
+                :tooltip="$t('event-element.date')"
+              >
+                {{
+                  event.time ?
+                    $t('event-element.date-time-string', {
+                      date: dateString,
+                      time:event.time
+                    }) :
+                    dateString
+                }}
+              </event-element-icon>
+              <event-element-icon
+                v-else-if="event.time"
                 icon="mdi-clock-outline"
                 :tooltip="$t('event-element.time')"
               >
@@ -90,6 +104,11 @@
         type: Object,
         required: true,
       },
+      allEvents: {
+        type: Boolean,
+        required: false,
+        default: false,
+      },
     },
     data: () => ({
       done: false,
@@ -97,6 +116,13 @@
     computed: {
       colorString () {
         return this.event.type;
+      },
+      dateString () {
+        return new Date(this.event.date).toLocaleDateString(this.$i18n.locale, {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
       },
       durationString () {
         if (!this.event.duration) return null;
