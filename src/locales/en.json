@@ -185,6 +185,7 @@
     "title": "Events archive"
   },
   "facebook": "Facebook",
+  "first-day-of-week": "0",
   "github": "GitHub",
   "google": "Google",
   "join-request-pending-message": "Awaiting acceptance of join request",

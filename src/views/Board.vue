@@ -96,6 +96,7 @@
                 v-model="date"
                 full-width
                 :events="calendarEventColor"
+                :first-day-of-week="$t('first-day-of-week')"
                 color="secondary"
               >
                 <v-spacer />
@@ -268,6 +269,7 @@
             v-model="date"
             no-title
             :events="calendarEventColor"
+            :first-day-of-week="$t('first-day-of-week')"
             color="secondary"
           />
         </v-col>
