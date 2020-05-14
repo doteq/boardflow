@@ -263,7 +263,7 @@
                 <v-btn
                   v-if="!event.archived"
                   icon
-                  :to="`/board/${$route.params.boardId}/event/${event.id}/edit`"
+                  :to="allEvents ? `/board/${$route.params.boardId}/all-events/event/${event.id}/edit` : `/board/${$route.params.boardId}/event/${event.id}/edit`"
                   v-on="on"
                 >
                   <v-icon>mdi-pencil</v-icon>
@@ -286,7 +286,7 @@
               v-if="!event.archived"
               v-t="'edit'"
               text
-              :to="allEvents ? `/board/${$route.params.boardId}/event/${event.id}/edit` : `/board/${$route.params.boardId}/all-events/event/${event.id}/edit`"
+              :to="allEvents ? `/board/${$route.params.boardId}/all-events/event/${event.id}/edit` : `/board/${$route.params.boardId}/event/${event.id}/edit`"
             />
           </template>
           <v-btn

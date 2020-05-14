@@ -35,6 +35,7 @@
         :loading="!eventsAndSubjectsLoaded"
         :event="dialogEvent || lastDialogEvent"
         :user-is-member="userIsMember"
+        all-events
         @close="closeEventDetailsDialog()"
       />
     </v-dialog>
