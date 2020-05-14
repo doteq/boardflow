@@ -243,6 +243,7 @@
                   no-title
                   scrollable
                   color="secondary"
+                  :first-day-of-week="$t('first-day-of-week')"
                 >
                   <v-spacer />
                   <v-btn
