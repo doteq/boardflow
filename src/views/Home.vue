@@ -118,7 +118,7 @@
       </v-btn>
       <v-btn
         class="mt-4"
-        href="https://github.com/doteq/task-overflow"
+        href="https://github.com/doteq/boardflow"
         block
         outlined
       >

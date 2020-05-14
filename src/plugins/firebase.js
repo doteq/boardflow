@@ -4,13 +4,13 @@ import 'firebase/firestore';
 import 'firebase/auth';
 
 const config = {
-  apiKey: 'AIzaSyAA4qiaokBoR3aXGf7hwVbK0JcqpZIFhps',
-  authDomain: 'task-overflow.firebaseapp.com',
-  databaseURL: 'https://task-overflow.firebaseio.com',
-  projectId: 'task-overflow',
-  storageBucket: 'task-overflow.appspot.com',
-  messagingSenderId: '948914702684',
-  appId: '1:948914702684:web:7995368b5d8610c9991999',
+  apiKey: 'AIzaSyD4c1k-Lbzc6kTc_sL-cAaSDNd_lYIX3DI',
+  authDomain: 'boardflow-xyz.firebaseapp.com',
+  databaseURL: 'https://boardflow-xyz.firebaseio.com',
+  projectId: 'boardflow-xyz',
+  storageBucket: 'boardflow-xyz.appspot.com',
+  messagingSenderId: '153517485585',
+  appId: '1:153517485585:web:c93556f380e7ee31a38bb0',
 };
 
 export default {
