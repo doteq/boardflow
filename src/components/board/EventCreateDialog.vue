@@ -217,6 +217,8 @@
                 outlined
                 auto-grow
                 prepend-icon="mdi-text"
+                :hint="$t('event-create-dialog.markdown-available')"
+                :rows="3"
               />
               <v-menu
                 ref="dateMenu"

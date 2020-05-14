@@ -111,6 +111,7 @@
     "event-type-edit-hint": "Nie możesz zmienić typu wydarzenia podczas edytowania",
     "hours": "Godziny",
     "links": "Linki",
+    "markdown-available": "Formatowanie markdown jest dostępne",
     "minutes": "Minuty",
     "no-changes-message": "Nie dokonałeś żadnych zmian",
     "no-subjects": {

@@ -138,7 +138,10 @@
             <v-icon left>
               mdi-text
             </v-icon>
-            <div v-text="event.description" />
+            <vue-markdown
+              :source="event.description"
+              class="overflow-x-hidden"
+            />
           </div>
           <div class="my-2 d-flex align-start">
             <v-icon left>
@@ -304,9 +307,13 @@
   import firebase from 'firebase/app';
   import 'firebase/firestore';
   import humanizeDuration from 'humanize-duration';
+  import VueMarkdown from 'vue-markdown';
 
   export default {
     name: 'EventDetailsDialog',
+    components: {
+      VueMarkdown,
+    },
     props: {
       event: {
         type: Object,
