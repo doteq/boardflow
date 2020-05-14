@@ -245,7 +245,12 @@
   },
   "save": "Save",
   "sign-in": "Sign in",
-  "sign-in-with": "Sign in with...",
+  "sign-in-sheet": {
+    "privacy-policy": "By signing in you accept the {privacy-policy-link}.",
+    "privacy-policy-name": "privacy policy",
+    "required-age": "If you are under 16 years of age you must ask your parent or legal guardian for permission.",
+    "title": "Sign in with..."
+  },
   "sign-out": "Sign out",
   "subject-creator-dialog": {
     "subject-name": "Subject name",

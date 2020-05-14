@@ -247,7 +247,12 @@
   },
   "save": "Zapisz",
   "sign-in": "Zaloguj się",
-  "sign-in-with": "Zaloguj się przez...",
+  "sign-in-sheet": {
+    "privacy-policy": "Logując się akceptujesz {privacy-policy-link}.",
+    "privacy-policy-name": "politykę prywatności",
+    "required-age": "Jeżeli nie masz ukończonych 16 lat zgodę musi wyrazić twój rodzic lub opiekun prawny.",
+    "title": "Zaloguj się przez..."
+  },
   "sign-out": "Wyloguj się",
   "subject-creator-dialog": {
     "subject-name": "Nazwa przedmiotu",
