@@ -60,7 +60,7 @@
       async signInWithGoogle () {
         try {
           this.loading = true;
-          await this.$auth.signInWithGoogle();
+          await this.$auth.signInWithGoogle(true);
         } catch (error) {
           console.error(error);
           this.showError(error);
@@ -71,7 +71,7 @@
       async signInWithFacebook () {
         try {
           this.loading = true;
-          await this.$auth.signInWithFacebook();
+          await this.$auth.signInWithFacebook(true);
         } catch (error) {
           console.error(error);
           this.showError(error);
