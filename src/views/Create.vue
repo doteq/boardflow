@@ -461,7 +461,7 @@
         const input = document.getElementById('board-link-input');
         input.select();
         document.execCommand('copy');
-        this.$toast('toasts.link-copied');
+        this.$toast(this.$t('toasts.link-copied'));
       },
       showSignInSheet () {
         this.$refs.signInSheet.show();

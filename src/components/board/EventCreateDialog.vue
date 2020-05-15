@@ -217,6 +217,8 @@
                 outlined
                 auto-grow
                 prepend-icon="mdi-text"
+                :hint="$t('event-create-dialog.markdown-available')"
+                :rows="3"
               />
               <v-menu
                 ref="dateMenu"
@@ -243,6 +245,7 @@
                   no-title
                   scrollable
                   color="secondary"
+                  :first-day-of-week="$t('first-day-of-week')"
                 >
                   <v-spacer />
                   <v-btn

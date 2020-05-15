@@ -14,23 +14,39 @@
         :size="64"
       />
     </v-card>
-    <v-list v-else>
-      <v-subheader v-t="'sign-in-with'" />
-      <v-list-item @click="signInWithGoogle">
-        <v-list-item-icon>
-          <v-icon>mdi-google</v-icon>
-        </v-list-item-icon>
+    <v-card v-else>
+      <v-list>
+        <v-subheader v-t="'sign-in-sheet.title'" />
+        <v-list-item @click="signInWithGoogle">
+          <v-list-item-icon>
+            <v-icon>mdi-google</v-icon>
+          </v-list-item-icon>
 
-        <v-list-item-title v-t="'google'" />
-      </v-list-item>
-      <v-list-item @click="signInWithFacebook">
-        <v-list-item-icon>
-          <v-icon>mdi-facebook</v-icon>
-        </v-list-item-icon>
+          <v-list-item-title v-t="'google'" />
+        </v-list-item>
+        <v-list-item @click="signInWithFacebook">
+          <v-list-item-icon>
+            <v-icon>mdi-facebook</v-icon>
+          </v-list-item-icon>
 
-        <v-list-item-title v-t="'facebook'" />
-      </v-list-item>
-    </v-list>
+          <v-list-item-title v-t="'facebook'" />
+        </v-list-item>
+      </v-list>
+      <v-divider />
+      <v-card-text class="text-center py-4">
+        <i18n path="sign-in-sheet.privacy-policy">
+          <template v-slot:privacy-policy-link>
+            <a
+              href="/privacy-policy.pdf"
+              target="_blank"
+              v-text="$t('sign-in-sheet.privacy-policy-name')"
+            />
+          </template>
+        </i18n>
+        <br>
+        {{ $t('sign-in-sheet.required-age') }}
+      </v-card-text>
+    </v-card>
   </v-bottom-sheet>
 </template>
 

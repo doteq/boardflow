@@ -110,6 +110,7 @@
     "event-archived-message": "Event is archived",
     "hours": "Hours",
     "links": "Links",
+    "markdown-available": "Markdown styling is available",
     "minutes": "Minutes",
     "no-changes-message": "You haven't made any changes",
     "no-subjects": {
@@ -185,6 +186,7 @@
     "title": "Events archive"
   },
   "facebook": "Facebook",
+  "first-day-of-week": "0",
   "github": "GitHub",
   "google": "Google",
   "join-request-pending-message": "Awaiting acceptance of join request",
@@ -245,7 +247,12 @@
   },
   "save": "Save",
   "sign-in": "Sign in",
-  "sign-in-with": "Sign in with...",
+  "sign-in-sheet": {
+    "privacy-policy": "By signing in you accept the {privacy-policy-link}.",
+    "privacy-policy-name": "privacy policy",
+    "required-age": "If you are under 16 years of age you must ask your parent or legal guardian for permission.",
+    "title": "Sign in with..."
+  },
   "sign-out": "Sign out",
   "subject-creator-dialog": {
     "subject-name": "Subject name",

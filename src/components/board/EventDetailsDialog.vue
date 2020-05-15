@@ -138,7 +138,10 @@
             <v-icon left>
               mdi-text
             </v-icon>
-            <div v-text="event.description" />
+            <vue-markdown
+              :source="event.description"
+              class="overflow-x-hidden"
+            />
           </div>
           <div class="my-2 d-flex align-start">
             <v-icon left>
@@ -263,7 +266,7 @@
                 <v-btn
                   v-if="!event.archived"
                   icon
-                  :to="`/board/${$route.params.boardId}/event/${event.id}/edit`"
+                  :to="allEvents ? `/board/${$route.params.boardId}/all-events/event/${event.id}/edit` : `/board/${$route.params.boardId}/event/${event.id}/edit`"
                   v-on="on"
                 >
                   <v-icon>mdi-pencil</v-icon>
@@ -286,7 +289,7 @@
               v-if="!event.archived"
               v-t="'edit'"
               text
-              :to="allEvents ? `/board/${$route.params.boardId}/event/${event.id}/edit` : `/board/${$route.params.boardId}/all-events/event/${event.id}/edit`"
+              :to="allEvents ? `/board/${$route.params.boardId}/all-events/event/${event.id}/edit` : `/board/${$route.params.boardId}/event/${event.id}/edit`"
             />
           </template>
           <v-btn
@@ -304,9 +307,13 @@
   import firebase from 'firebase/app';
   import 'firebase/firestore';
   import humanizeDuration from 'humanize-duration';
+  import VueMarkdown from 'vue-markdown';
 
   export default {
     name: 'EventDetailsDialog',
+    components: {
+      VueMarkdown,
+    },
     props: {
       event: {
         type: Object,
