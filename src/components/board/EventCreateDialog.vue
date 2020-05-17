@@ -507,6 +507,7 @@
   import humanizeDuration from 'humanize-duration';
   import isUrl from 'is-url';
   import firebase from 'firebase/app';
+  import _ from 'lodash';
   import SubjectCreatorDialog from '../SubjectCreatorDialog.vue';
   import 'firebase/firestore';
 
@@ -582,7 +583,8 @@
     computed: {
       subjectItems () {
         if (!this.subjects) return null;
-        return this.subjects.map((subject) => ({
+        const sortedSubjects = _.orderBy(this.subjects, ['name'], ['asc']);
+        return sortedSubjects.map((subject) => ({
           text: subject.name,
           value: subject.id,
         }));

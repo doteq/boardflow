@@ -180,14 +180,14 @@
           >
             <v-subheader v-t="'create.added-subjects'" />
             <v-list subheader>
-              <v-list-item v-if="subjects.length === 0">
+              <v-list-item v-if="subjectItems.length === 0">
                 <v-list-item-title
                   v-t="'create.no-added-subjects'"
                   class="text--secondary"
                 />
               </v-list-item>
               <added-subject-item
-                v-for="subject in subjects"
+                v-for="subject in subjectItems"
                 :key="subject.key"
                 :subject="subject"
                 :is-subject-already-added="isSubjectAlreadyAdded"
@@ -347,6 +347,9 @@
         }
 
         return errors;
+      },
+      subjectItems () {
+        return _.orderBy(this.subjects, ['name'], ['asc']);
       },
       suggestedSubjects () {
         return this.$t('suggested-subjects').filter((subjectName) => this.subjects.findIndex(

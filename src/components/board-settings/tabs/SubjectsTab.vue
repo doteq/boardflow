@@ -5,19 +5,19 @@
       v-text="$t('board-settings.subjects.title')"
     />
     <v-card
-      v-if="subjects === null"
+      v-if="subjectItems === null"
       outlined
       class="py-1 mb-3"
     >
       <v-skeleton-loader type="list-item-avatar-two-line" />
     </v-card>
     <h1
-      v-else-if="subjects.length === 0"
+      v-else-if="subjectItems.length === 0"
       class="headline px-4 py-12 text-center text--secondary"
       v-text="$t('board-settings.subjects.no-subjects')"
     />
     <subject-item
-      v-for="subject in subjects"
+      v-for="subject in subjectItems"
       v-else
       :key="subject.id"
       :subject="subject"
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+  import _ from 'lodash';
   import SubjectCreatorDialog from '../../SubjectCreatorDialog.vue';
   import SubjectItem from '../SubjectItem.vue';
 
@@ -57,6 +58,12 @@
         type: Array,
         required: false,
         default: null,
+      },
+    },
+    computed: {
+      subjectItems () {
+        if (!this.subjects) return null;
+        return _.orderBy(this.subjects, ['name'], ['asc']);
       },
     },
     methods: {
