@@ -209,7 +209,7 @@
             return {
               id: board.id,
               name: board.name,
-              members: members.slice(0, 5),
+              members: members.slice(0, 4),
               memberOverflow: members.length - 4,
             };
           }
