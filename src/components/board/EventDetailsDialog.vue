@@ -45,7 +45,7 @@
           tile
         />
       </v-col>
-      <v-col class="d-flex flex-column fill-height">
+      <v-col class="d-flex flex-column fill-height overflow-x-hidden">
         <v-card-title
           class="pb-1"
           v-text="event.title"

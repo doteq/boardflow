@@ -160,7 +160,7 @@
               tile
             />
           </v-col>
-          <v-col class="d-flex flex-column fill-height">
+          <v-col class="d-flex flex-column fill-height overflow-x-hidden">
             <v-card-title v-t="`event-create-dialog.title-${edit ? 'edit' : 'create'}.${type}`" />
             <v-card-text
               class="pt-2 overflow-y-auto"
