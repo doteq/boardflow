@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="event-element">
     <v-card
       class="overflow-hidden"
       :to="allEvents ? `/board/${$route.params.boardId}/all-events/event/${event.id}` : `/board/${$route.params.boardId}/event/${event.id}`"
@@ -17,7 +17,7 @@
         <v-col class="overflow-x-hidden">
           <div class="d-flex">
             <v-card-title
-              class="text-no-wrap text-truncate d-block grow pb-0"
+              class="text-no-wrap text-truncate d-block grow pb-0 break-word fill-width"
               :class="{
                 'text--disabled': event.done,
               }"
@@ -183,3 +183,11 @@
     },
   };
 </script>
+
+<style lang="scss">
+  .event-element {
+    .fill-width {
+      width: 100% !important;
+    }
+  }
+</style>

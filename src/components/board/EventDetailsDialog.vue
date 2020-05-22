@@ -47,7 +47,7 @@
       </v-col>
       <v-col class="d-flex flex-column fill-height overflow-x-hidden">
         <v-card-title
-          class="pb-1"
+          class="pb-1 break-word d-block"
           v-text="event.title"
         />
         <v-card-subtitle class="d-flex align-center pb-0 pt-1 my-0">

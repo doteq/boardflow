@@ -273,7 +273,7 @@
             color="secondary"
           />
         </v-col>
-        <v-col>
+        <v-col class="overflow-x-hidden">
           <event-list
             :loading="eventListLoading"
             :events="currentEvents"
