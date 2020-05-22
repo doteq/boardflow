@@ -17,12 +17,13 @@
         <v-col class="overflow-x-hidden">
           <div class="d-flex">
             <v-card-title
-              class="text-no-wrap text-truncate d-block grow pb-0 break-word fill-width"
+              class="text-no-wrap text-truncate d-block pb-0 break-word"
               :class="{
                 'text--disabled': event.done,
               }"
               v-text="event.title"
             />
+            <v-spacer />
             <v-tooltip
               v-if="event.done !== null"
               bottom
