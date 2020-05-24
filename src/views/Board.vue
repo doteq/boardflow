@@ -433,6 +433,7 @@
 <script>
   import firebase from 'firebase/app';
   import _ from 'lodash';
+  import { addDays, subDays } from 'date-fns';
   import EventList from '../components/board/EventList.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
   import AppBar from '../components/AppBar.vue';
@@ -661,13 +662,11 @@
     },
     methods: {
       dateNext () {
-        const newDate = new Date();
-        newDate.setDate(new Date(this.date).getDate() + 1);
+        const newDate = addDays(new Date(this.date), 1);
         [this.date] = newDate.toISOString().split('T');
       },
       datePrevious () {
-        const newDate = new Date();
-        newDate.setDate(new Date(this.date).getDate() - 1);
+        const newDate = subDays(new Date(this.date), 1);
         [this.date] = newDate.toISOString().split('T');
       },
       closeCreatorDialog () {
