@@ -1,8 +1,13 @@
 <template>
   <v-container
+    v-touch="{
+      left: () => dateNext(),
+      right: () => datePrevious(),
+    }"
     class="board-container"
     :class="{
-      'fill-height': (boardInfoLoaded && !boardInfo) || canViewBoard === false
+      'fill-height': (boardInfoLoaded && !boardInfo) || canViewBoard === false,
+      'min-fill-height': $vuetify.breakpoint.smAndDown
     }"
   >
     <app-bar
@@ -434,6 +439,7 @@
   import firebase from 'firebase/app';
   import _ from 'lodash';
   import { addDays, subDays } from 'date-fns';
+  import { Touch } from 'vuetify/lib/directives';
   import EventList from '../components/board/EventList.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
   import AppBar from '../components/AppBar.vue';
@@ -453,6 +459,9 @@
       EventDetailsDialog,
       BoardMenu,
       SignInSheet,
+    },
+    directives: {
+      Touch,
     },
     data: () => ({
       date: new Date().toISOString().split('T')[0],
@@ -731,6 +740,10 @@
 
     .fill-width {
       width: 100%;
+    }
+
+    .min-fill-height, &.min-fill-height {
+      min-height: 100%;
     }
   }
 </style>
