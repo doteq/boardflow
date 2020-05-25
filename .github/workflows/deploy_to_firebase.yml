@@ -15,6 +15,12 @@ jobs:
         run: |
           cd functions
           npm install
+      - name: Set firebase project
+        uses: w9jds/firebase-action@master
+        with:
+          args: use production
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:

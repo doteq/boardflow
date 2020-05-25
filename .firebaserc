@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "boardflow-xyz"
+    "production": "boardflow-xyz",
+    "development": "task-overflow"
   }
 }
