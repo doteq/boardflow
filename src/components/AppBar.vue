@@ -45,7 +45,14 @@
     />
 
     <div>
-      <app-bar-account-button v-if="signedIn" />
+      <v-progress-circular
+        v-if="!$store.state.userAuthLoaded"
+        :size="32"
+        :width="3"
+        indeterminate
+        class="mx-2"
+      />
+      <app-bar-account-button v-else-if="signedIn" />
       <v-btn
         v-else
         outlined

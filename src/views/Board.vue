@@ -165,7 +165,7 @@
     <template v-else>
       <v-row v-if="$vuetify.breakpoint.mdAndUp">
         <v-col class="shrink">
-          <template v-if="!boardInfoLoaded">
+          <template v-if="!boardInfoLoaded || !$store.state.userAuthLoaded">
             <v-skeleton-loader
               type="image"
               width="100%"

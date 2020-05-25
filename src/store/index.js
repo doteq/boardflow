@@ -7,6 +7,7 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     userAuth: null,
+    userAuthLoaded: false,
     userData: null,
     userDataList: null,
     boardsInfo: null,
@@ -20,6 +21,7 @@ const store = new Vuex.Store({
         email: user.email,
         providerData: user.providerData,
       } : null);
+      state.userAuthLoaded = true;
     },
     ...vuexfireMutations,
   },

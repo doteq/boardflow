@@ -7,7 +7,7 @@
     </app-bar>
 
     <div
-      v-if="!signedIn"
+      v-if="!signedIn && $store.state.userAuthLoaded"
       class="d-flex flex-column align-center my-12"
     >
       <h1
@@ -23,7 +23,7 @@
     </div>
 
     <div
-      v-else-if="loading"
+      v-else-if="loading || !$store.state.userAuthLoaded"
       class="pt-12 pb-4 d-flex align-center justify-center"
     >
       <v-progress-circular

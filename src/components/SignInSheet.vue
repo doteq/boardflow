@@ -5,7 +5,7 @@
     :persistent="loading"
   >
     <v-card
-      v-if="loading"
+      v-if="loading || !$store.state.userAuthLoaded"
       class="pa-12 d-flex align-center flex-column"
     >
       <v-progress-circular
