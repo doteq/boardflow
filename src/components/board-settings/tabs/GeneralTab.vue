@@ -43,6 +43,15 @@
         </template>
       </v-text-field>
 
+      <v-select
+        :value="boardInfo.timezone"
+        :items="timezoneList"
+        :label="$t('board-settings.general.board-timezone')"
+        outlined
+        required
+        @change="setTimezone"
+      />
+
       <div
         class="px-1 subtitle-2"
         v-text="$t('visibility.title')"
@@ -139,6 +148,7 @@
 
 <script>
   import _ from 'lodash';
+  import moment from 'moment-timezone';
 
   export default {
     props: {
@@ -155,6 +165,7 @@
         isPublicLoading: false,
         saveNameDebounced: _.debounce(this.saveName, 500),
         nameLoading: false,
+        timezoneList: moment.tz.names(),
       });
     },
     computed: {
@@ -198,6 +209,16 @@
           this.$toast.error(this.$t('toasts.unexpected-error'));
         }
         this.isPublicLoading = false;
+      },
+      async setTimezone (value) {
+        try {
+          await this.$database.collection('boards-info').doc(this.$route.params.boardId).update({
+            timezone: value,
+          });
+        } catch (error) {
+          console.error(error);
+          this.$toast.error(this.$t('toasts.unexpected-error'));
+        }
       },
       async saveName (value) {
         if (this.nameLoading) {

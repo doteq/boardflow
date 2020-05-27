@@ -22,6 +22,7 @@
   "board-settings": {
     "general": {
       "board-name": "Nazwa tablicy",
+      "board-timezone": "Strefa czasowa tablicy",
       "field-required": "To pole jest wymagane",
       "max-length-50": "Nazwa nie może mieć więcej niż 50 znaków",
       "not-admin-message": "Tylko administratorzy mogą zmieniać te ustawienia",
@@ -79,6 +80,7 @@
     "added-subjects": "Dodane przedmioty",
     "basic-info": "Podstawowe informacje",
     "board-name": "Nazwa tablicy",
+    "board-timezone": "Strefa czasowa tablicy",
     "configure-subjects": "Skonfiguruj przedmioty",
     "create": "Utwórz",
     "field-required-message": "To pole jest wymagane",

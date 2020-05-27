@@ -22,6 +22,7 @@
   "board-settings": {
     "general": {
       "board-name": "Board name",
+      "board-timezone": "Board timezone",
       "field-required": "This field is required",
       "max-length-50": "The name cannot be longer than 50 characters",
       "not-admin-message": "Only admins can modify these settings",
@@ -79,6 +80,7 @@
     "added-subjects": "Added subjects",
     "basic-info": "Basic info",
     "board-name": "Board name",
+    "board-timezone": "Board timezone",
     "configure-subjects": "Configure subjects",
     "create": "Create",
     "field-required-message": "This field is required",

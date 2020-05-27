@@ -71,6 +71,14 @@
               :counter-value="(value) => value.trim().length"
             />
 
+            <v-select
+              v-model="timezone"
+              :items="timezoneList"
+              :label="$t('create.board-timezone')"
+              outlined
+              required
+            />
+
             <div
               class="px-1 subtitle-2"
               v-text="$t('visibility.title')"
@@ -303,6 +311,7 @@
 
 <script>
   import _ from 'lodash';
+  import moment from 'moment-timezone';
   import AppBar from '../components/AppBar.vue';
   import { baseColorsArray } from '../utils';
   import AddedSubjectItem from '../components/create/AddedSubjectItem.vue';
@@ -318,6 +327,8 @@
     data: () => ({
       step: 1,
       name: '',
+      timezoneList: moment.tz.names(),
+      timezone: moment.tz.guess(),
       isPublic: true,
       subjects: [],
       subjectInput: '',
@@ -333,7 +344,7 @@
         return new URL(`/board/${this.generatedBoardId}`, window.location.origin).toString();
       },
       step1valid () {
-        return !!this.name.trim() && this.name.trim().length <= 50;
+        return !!this.name.trim() && this.name.trim().length <= 50 && !!this.timezone;
       },
       subjectNameErrors () {
         const errors = [];
@@ -439,6 +450,7 @@
             owner: this.$store.state.userAuth.uid,
             name: this.name,
             public: this.isPublic,
+            timezone: this.timezone,
           });
 
           const batch = this.$database.batch();
