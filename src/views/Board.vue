@@ -438,7 +438,7 @@
 <script>
   import firebase from 'firebase/app';
   import _ from 'lodash';
-  import { addDays, subDays } from 'date-fns';
+  import moment from 'moment-timezone';
   import { Touch } from 'vuetify/lib/directives';
   import EventList from '../components/board/EventList.vue';
   import EventCreateDialog from '../components/board/EventCreateDialog.vue';
@@ -671,12 +671,18 @@
     },
     methods: {
       dateNext () {
-        const newDate = addDays(new Date(this.date), 1);
-        [this.date] = newDate.toISOString().split('T');
+        [this.date] = moment(this.date)
+          .endOf('day')
+          .add(1, 'days')
+          .toISOString()
+          .split('T');
       },
       datePrevious () {
-        const newDate = subDays(new Date(this.date), 1);
-        [this.date] = newDate.toISOString().split('T');
+        [this.date] = moment(this.date)
+          .endOf('day')
+          .subtract(1, 'days')
+          .toISOString()
+          .split('T');
       },
       closeCreatorDialog () {
         if (this.$route.name === 'BoardEditEvent') {
